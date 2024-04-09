@@ -2,9 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
+import WelcomePage from './Routes/WelcomePage';
+import WelcomeSavingsFormulaPage from './Routes/WelcomeSavingsFormulaPage';
+import SavingsGraphPage from './Routes/SavingsGraphPage';
+import WealthRulesPage from './Routes/WealthRulesPage';
+import InitialValuesPage from './Routes/InitialValuesPage';
+import DecadeOnePage from './Routes/DecadeOnePage';
+import DecadeTwoPage from './Routes/DecadeTwoPage';
+import DecadeThreePage from './Routes/DecadeThreePage';
+import PreResultPage from './Routes/PreResultPage';
+import CalculatedPage from './Routes/CalculatedPage';
+import FollowSteps from './Routes/FollowSteps';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
+import OneMoreThing from './Routes/OneMoreThing';
 
 const RootApp = styled.div`
   width: 100vw;
@@ -18,8 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Router>
           <RootApp>
             <Routes>
-              <Route path="/"/>
-              {/* <Route path="/" element={<WelcomePage store={store}/>} />
+              <Route path="/" element={<WelcomePage store={store}/>} />
               <Route path="/initial-data" element={<InitialValuesPage />} />
               <Route path="/savings-graph" element={<SavingsGraphPage />} />
               <Route path="/decade-one" element={<DecadeOnePage />} />
@@ -27,7 +38,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path="/decade-three" element={<DecadeThreePage />} />
               <Route path="/pre-result" element={<PreResultPage />} />
               <Route path="/calculated" element={<CalculatedPage />} />
-              <Route path="/follow-steps" element={<FollowSteps />} /> */}
+              <Route path="/follow-steps" element={<FollowSteps />} />
+              <Route path="/one-more-thing" element={<OneMoreThing />} />
             </Routes>
           </RootApp>
         </Router>
