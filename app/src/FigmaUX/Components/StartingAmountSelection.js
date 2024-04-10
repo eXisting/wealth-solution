@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Input, TextField } from '@material-ui/core';
+import { Grid, Typography, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { formatCurrency, removeNonNumbers } from '../Global/Global';
 

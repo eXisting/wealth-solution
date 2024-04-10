@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Grid, Button, Box, Input } from '@mui/material';
+import { Typography, Grid, Box } from '@mui/material';
 import { Slider } from '@material-ui/core';
 import StageSection from './StageSection';
 import CircleSlider from './Components/CircleSlider';
@@ -20,25 +20,18 @@ import {
 } from '../redux/initialValuesReducer';
 
 import {
-  updateMonthlyContribution as updateFirstDecadeMonthlyContribution,
-  updateAge as updateFirstDecadeAge,
-  updateTotalDecadeSavings as updateFirstDecadeTotalSavings,
   updateEnabled as updateFirstDecadeEnabled,
 } from '../redux/decadeOneReducer';
 
 import {
-  updateMonthlyContribution as updateSecondDecadeMonthlyContribution,
-  updateAge as updateSecondDecadeAge,
-  updateTotalDecadeSavings as updateSecondDecadeTotalSavings,
   updateEnabled as updateSecondDecadeEnabled,
 } from '../redux/decadeTwoReducer';
 
 import {
-  updateMonthlyContribution as updateThirdDecadeMonthlyContribution,
-  updateAge as updateThirdDecadeAge,
-  updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
+
+import TargetButtonsGroup from './Components/TargetButtonsGroup';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -79,6 +72,11 @@ const CalculateFromTotalSavings = () => {
     (state) => state.decadeThreePage
   );
 
+  useEffect(() => {
+    updateStartingAge(20);
+  }, []);
+
+
   const handleUpdateStartingSavings = (newValue) => {
     dispatch(updateStartingSavings(newValue));
   };
@@ -115,24 +113,7 @@ const CalculateFromTotalSavings = () => {
           <Typography variant="h5" marginBottom={2}>Your current age</Typography>
           <CircleSlider min={12} max={55} initialValue={18}></CircleSlider>
           <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
-          <Grid container direction="column" spacing={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-            <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(0); targetMillion(1000000) */}} sx={{ width: '100%' }}>
-                $1,000,000
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(1); targetMillion(3000000) */}} sx={{ width: '100%' }}>
-                $3,000,000
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(2); targetMillion(5000000) */}} sx={{ width: '100%' }}>
-                $5,000,000
-              </Button>
-            </Grid>
-          </Grid>
-
+          <TargetButtonsGroup />
         </Box>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h6">
@@ -165,6 +146,8 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage one age range"
           minSliderValue={5000}
           maxSliderValue={20000}
+          isEnabled={decadeOneEnabled}
+          reduxUpdate={updateFirstDecadeEnabled}
         />
         <StageSection
           stageIndex={1}
@@ -172,6 +155,8 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage two age range"
           minSliderValue={6000}
           maxSliderValue={25000}
+          isEnabled={decadeTwoEnabled}
+          reduxUpdate={updateSecondDecadeEnabled}
         />
         <StageSection
           stageIndex={2}
@@ -179,6 +164,8 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage three age range"
           minSliderValue={6000}
           maxSliderValue={25000}
+          isEnabled={decadeThreeEnabled}
+          reduxUpdate={updateThirdDecadeEnabled}
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:8 }}>
