@@ -1,0 +1,44 @@
+:root {
+  --font-size-tiny: 48px / 8 = 6px;
+  --font-size-small: 64px / 8 = 8px;
+  --font-size-regular: 96px;
+  --font-size-medium: 128px;
+  --font-size-strong: 150p;
+  --font-size-big: 200px;
+  --font-size-huge: 225.75px;
+
+  /* --font-size-tiny: 0.375rem;
+  --font-size-small: 0.5rem;
+  --font-size-regular: 0.75rem;
+  --font-size-medium: 1rem;
+  --font-size-strong: 1.171875rem;
+  --font-size-big: 1.5625rem;
+  --font-size-huge: 1.76375rem; */
+}
+
+.montserrat-bold {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.montserrat-medium {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.montserrat-regular {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}

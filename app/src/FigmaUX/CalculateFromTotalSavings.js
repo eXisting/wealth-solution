@@ -1,82 +1,138 @@
 import React, { useState } from 'react';
-import styled, { css } from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import HeaderComponent from '../Common/HeaderComponent';
+import { Typography, Grid, Slider, Button, Box, Input } from '@mui/material';
+import editIcon from '../Media/edit.svg'
+import StageSection from './StageSection';
 
-const CalculateFromTotalSavings = () => {
+const PLAINHTML = () => {
   const navigate = useNavigate();
 
   const nextPage = () => {
     navigate(`/???`);
   };
-  
+
   return (
-    <Container>
-      <HeaderComponent hasBackButton={false}></HeaderComponent>
-      <Section ignore width="85%" style={{marginTop:"2vh", marginBottom:"7vh"}}>
-        <span style={{ color: 'black', fontSize: '3vh', paddingLeft: '1vh', paddingRight: '1vh', textAlign:"center"}}>
-          Calculate from total savings
-        </span>
-      </Section>
-      <Section justify={"top"} style={{marginTop:"2vh"}}>
-        <VerticalStack style={{gap:"1rem"}}>
-          <Button onClick={nextPage}>Use Wealthometer</Button>
-          <Button onClick={nextPage}>Income based calculation</Button>
-        </VerticalStack>
-      </Section>
-    </Container>
+    <Box>
+      <Box sx={{ m: 2, justifyContent: 'flex-start', marginBottom: 8 }}>
+        <Typography variant="h5">Calculate from total savings</Typography>
+        <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
+          {/* {formattedDate} */}
+        </Typography>
+      </Box>
+      <Box gap={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ m: 2 }}>
+          <Grid container direction='column' gap={2} alignItems="center">
+            <Typography variant="h5">Starting amount</Typography>
+            <Grid item style={{ position: 'relative', width: 'fit-content' }}>
+              <Typography id="savingsData" variant='h3' style={{ display: 'inline-block' }}>
+                5,222222$
+                <img
+                  id="editIcon"
+                  src={editIcon}
+                  height={16}
+                  style={{ position: 'absolute', top: 2, right:-24}}
+                  alt="Edit Icon"
+                />
+              </Typography>
+              <Input id="savingsInput" type="text" style={{ display: 'none' }} />
+            </Grid>
+            <Grid item sx={{ width:'100%' }} marginTop={4}>
+              <Slider
+                id="savingsSliderInput"
+                min={5000}
+                max={20000}
+                // value={value}
+                // onChange={handleChange}
+                step={100}
+                style={{ marginTop: 'var(--m-wide)' }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="body1">Your current age</Typography>
+          <div id="circleSlider"></div>
+          <input className="regular-input poppins-medium" id="currentAgeInput" />
+          <Typography variant="body1">How much money do you want?</Typography>
+          <Grid container direction="column" spacing={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Grid item>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(0); targetMillion(1000000) */}}>
+                $1,000,000
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(1); targetMillion(3000000) */}}>
+                $3,000,000
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(2); targetMillion(5000000) */}}>
+                $5,000,000
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h6">
+            Your savings plan is divided <br /> into <span style={{ color: '#33CBCC' }}>three stages.</span>
+          </Typography>
+          <Typography variant="body2">
+            As you make more money you save more <br /> money in each stage.
+          </Typography>
+        </Box>
+      </Box>
+      <Box className="section padded-section" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <Box>
+          <Typography variant="body1" style={{ fontSize: 'var(--font-size-regular)', fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>
+            Your investment will<br /> be worth
+          </Typography>
+          <Typography variant="h1" style={{ fontSize: 'var(--font-size-huge)', fontFamily: 'Poppins, sans-serif', color: 'var(--main-color)', textAlign: 'center' }}>$1,000,174</Typography>
+        </Box>
+        <Typography variant="body2" style={{ fontSize: 'var(--font-size-tiny)', fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over 40 years)</Typography>
+      </Box>
+      <StageSection
+        stageIndex={0}
+        stageNameText="Stage One"
+        ageRangeText="Your stage one age range"
+        minSliderValue={5000}
+        maxSliderValue={20000}
+      />
+      <StageSection
+        stageIndex={1}
+        stageNameText="Stage Two"
+        ageRangeText="Your stage two age range"
+        minSliderValue={6000}
+        maxSliderValue={25000}
+      />
+      <StageSection
+        stageIndex={2}
+        stageNameText="Stage Three"
+        ageRangeText="Your stage three age range"
+        minSliderValue={6000}
+        maxSliderValue={25000}
+      />
+      <Box className="section padded-section" style={{ marginTop: 'var(--m-wide-4)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box display="flex" flexDirection="row">
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img src="assets/money.svg" alt="Total Interest Earned" width="50rem" />
+            <Typography>Total Interest Earned</Typography>
+            <Typography data-js-total></Typography>
+          </Box>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img src="assets/donation.svg" alt="Total Contributions" width="50rem" />
+            <Typography>Total Contributions</Typography>
+            <Typography data-js-contributions-sum></Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Box className="section" style={{ marginTop: 'var(--m-wide-4)', marginBottom: 'var(--m-wide-2)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <canvas id="linechart"></canvas>
+      </Box>
+      <Box className="section" id="piechart" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <canvas id="piechart"></canvas>
+      </Box>
+    </Box>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  max-height: 100%;
-  border: 0.2vh solid #000000;
-  max-height: 100vh; /* Set the maximum height to screen height */
-  overflow: auto; /* Enable scrolling when content overflows */
-  margin-right: 2vw;
-  font-family: Tahoma;
-  font-style: normal;
-`;
-
-const Section = styled.section`
-  flex: ${props => (props.ignore ? 'none' : '1')};
-  flex-direction: column; /* Add this line */
-  display: flex;
-  max-height: ${props => (props.maxHeight ? props.maxHeight : 'none')};
-  justify-content: ${props => (props.justify ? props.justify : 'center')};
-  align-items: ${props => props.align ? props.align : "center"};
-  width: ${props => (props.width ? props.width : "100%")};
-  background-color: ${props => props.backgroundColor};
-  position: relative;
-`;
-
-const VerticalStack = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: ${props => props.align ? props.align : "left"};
-  justify-content: left;
-  margin-top: ${props => props.ignoreMarginTop ? '0px' : '0.5vh'};
-  padding: ${props => props.ignorePadding ? '0px' : '0.5vh'};
-
-  > *:not(:last-child) {
-    margin-bottom: ${props => props.space};
-  }
-`;
-
-const Button = styled.button`
-  background-color: #f5a338;
-  color: #000000;
-  border: none;
-  border-radius: 1vh;
-  height: 6vh;
-  width: ${props => props.width ? props.width :"100%"};
-  font-size: 2.5vh;
-  padding: 1vh;
-  cursor: pointer;
-`;
-
-export default CalculateFromTotalSavings;
+export default PLAINHTML;

@@ -2,21 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import WelcomePage from './Routes/WelcomePage';
-import WelcomeSavingsFormulaPage from './Routes/WelcomeSavingsFormulaPage';
-import SavingsGraphPage from './Routes/SavingsGraphPage';
-import WealthRulesPage from './Routes/WealthRulesPage';
-import InitialValuesPage from './Routes/InitialValuesPage';
-import DecadeOnePage from './Routes/DecadeOnePage';
-import DecadeTwoPage from './Routes/DecadeTwoPage';
-import DecadeThreePage from './Routes/DecadeThreePage';
-import PreResultPage from './Routes/PreResultPage';
-import CalculatedPage from './Routes/CalculatedPage';
-import FollowSteps from './Routes/FollowSteps';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
-import OneMoreThing from './Routes/OneMoreThing';
 import CalculateFromTotalSavings from './FigmaUX/CalculateFromTotalSavings';
 
 const RootApp = styled.div`

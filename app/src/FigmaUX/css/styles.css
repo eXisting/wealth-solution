@@ -1,0 +1,77 @@
+
+/* Add or modify styles as needed */
+#section2 {
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+.top-label {
+  padding-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.inputButton {
+  background-color: grey;
+  color: lightgray;
+  border: none;
+  width: 1.5rem;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Make the button round */
+}
+
+.targetSavingsButton {
+  background-color: #0098ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  height: 2rem;
+  font-size: 1rem;
+  display: flex;
+  padding-top: 0.5rem;
+}
+
+/*Section 3*/
+
+/* Add or modify styles as needed */
+.greyArea {
+  text-align: center;
+  background-color: #f0f0f0;
+  color: #7d7d7d;
+}
+
+
+#charts-graph {
+  display: flex;
+  justify-content: center;
+  height: 30rem;
+  width: 100%;
+  margin-bottom: 10rem;
+}
+
+#linechart {
+  height: 100%; /* Make the canvas take up the entire height of the container */
+  width: 100%; /* Ensure the canvas adjusts its width according to the aspect ratio */
+  max-width: 75%;
+  max-height: 100%;
+}
+
+#piechart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%; /* Make the canvas take up the entire height of the container */
+  width: 80%; /* Ensure the canvas adjusts its width according to the aspect ratio */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.circle {
+  width: 2rem; /* Adjust the width and height to set the circle's size */
+  height: 2rem;
+  border-radius: 50%; /* Make the div circular by setting border-radius to 50% */
+}
