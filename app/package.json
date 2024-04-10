@@ -55,5 +55,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.9.41",
+    "@types/google.visualization": "^0.0.74"
   }
 }

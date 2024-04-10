@@ -16,34 +16,37 @@ import donation from '../Media/donation.svg'
 import { 
   updateStartingSavings, 
   updateStartingAge,
-  updateDesiredResult
 } from '../redux/initialValuesReducer';
 
 import {
+  updateMonthlyContribution as updateFirstDecadeMonthlyContribution,
+  updateAge as updateFirstDecadeAge,
+  updateTotalDecadeSavings as updateFirstDecadeTotalSavings,
   updateEnabled as updateFirstDecadeEnabled,
 } from '../redux/decadeOneReducer';
 
 import {
+  updateMonthlyContribution as updateSecondDecadeMonthlyContribution,
+  updateAge as updateSecondDecadeAge,
+  updateTotalDecadeSavings as updateSecondDecadeTotalSavings,
   updateEnabled as updateSecondDecadeEnabled,
 } from '../redux/decadeTwoReducer';
 
 import {
+  updateMonthlyContribution as updateThirdDecadeMonthlyContribution,
+  updateAge as updateThirdDecadeAge,
+  updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
 
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
+import Graph from '../GraphicalComponents/Graph';
+import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
+import PieChartComponent from './Components/PieChartComponent';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const {
-    startingSavings,
-    startingAge,
-    desiredResult,
-  } = useSelector(
-    (state) => state.initialPage
-  );
   
   const {
     monthlyContribution: decadeOneMonthlyContribution,
@@ -135,11 +138,11 @@ const CalculateFromTotalSavings = () => {
           <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
             Your investment will<br /> be worth
           </Typography>
-          <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center' }}>$1,000,174</Typography>
+          <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>$1,000,174</Typography>
         </Box>
         <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over 40 years)</Typography>
       </Box>
-      <Box gap={4} sx={{ m:2, marginTop:8, display: 'flex', flexDirection: 'column' }}>
+      <Box gap={4} sx={{ m:4, marginTop:8, display: 'flex', flexDirection: 'column' }}>
         <StageSection
           stageIndex={0}
           stageNameText="Stage One"
@@ -147,7 +150,8 @@ const CalculateFromTotalSavings = () => {
           minSliderValue={5000}
           maxSliderValue={20000}
           isEnabled={decadeOneEnabled}
-          reduxUpdate={updateFirstDecadeEnabled}
+          reduxUpdateYears={updateFirstDecadeEnabled}
+          reduxUpdateContributions={updateFirstDecadeTotalSavings}
         />
         <StageSection
           stageIndex={1}
@@ -156,7 +160,8 @@ const CalculateFromTotalSavings = () => {
           minSliderValue={6000}
           maxSliderValue={25000}
           isEnabled={decadeTwoEnabled}
-          reduxUpdate={updateSecondDecadeEnabled}
+          reduxUpdateYears={updateSecondDecadeEnabled}
+          reduxUpdateContributions={updateSecondDecadeMonthlyContribution}
         />
         <StageSection
           stageIndex={2}
@@ -165,28 +170,29 @@ const CalculateFromTotalSavings = () => {
           minSliderValue={6000}
           maxSliderValue={25000}
           isEnabled={decadeThreeEnabled}
-          reduxUpdate={updateThirdDecadeEnabled}
+          reduxUpdateYears={updateThirdDecadeEnabled}
+          reduxUpdateContributions={updateThirdDecadeMonthlyContribution}
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:8 }}>
         <Box display="flex" flexDirection="row" gap={8}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <img src={money} alt="Total Interest Earned" width="100rem" />
-            <Typography>Total Interest Earned</Typography>
-            <Typography data-js-total></Typography>
+            <Typography variant='body2'>Total Interest Earned</Typography>
+            <Typography variant='body1' color={'#4A7DE2'}>1,000$</Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="center">
             <img src={donation} alt="Total Contributions" width="100rem" />
-            <Typography>Total Contributions</Typography>
-            <Typography data-js-contributions-sum></Typography>
+            <Typography variant='body2'>Total Contributions</Typography>
+            <Typography variant='body1' color={'#4A7DE2'}>2,000$</Typography>
           </Box>
         </Box>
       </Box>
-      <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <canvas id="linechart"></canvas>
+      <Box marginTop={8} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <CurvedLineChartComponent />
       </Box>
-      <Box id="piechart" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <canvas id="piechart"></canvas>
+      <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <PieChartComponent />
       </Box>
     </Box>
   );

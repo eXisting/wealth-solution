@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { formatCurrency, removeNonNumbers } from '../Global/Global';
+import { formatCurrency, trimToInt } from '../Global/Global';
 
 import editIcon from '../../Media/edit.svg';
 
@@ -21,7 +21,7 @@ const StartingAmountSelection = ({ onUpdateStartingSavings }) => {
   };
 
   const handleInputChange = (e) => {
-    var number = removeNonNumbers(e.target.value);
+    var number = trimToInt(e.target.value);
     setEditedValue(number);
   };
 
