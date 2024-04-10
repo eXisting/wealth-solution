@@ -1,13 +1,87 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Button, Box, Input } from '@mui/material';
 import { Slider } from '@material-ui/core';
-import editIcon from '../Media/edit.svg'
 import StageSection from './StageSection';
 import CircleSlider from './Components/CircleSlider';
+import StartingAmountSelection from './Components/StartingAmountSelection';
+import { currentDayFormatted } from './Global/Global';
 
-const PLAINHTML = () => {
+// Media
+import money from '../Media/money.svg'
+import donation from '../Media/donation.svg'
+
+// Redux
+import { 
+  updateStartingSavings, 
+  updateStartingAge,
+  updateDesiredResult
+} from '../redux/initialValuesReducer';
+
+import {
+  updateMonthlyContribution as updateFirstDecadeMonthlyContribution,
+  updateAge as updateFirstDecadeAge,
+  updateTotalDecadeSavings as updateFirstDecadeTotalSavings,
+  updateEnabled as updateFirstDecadeEnabled,
+} from '../redux/decadeOneReducer';
+
+import {
+  updateMonthlyContribution as updateSecondDecadeMonthlyContribution,
+  updateAge as updateSecondDecadeAge,
+  updateTotalDecadeSavings as updateSecondDecadeTotalSavings,
+  updateEnabled as updateSecondDecadeEnabled,
+} from '../redux/decadeTwoReducer';
+
+import {
+  updateMonthlyContribution as updateThirdDecadeMonthlyContribution,
+  updateAge as updateThirdDecadeAge,
+  updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
+  updateEnabled as updateThirdDecadeEnabled,
+} from '../redux/decadeThreeReducer';
+
+const CalculateFromTotalSavings = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {
+    startingSavings,
+    startingAge,
+    desiredResult,
+  } = useSelector(
+    (state) => state.initialPage
+  );
+  
+  const {
+    monthlyContribution: decadeOneMonthlyContribution,
+    age: decadeOneAge,
+    totalDecadeSavings: decadeOneTotalSavings,
+    enabled: decadeOneEnabled,
+  } = useSelector(
+    (state) => state.decadeOnePage
+  );
+
+  const {
+    monthlyContribution: decadeTwoMonthlyContribution,
+    age: decadeTwoAge,
+    totalDecadeSavings: decadeTwoTotalSavings,
+    enabled: decadeTwoEnabled,
+  } = useSelector(
+    (state) => state.decadeTwoPage
+  );
+
+  const {
+    monthlyContribution: decadeThreeMonthlyContribution,
+    age: decadeThreeAge,
+    totalDecadeSavings: decadeThreeTotalSavings,
+    enabled: decadeThreeEnabled,
+  } = useSelector(
+    (state) => state.decadeThreePage
+  );
+
+  const handleUpdateStartingSavings = (newValue) => {
+    dispatch(updateStartingSavings(newValue));
+  };
 
   const nextPage = () => {
     navigate(`/???`);
@@ -18,26 +92,14 @@ const PLAINHTML = () => {
       <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
         <Typography variant="h5">Calculate from total savings</Typography>
         <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
-          {/* {formattedDate} */}
+          {currentDayFormatted()}
         </Typography>
       </Box>
       <Box gap={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Box sx={{ m: 2 }}>
+        <Box>
           <Grid container direction='column' gap={2} alignItems="center">
             <Typography variant="h5">Starting amount</Typography>
-            <Grid item style={{ position: 'relative', width: 'fit-content' }}>
-              <Typography id="savingsData" variant='h3' style={{ display: 'inline-block' }}>
-                5,222222$
-                <img
-                  id="editIcon"
-                  src={editIcon}
-                  height={16}
-                  style={{ position: 'absolute', top: 2, right:-24}}
-                  alt="Edit Icon"
-                />
-              </Typography>
-              <Input id="savingsInput" type="text" style={{ display: 'none' }} />
-            </Grid>
+            <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
             <Grid item sx={{ width:'100%' }} marginTop={4}>
               <Slider
                 min={5000}
@@ -53,23 +115,24 @@ const PLAINHTML = () => {
           <Typography variant="h5" marginBottom={2}>Your current age</Typography>
           <CircleSlider min={12} max={55} initialValue={18}></CircleSlider>
           <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
-          <Grid container direction="column" spacing={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Grid container direction="column" spacing={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
             <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(0); targetMillion(1000000) */}}>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(0); targetMillion(1000000) */}} sx={{ width: '100%' }}>
                 $1,000,000
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(1); targetMillion(3000000) */}}>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(1); targetMillion(3000000) */}} sx={{ width: '100%' }}>
                 $3,000,000
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(2); targetMillion(5000000) */}}>
+              <Button variant="contained" onClick={() => {/* toggleActiveMillionButton(2); targetMillion(5000000) */}} sx={{ width: '100%' }}>
                 $5,000,000
               </Button>
             </Grid>
           </Grid>
+
         </Box>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h6">
@@ -95,7 +158,7 @@ const PLAINHTML = () => {
         </Box>
         <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over 40 years)</Typography>
       </Box>
-      <Box gap={4} sx={{ m:2, marginTop:4, display: 'flex', flexDirection: 'column' }}>
+      <Box gap={4} sx={{ m:2, marginTop:8, display: 'flex', flexDirection: 'column' }}>
         <StageSection
           stageIndex={0}
           stageNameText="Stage One"
@@ -118,15 +181,15 @@ const PLAINHTML = () => {
           maxSliderValue={25000}
         />
       </Box>
-      <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Box display="flex" flexDirection="row">
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:8 }}>
+        <Box display="flex" flexDirection="row" gap={8}>
           <Box display="flex" flexDirection="column" alignItems="center">
-            <img src="assets/money.svg" alt="Total Interest Earned" width="50rem" />
+            <img src={money} alt="Total Interest Earned" width="100rem" />
             <Typography>Total Interest Earned</Typography>
             <Typography data-js-total></Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="center">
-            <img src="assets/donation.svg" alt="Total Contributions" width="50rem" />
+            <img src={donation} alt="Total Contributions" width="100rem" />
             <Typography>Total Contributions</Typography>
             <Typography data-js-contributions-sum></Typography>
           </Box>
@@ -142,4 +205,4 @@ const PLAINHTML = () => {
   );
 }
 
-export default PLAINHTML;
+export default CalculateFromTotalSavings;
