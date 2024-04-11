@@ -121,8 +121,8 @@ const CalculateFromTotalSavings = () => {
     
     const years = [
       !decades[0].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
-      !decades[1].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
-      !decades[2].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
+      !decades[1].page.enabled ? 0 : decades[1].page.age === 0 ? 1 : decades[1].page.age,
+      !decades[2].page.enabled ? 0 : decades[2].page.age === 0 ? 1 : decades[2].page.age,
     ];
 
     const total = totalSavingsPerContributions(startingAge, years[0], years[1], years[2], startingSavings, 
