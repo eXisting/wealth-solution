@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateDesiredResult } from '../../redux/initialValuesReducer';
 
 import coin from '../../Media/coin.svg';
 import coin2 from '../../Media/coin2.svg';
@@ -9,15 +7,12 @@ import coin3 from '../../Media/coin3.svg';
 import checkmark from '../../Media/checkmark.svg';
 import '../css/components.css';
 
-const TargetButtonsGroup = () => {
-  const dispatch = useDispatch();
-  const desiredResult = useSelector((state) => state.initialPage.desiredResult);
-
+const TargetButtonsGroup = ({desiredResult, reduxUpdate}) => {
   const [activeButton, setActiveButton] = useState(desiredResult === 1000000 ? 0 : desiredResult === 3000000 ? 1 : 2);
 
   const toggleActiveMillionButton = (index, value) => {
     setActiveButton(index);
-    dispatch(updateDesiredResult(value));
+    reduxUpdate(value);
   };
 
   return (

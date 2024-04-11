@@ -28,7 +28,11 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
       // updateDecadeAge(3, 0);
       // updateDecadeMonthlyContribution(3, 0);
 
-      return;
+      return [
+        { age: 0, contribution: 0 },
+        { age: 0, contribution: 0 },
+        { age: 0, contribution: 0 }
+      ];
   }
 
   let savingPeriod = 40;
@@ -100,7 +104,11 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
   // updateDecadeAge(3, third[0]);
   // updateDecadeMonthlyContribution(3, third[1]);
 
-  // recalculateTotalContributions();
+  return [
+    { age: first[0], contribution: first[1] },
+    { age: second[0], contribution: second[1] },
+    { age: third[0], contribution: third[1] }
+  ];
 };
 
 function calculateMinimumYearsForFutureValue(futureValue, principal, maxContribution, desiredResult) {

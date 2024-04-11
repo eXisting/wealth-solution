@@ -14,6 +14,7 @@ import donation from '../Media/donation.svg'
 import { 
   updateStartingSavings, 
   updateStartingAge,
+  updateDesiredResult,
 } from '../redux/initialValuesReducer';
 
 import {
@@ -42,6 +43,7 @@ import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
 import PieChartComponent from './Components/PieChartComponent';
 import DashedSlider from './Components/DashedSlider';
 import { totalSavingsPerContributions } from './Global/ChartsMath';
+import { setSmallestCombination } from './Global/Math';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -50,6 +52,7 @@ const CalculateFromTotalSavings = () => {
   const {
     startingSavings,
     startingAge,
+    desiredResult
   } = useSelector((state) => state.initialPage);
   
   const decades = [
@@ -93,6 +96,23 @@ const CalculateFromTotalSavings = () => {
 
   const handleUpdateStartingAge = (newValue) => {
     dispatch(updateStartingAge(newValue));
+  };
+
+  const handleUpdateDesiredResult = (newValue) => {
+    dispatch(updateDesiredResult(newValue));
+    const [stage1, stage2, stage3] = setSmallestCombination(newValue, startingSavings, 
+      decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled);
+
+      // console.log("Stage 1 - Age:", stage1.age, "Contribution:", stage1.contribution);
+      // console.log("Stage 2 - Age:", stage2.age, "Contribution:", stage2.contribution);
+      // console.log("Stage 3 - Age:", stage3.age, "Contribution:", stage3.contribution);
+      
+      dispatch(updateFirstDecadeAge(stage1.age));
+      dispatch(updateFirstDecadeMonthlyContribution(stage1.contribution));
+      dispatch(updateSecondDecadeAge(stage2.age));
+      dispatch(updateSecondDecadeMonthlyContribution(stage2.contribution));
+      dispatch(updateThirdDecadeAge(stage3.age));
+      dispatch(updateThirdDecadeMonthlyContribution(stage3.contribution));
   };
 
   const updateDecadeEnabled = (stageIndex, newValue) => {
@@ -181,7 +201,10 @@ const CalculateFromTotalSavings = () => {
           />
           {/* <CircleSlider min={12} max={55} initialValue={startingAge}></CircleSlider> */}
           <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
-          <TargetButtonsGroup />
+          <TargetButtonsGroup 
+            desiredResult={desiredResult} 
+            reduxUpdate={handleUpdateDesiredResult}
+          />
         </Box>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h6">
