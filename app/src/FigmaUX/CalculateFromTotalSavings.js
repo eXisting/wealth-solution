@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Box } from '@mui/material';
 import StageSection from './StageSection';
 import StartingAmountSelection from './Components/StartingAmountSelection';
-import { currentDayFormatted, formatCurrency } from './Global/Global';
+import { currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 
 // Media
 import money from '../Media/money.svg'
@@ -207,7 +207,10 @@ const CalculateFromTotalSavings = () => {
             {formatCurrency('$', false, calculateTotal().sum)}
           </Typography>
         </Box>
-        <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over 40 years)</Typography>
+        <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over {
+          totalEnabledYears(decades[0].page.age, decades[1].page.age, decades[2].page.age, 
+            decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled)
+        } years)</Typography>
       </Box>
       <Box gap={4} sx={{ m:4, marginTop:8, display: 'flex', flexDirection: 'column' }}>
         <StageSection
