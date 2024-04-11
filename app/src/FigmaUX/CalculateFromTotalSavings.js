@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Box } from '@mui/material';
@@ -127,22 +127,26 @@ const CalculateFromTotalSavings = () => {
 
     const total = totalSavingsPerContributions(startingAge, years[0], years[1], years[2], startingSavings, 
       contributions[0], contributions[1], contributions[2]);
+    
+    let [
+      { total1, contributionsTotal1 },
+      { total2, contributionsTotal2 },
+      { total3, contributionsTotal3 },
+    ] = total;
+    
+    const noSavingStages = allDecadesDisabled;
+    const sumContributions = contributionsTotal1 + contributionsTotal2 + contributionsTotal3;
 
-    const months = 12;
+    if (noSavingStages) {
+      total3 = startingSavings;
+    }
 
-    let { total3: sum, contributionsTotal3: sumContributions } = total[2];
+    const interestEarned = noSavingStages ? 0 : total3 - sumContributions;
 
-    sum *= months;
-    sumContributions *= months;
-
-    const interestEarned = sum - sumContributions;
+    const sum = total3;
 
     return { sum, sumContributions, interestEarned };
   }
-
-  useEffect(() => {
-    console.log(calculateTotal().sum);
-  })
 
   const nextPage = () => {
     navigate(`/???`);

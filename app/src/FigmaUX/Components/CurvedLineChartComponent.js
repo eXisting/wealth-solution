@@ -11,26 +11,18 @@ function drawCurvedLineChart(canvas,
   contribution1, contribution2, contribution3) {
 
   const totalYears = totalEnabledYears(age1, age2, age3, stageEnabled1, stageEnabled2, stageEnabled3);
-  console.log("Total years " + totalYears);
+  
   var yearsCheckpoints = generateYearsCheckpoints(totalYears);
-
-  console.log("S");
-  console.log(yearsCheckpoints);
   
   var contributions = contributionsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
     age1, age2, age3,
     stageEnabled1, stageEnabled2, stageEnabled3,
     contribution1, contribution2, contribution3);
 
-    console.log("Contr")
-    console.log(contributions);
   var savings = savingsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
     age1, age2, age3,
     stageEnabled1, stageEnabled2, stageEnabled3,
     contribution1, contribution2, contribution3);
-
-    console.log("savings")
-    console.log(savings);
 
   var data = {
       labels: yearsCheckpoints,

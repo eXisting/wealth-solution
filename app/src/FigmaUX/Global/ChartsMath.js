@@ -69,8 +69,6 @@ function savingsCheckpoints(yearsCheckpoints, totalYears, startingSavings,
         firstStageResult = [bound, array[bound - 1]];
       }
   }
-
-  console.log(firstStageResult);
   
   var secondStageResult = [firstStageResult[0], firstStageResult[1]];
   
@@ -85,8 +83,6 @@ function savingsCheckpoints(yearsCheckpoints, totalYears, startingSavings,
         secondStageResult = [bound + firstStageResult[0], array[bound + firstStageResult[0] - 1]];
       }
   }
-
-  console.log(secondStageResult);
   
   if (stageEnabled3) {
       let bound = Number(age3);

@@ -9,7 +9,7 @@ function drawPieChart(canvas,
   startingAge, startingSavings,
   decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution,
   endYear) {
-    console.log(decadeThreeMonthlyContribution);
+  
   var totalPerContributions = totalSavingsPerContributions(startingAge, age1, age2, age3, 
     startingSavings,
     decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
@@ -22,7 +22,6 @@ function drawPieChart(canvas,
       backgroundColor: ['#0098ff', '#60d937'],
     }],
   };
-  console.log(totalPerContributions);
 
   var options = {
       plugins: {
