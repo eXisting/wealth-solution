@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Box } from '@mui/material';
-import { Slider } from '@material-ui/core';
 import StageSection from './StageSection';
-import CircleSlider from './Components/CircleSlider';
 import StartingAmountSelection from './Components/StartingAmountSelection';
-import { currentDayFormatted } from './Global/Global';
+import { currentDayFormatted, formatCurrency } from './Global/Global';
 
 // Media
 import money from '../Media/money.svg'
@@ -40,49 +38,111 @@ import {
 } from '../redux/decadeThreeReducer';
 
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
-import Graph from '../GraphicalComponents/Graph';
 import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
 import PieChartComponent from './Components/PieChartComponent';
+import DashedSlider from './Components/DashedSlider';
+import { totalSavingsPerContributions } from './Global/ChartsMath';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {
+    startingSavings,
+    startingAge,
+  } = useSelector((state) => state.initialPage);
   
-  const {
-    monthlyContribution: decadeOneMonthlyContribution,
-    age: decadeOneAge,
-    totalDecadeSavings: decadeOneTotalSavings,
-    enabled: decadeOneEnabled,
-  } = useSelector(
-    (state) => state.decadeOnePage
-  );
+  const decades = [
+    {
+      page: useSelector((state) => state.decadeOnePage),
+    },
+    {
+      page: useSelector((state) => state.decadeTwoPage),
+    },
+    {
+      page: useSelector((state) => state.decadeThreePage),
+    },
+  ];
 
-  const {
-    monthlyContribution: decadeTwoMonthlyContribution,
-    age: decadeTwoAge,
-    totalDecadeSavings: decadeTwoTotalSavings,
-    enabled: decadeTwoEnabled,
-  } = useSelector(
-    (state) => state.decadeTwoPage
-  );
+  const updateFunctions = [
+    {
+      updateMonthlyContribution: updateFirstDecadeMonthlyContribution,
+      updateAge: updateFirstDecadeAge,
+      updateTotalDecadeSavings: updateFirstDecadeTotalSavings,
+      updateEnabled: updateFirstDecadeEnabled,
+    },
+    {
+      updateMonthlyContribution: updateSecondDecadeMonthlyContribution,
+      updateAge: updateSecondDecadeAge,
+      updateTotalDecadeSavings: updateSecondDecadeTotalSavings,
+      updateEnabled: updateSecondDecadeEnabled,
+    },
+    {
+      updateMonthlyContribution: updateThirdDecadeMonthlyContribution,
+      updateAge: updateThirdDecadeAge,
+      updateTotalDecadeSavings: updateThirdDecadeTotalSavings,
+      updateEnabled: updateThirdDecadeEnabled,
+    },
+  ];
 
-  const {
-    monthlyContribution: decadeThreeMonthlyContribution,
-    age: decadeThreeAge,
-    totalDecadeSavings: decadeThreeTotalSavings,
-    enabled: decadeThreeEnabled,
-  } = useSelector(
-    (state) => state.decadeThreePage
-  );
-
-  useEffect(() => {
-    updateStartingAge(20);
-  }, []);
-
+  const allDecadesDisabled = decades.every((decade) => !decade.page.enabled);
 
   const handleUpdateStartingSavings = (newValue) => {
     dispatch(updateStartingSavings(newValue));
   };
+
+  const handleUpdateStartingAge = (newValue) => {
+    dispatch(updateStartingAge(newValue));
+  };
+
+  const updateDecadeEnabled = (stageIndex, newValue) => {
+    if (newValue === false) {
+      updateDecadeYears(stageIndex, 0);
+      updateDecadeContributions(stageIndex, 0);
+    }
+
+    dispatch(updateFunctions[stageIndex].updateEnabled(newValue));
+  }
+
+  const updateDecadeYears = (stageIndex, newValue) => {
+    dispatch(updateFunctions[stageIndex].updateAge(newValue));
+  }
+
+  const updateDecadeContributions = (stageIndex, newValue) => {
+    dispatch(updateFunctions[stageIndex].updateMonthlyContribution(newValue));
+  }
+
+  function calculateTotal() {
+    const contributions = [
+      !decades[0].page.enabled ? 0 : decades[0].page.monthlyContribution,
+      !decades[1].page.enabled ? 0 : decades[1].page.monthlyContribution,
+      !decades[2].page.enabled ? 0 : decades[2].page.monthlyContribution,
+    ];
+    
+    const years = [
+      !decades[0].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
+      !decades[1].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
+      !decades[2].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
+    ];
+
+    const total = totalSavingsPerContributions(startingAge, years[0], years[1], years[2], startingSavings, 
+      contributions[0], contributions[1], contributions[2]);
+
+    const months = 12;
+
+    let { total3: sum, contributionsTotal3: sumContributions } = total[2];
+
+    sum *= months;
+    sumContributions *= months;
+
+    const interestEarned = sum - sumContributions;
+
+    return { sum, sumContributions, interestEarned };
+  }
+
+  useEffect(() => {
+    console.log(calculateTotal().sum);
+  })
 
   const nextPage = () => {
     navigate(`/???`);
@@ -96,25 +156,26 @@ const CalculateFromTotalSavings = () => {
           {currentDayFormatted()}
         </Typography>
       </Box>
-      <Box gap={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Box>
-          <Grid container direction='column' gap={2} alignItems="center">
-            <Typography variant="h5">Starting amount</Typography>
-            <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
-            <Grid item sx={{ width:'100%' }} marginTop={4}>
-              <Slider
-                min={5000}
-                max={20000}
-                // value={value}
-                // onChange={handleChange}
-                step={100}
-              />
-            </Grid>
-          </Grid>
-        </Box>
+      <Box gap={2} sx={{ m:4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Grid container direction='column' gap={2} alignItems="center">
+          <Typography variant="h5">Starting amount</Typography>
+          <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
+          <DashedSlider
+            min={5000}
+            max={20000}
+            reduxValue={startingSavings}
+            updateRedux={handleUpdateStartingSavings}
+          />
+        </Grid>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
           <Typography variant="h5" marginBottom={2}>Your current age</Typography>
-          <CircleSlider min={12} max={55} initialValue={18}></CircleSlider>
+          <DashedSlider
+            min={12}
+            max={50}
+            reduxValue={startingAge}
+            updateRedux={handleUpdateStartingAge}
+          />
+          {/* <CircleSlider min={12} max={55} initialValue={startingAge}></CircleSlider> */}
           <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
           <TargetButtonsGroup />
         </Box>
@@ -138,7 +199,9 @@ const CalculateFromTotalSavings = () => {
           <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
             Your investment will<br /> be worth
           </Typography>
-          <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>$1,000,174</Typography>
+          <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>
+            {formatCurrency('$', false, calculateTotal().sum)}
+          </Typography>
         </Box>
         <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over 40 years)</Typography>
       </Box>
@@ -149,9 +212,13 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage one age range"
           minSliderValue={5000}
           maxSliderValue={20000}
-          isEnabled={decadeOneEnabled}
-          reduxUpdateYears={updateFirstDecadeEnabled}
-          reduxUpdateContributions={updateFirstDecadeTotalSavings}
+          isEnabled={decades[0].page.enabled}
+          startingYears={startingAge}
+          years={decades[0].page.age}
+          contributions={decades[0].page.monthlyContribution}
+          reduxUpdateEnabled={updateDecadeEnabled}
+          reduxUpdateYears={updateDecadeYears}
+          reduxUpdateContributions={updateDecadeContributions}
         />
         <StageSection
           stageIndex={1}
@@ -159,9 +226,13 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage two age range"
           minSliderValue={6000}
           maxSliderValue={25000}
-          isEnabled={decadeTwoEnabled}
-          reduxUpdateYears={updateSecondDecadeEnabled}
-          reduxUpdateContributions={updateSecondDecadeMonthlyContribution}
+          isEnabled={decades[1].page.enabled}
+          startingYears={startingAge + decades[0].page.age}
+          years={decades[1].page.age}
+          contributions={decades[1].page.monthlyContribution}
+          reduxUpdateEnabled={updateDecadeEnabled}
+          reduxUpdateYears={updateDecadeYears}
+          reduxUpdateContributions={updateDecadeContributions}
         />
         <StageSection
           stageIndex={2}
@@ -169,31 +240,40 @@ const CalculateFromTotalSavings = () => {
           ageRangeText="Your stage three age range"
           minSliderValue={6000}
           maxSliderValue={25000}
-          isEnabled={decadeThreeEnabled}
-          reduxUpdateYears={updateThirdDecadeEnabled}
-          reduxUpdateContributions={updateThirdDecadeMonthlyContribution}
+          isEnabled={decades[2].page.enabled}
+          startingYears={startingAge + decades[0].page.age + decades[1].page.age}
+          years={decades[2].page.age}
+          contributions={decades[2].page.monthlyContribution}
+          reduxUpdateEnabled={updateDecadeEnabled}
+          reduxUpdateYears={updateDecadeYears}
+          reduxUpdateContributions={updateDecadeContributions}
         />
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:8 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem" }}>
         <Box display="flex" flexDirection="row" gap={8}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <img src={money} alt="Total Interest Earned" width="100rem" />
             <Typography variant='body2'>Total Interest Earned</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>1,000$</Typography>
+            <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().interestEarned)}</Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="center">
             <img src={donation} alt="Total Contributions" width="100rem" />
             <Typography variant='body2'>Total Contributions</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>2,000$</Typography>
+            <Typography variant='body1' color={'#4A7DE2'}>{
+            formatCurrency('$', false, calculateTotal().sumContributions)}</Typography>
           </Box>
         </Box>
       </Box>
-      <Box marginTop={8} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <CurvedLineChartComponent />
-      </Box>
-      <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <PieChartComponent />
-      </Box>
+      {!allDecadesDisabled && (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', marginTop: '4rem' }}>
+            <CurvedLineChartComponent />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem' }}>
+            <PieChartComponent />
+          </div>
+        </>
+        )}
     </Box>
   );
 }

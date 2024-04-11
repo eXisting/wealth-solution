@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Divider, Slider, Box, Grid } from '@material-ui/core';
+import { Typography, Divider, Box, Grid } from '@material-ui/core';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
+import DashedSlider from './Components/DashedSlider';
 
 import './css/containers.css'
 
@@ -54,15 +55,29 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const StageSection = ({ stageIndex, stageNameText, ageRangeText, minSliderValue, maxSliderValue, isEnabled, reduxUpdateYears, reduxUpdateContributions }) => {
-  const dispatch = useDispatch();
-
-  const handleToggle = () => {
-    dispatch(reduxUpdateYears(!isEnabled));
+const StageSection = ({ stageIndex, stageNameText, ageRangeText, 
+  minSliderValue, maxSliderValue, isEnabled, 
+  startingYears, years, contributions,
+  reduxUpdateEnabled, reduxUpdateYears, reduxUpdateContributions }) => {
+    
+  function enabledChanged(section, enabled) {
+    reduxUpdateEnabled(section, enabled);
   };
 
   function yearChanged(section, years) {
-    dispatch(reduxUpdateContributions(years))
+    reduxUpdateYears(section, years);
+  }
+
+  function contributionsChanged(section, contributions) {
+    reduxUpdateContributions(section, contributions);
+  }
+
+  function yearsNormalized() {
+    if (isEnabled) {
+      return years === 0 ? 1 : years;
+    }
+
+    return 0;
   }
 
   return (
@@ -72,33 +87,52 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText, minSliderValue,
           <Typography variant="h5">{stageNameText}</Typography>
         </Grid>
         <Grid item>
-          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} onChange={handleToggle} />
+          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
         </Grid>
       </Grid>
       <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"black" }} />
       {isEnabled && (
         <>
-          <Typography variant="h6">{ageRangeText}</Typography>
+        <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="h6">{ageRangeText}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h5">{startingYears}-{startingYears+yearsNormalized()}</Typography>
+            </Grid>
+          </Grid>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
               <Typography variant="h6"># of years in stage {stageIndex + 1}</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h5" id={`years-number-${stageIndex}`}></Typography>
+              <Typography variant="h5">{yearsNormalized()}</Typography>
             </Grid>
           </Grid>
           <Grid container alignItems='center' direction='row'>
-            
+            <DashedSlider 
+              min={1} 
+              max={5} 
+              step={1}
+              reduxValue={yearsNormalized()}
+              updateRedux={(newValue) => yearChanged(stageIndex, newValue) }
+            />
           </Grid>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
               <Typography variant="h6">Monthly savings</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h5" id={`contribution-info-${stageIndex}`}></Typography>
+              <Typography variant="h5">{contributions}</Typography>
             </Grid>
           </Grid>
-          <Slider id={`contribution${stageIndex}Input`} min={minSliderValue} max={maxSliderValue} className="sectioned-range-slider" />
+          <DashedSlider 
+            min={minSliderValue} 
+            max={maxSliderValue} 
+            step={100}
+            reduxValue={contributions}
+            updateRedux={(newValue) => contributionsChanged(stageIndex, newValue)}
+          />
         </>
       )}
     </Box>

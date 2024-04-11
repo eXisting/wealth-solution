@@ -1,31 +1,34 @@
 import React, { useEffect, useRef } from 'react';
-import { currentDate, totalSavingsPerContributions } from '../Global/Global';
+import { currentDate, totalEnabledYears, totalYears } from '../Global/Global';
 import Chart from 'chart.js/auto';
 import { useSelector } from 'react-redux';
+import { totalSavingsPerContributions } from '../Global/ChartsMath';
 
 function drawPieChart(canvas, 
   age1, age2, age3, 
-  startingSavings,
-  decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution) {
-  var totalPerContributions = totalSavingsPerContributions(age1, age2, age3, 
+  startingAge, startingSavings,
+  decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution,
+  endYear) {
+    console.log(decadeThreeMonthlyContribution);
+  var totalPerContributions = totalSavingsPerContributions(startingAge, age1, age2, age3, 
     startingSavings,
     decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
 
   var lastTotal = totalPerContributions[totalPerContributions.length - 1];
-
   var data = {
-      labels: ['Total Saved', 'Contribution'],
-      datasets: [{
-          data: [lastTotal[0], lastTotal[1]],
-          backgroundColor: ['#0098ff', '#60d937'],
-      }],
+    labels: ['Total Saved', 'Contribution'],
+    datasets: [{
+      data: [lastTotal.total3, lastTotal.contributionsTotal3],
+      backgroundColor: ['#0098ff', '#60d937'],
+    }],
   };
+  console.log(totalPerContributions);
 
   var options = {
       plugins: {
           title: {
               display: true,
-              text: 'Investment Balance at Year ' + (currentDate().getFullYear() + Number(age1) + Number(age2) + Number(age3)),
+              text: 'Investment Balance at Year ' + (endYear),
               padding: {
                   top: 10,
                   bottom: 15,
@@ -62,10 +65,18 @@ function drawPieChart(canvas,
   });
 }
 
+function calculateEndYear(stage1Enabled, stage2Enabled, stage3Enabled, age1, age2, age3) {
+  let year = currentDate().getFullYear();
+  year += totalEnabledYears(age1, age2, age3, stage1Enabled, stage2Enabled, stage3Enabled);
+
+  return year;
+}
+
 const PieChartComponent = () => {
   const canvasRef = useRef(null);
 
   const {
+    startingAge,
     startingSavings,
   } = useSelector((state) => state.initialPage);
 
@@ -91,12 +102,26 @@ const PieChartComponent = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    drawPieChart(canvas, 
-      decadeOneAge, decadeTwoAge, decadeThreeAge, 
-      startingSavings,
-      decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
+    const endYear = calculateEndYear(decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled, decadeOneAge, decadeTwoAge, decadeThreeAge);
 
-  }, [startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
+    const contributions = [
+      !decadeOneEnabled ? 0 : decadeOneMonthlyContribution,
+      !decadeTwoEnabled ? 0 : decadeTwoMonthlyContribution,
+      !decadeThreeEnabled ? 0 : decadeThreeMonthlyContribution,
+    ];
+    
+    const years = [
+      !decadeOneEnabled ? 0 : decadeOneAge === 0 ? 1 : decadeOneAge,
+      !decadeTwoEnabled ? 0 : decadeTwoAge === 0 ? 1 : decadeTwoAge,
+      !decadeThreeEnabled ? 0 : decadeThreeAge === 0 ? 1 : decadeThreeAge,
+    ];
+
+    drawPieChart(canvas, 
+      years[0], years[1], years[2], 
+      startingAge, startingSavings,
+      contributions[0], contributions[1], contributions[2], endYear);
+
+  }, [startingAge, startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
     decadeOneAge, decadeTwoAge, decadeThreeAge, 
     decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled]);
 

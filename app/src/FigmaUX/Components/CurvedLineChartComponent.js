@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { calculateSavings, currentDate, trimToInt } from '../Global/Global';
+import { currentDate, totalEnabledYears, trimToInt } from '../Global/Global';
 import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
+import { contributionsCheckpoints, generateYearsCheckpoints, savingsCheckpoints } from '../Global/ChartsMath';
 
 function drawCurvedLineChart(canvas, 
   age1, age2, age3, 
@@ -9,23 +10,40 @@ function drawCurvedLineChart(canvas,
   stageEnabled1, stageEnabled2, stageEnabled3,
   contribution1, contribution2, contribution3) {
 
-  var totalYears = Number(age1) + Number(age2) + Number(age3);
-  var yearsCheckpoints = generateYearsCheckpoints();
-  var contributionsCheckpoints = contributionsCheckpoints();
-  var savingsCheckpoints = savingsCheckpoints();
+  const totalYears = totalEnabledYears(age1, age2, age3, stageEnabled1, stageEnabled2, stageEnabled3);
+  console.log("Total years " + totalYears);
+  var yearsCheckpoints = generateYearsCheckpoints(totalYears);
+
+  console.log("S");
+  console.log(yearsCheckpoints);
+  
+  var contributions = contributionsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
+    age1, age2, age3,
+    stageEnabled1, stageEnabled2, stageEnabled3,
+    contribution1, contribution2, contribution3);
+
+    console.log("Contr")
+    console.log(contributions);
+  var savings = savingsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
+    age1, age2, age3,
+    stageEnabled1, stageEnabled2, stageEnabled3,
+    contribution1, contribution2, contribution3);
+
+    console.log("savings")
+    console.log(savings);
 
   var data = {
       labels: yearsCheckpoints,
       datasets: [
           {
               label: 'Contributions',
-              data: contributionsCheckpoints,
+              data: contributions,
               backgroundColor: '#60d937',
               barThickness: 'flex', 
           },
           {
               label: 'Total saved',
-              data: savingsCheckpoints,
+              data: savings,
               backgroundColor: '#0098ff',
               barThickness: 'flex'
           },
@@ -101,97 +119,6 @@ function drawCurvedLineChart(canvas,
       data: data,
       options: options,
   });
-
-  function generateYearsCheckpoints() {
-      let array = new Array(totalYears).fill(0);
-
-      for (let i = 0; i < array.length; i++) {
-          array[i] = i + 1;
-      }
-
-      return array;
-  };
-  
-  function savingsCheckpoints() {
-      let array = new Array(totalYears).fill(0);
-
-      var firstStageResult = [0, startingSavings];
-      if (stageEnabled1) {
-          let bound = Number(age1);
-          for (let i = 0; i < bound; i++) {
-              array[i] = calculateSavings(trimToInt(contribution1), yearsCheckpoints[i], startingSavings);
-          }
-
-          firstStageResult = [bound, array[bound - 1]];
-      }
-      
-      var secondStageResult = [firstStageResult[0], firstStageResult[1]];
-      if (stageEnabled2) {
-          let bound = Number(age2);
-          
-          for (let i = 0, j = firstStageResult[0]; i < bound; i++, j++) {
-              array[j] = calculateSavings(trimToInt(contribution2), yearsCheckpoints[i], firstStageResult[1]);
-          }
-
-          secondStageResult = [bound + firstStageResult[0], array[bound + firstStageResult[0] - 1]];
-      }
-      
-      if (stageEnabled3) {
-          let bound = Number(age3);
-          
-          for (let i = 0, j = secondStageResult[0]; i < bound; i++, j++) {
-              
-              array[j] = calculateSavings(trimToInt(contribution3), yearsCheckpoints[i], secondStageResult[1]);
-          }
-      }
-  
-      return array;
-  }    
-
-  function contributionsCheckpoints() {
-      let array = new Array(totalYears).fill(0);
-      
-      let monthInYear = 12;
-
-      var firstStageResult = [0, startingSavings];
-      if (stageEnabled1) {
-          let bound = Number(age1);
-          for (let i = 0; i < bound; i++) {
-              array[i] = yearsCheckpoints[i] * trimToInt(contribution1) * monthInYear;
-          }
-
-          firstStageResult = [bound, array[bound - 1]];
-      }
-      
-      var secondStageResult = [firstStageResult[0], firstStageResult[1]];
-      if (stageEnabled2) {
-          let bound = Number(age2);
-
-          for (let i = 0, j = firstStageResult[0]; i < bound; i++, j++) {
-              var base = array[j - 1];
-              if (j < 1)
-                  base = 0;
-
-              array[j] = base +  trimToInt(contribution2) * monthInYear;
-          }
-
-          secondStageResult = [bound + firstStageResult[0], array[bound + firstStageResult[0] - 1]];
-      }
-      
-      if (stageEnabled3) {
-          let bound = Number(age3);
-
-          for (let i = 0, j = secondStageResult[0]; i < bound; i++, j++) {
-              var base = array[j - 1];
-              if (j < 1)
-                  base = 0;
-
-              array[j] = base + trimToInt(contribution3) * monthInYear;
-          }
-      }
-  
-      return array;
-  }
 }
 
 const CurvedLineChartComponent = () => {

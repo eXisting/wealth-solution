@@ -4,7 +4,7 @@ const decadeThreeSlice = createSlice({
   name: 'decadeThree',
   initialState: {
     capital: 0,
-    age: 0,
+    age: 1,
     decadeIncome: '140000',
     monthlyContribution: 0,
     savingsPercentage: 15,
