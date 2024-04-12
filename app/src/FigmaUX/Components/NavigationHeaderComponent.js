@@ -29,7 +29,7 @@ const NavigationHeaderComponent = () => {
         <Button
           variant="contained"
           sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2' }}
-          onClick={() => navigate('fromIncome')}
+          onClick={() => navigate('/fromIncome')}
         >
           From Income
         </Button>
