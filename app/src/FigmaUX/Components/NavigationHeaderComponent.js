@@ -8,27 +8,27 @@ const NavigationHeaderComponent = () => {
 
   return (
     <Box backgroundColor="#111111">
-      <Box style={{ padding: '2vh', gap:'1rem' }} textAlign={'center'}>
+      <Box style={{ padding: '2vh' }} textAlign={'center'}>
         <Typography variant="h2" color={"white"}>
           Wealth website
         </Typography>
         <Button
           variant="contained"
-          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2' }}
+          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2', m:2 }}
           onClick={() => navigate('/fromTotalSavings')}
         >
           From Total
         </Button>
         <Button
           variant="contained"
-          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2' }}
+          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2', m:2 }}
           onClick={() => navigate('/')}
         >
           Wealthometer
         </Button>
         <Button
           variant="contained"
-          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2' }}
+          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2', m:2 }}
           onClick={() => navigate('/fromIncome')}
         >
           From Income

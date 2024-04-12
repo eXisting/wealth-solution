@@ -1,11 +1,15 @@
 import { Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircularSliderWithChildren } from "react-circular-slider-svg";
 import { formatCurrency, trimToInt } from '../Global/Global';
 import { Add, Remove } from '@mui/icons-material';
 
-const CircleSlider = ({ min, max, initialValue, titleText, updateRedux }) => {
+const CircleSlider = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
   const [value1, setValue1] = useState(initialValue);
+
+  useEffect(() => {
+    setValue1(initialValue);
+  }, [initialValue]);
 
   function handleValueIsSet() {
     updateRedux(trimToInt(value1));
@@ -50,7 +54,7 @@ const CircleSlider = ({ min, max, initialValue, titleText, updateRedux }) => {
         <Button
           variant="contained"
           sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}
-          onClick={() => {decrement(100, 0)}}
+          onClick={() => {decrement(step, min)}}
         >
           <Remove sx={{fill:'#8D9092', opacity:'50%'}} />
         </Button>
@@ -58,7 +62,7 @@ const CircleSlider = ({ min, max, initialValue, titleText, updateRedux }) => {
         <Button
           variant="contained"
           sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}
-          onClick={() => {increment(100, 20000)}}
+          onClick={() => {increment(step, max)}}
         >
           <Add sx={{fill:'#8D9092', opacity:'50%'}} />
         </Button>
@@ -94,7 +98,7 @@ const CircleSlider = ({ min, max, initialValue, titleText, updateRedux }) => {
               paddingTop:'10%',
             }}
           >
-            <Typography variant="h5">$</Typography>
+            <Typography variant="h5">{sign}</Typography>
             <Typography variant='h3'>{formatCurrency('$', undefined, value1).substring(1)}</Typography>
           </Box>
       </CircularSliderWithChildren>
