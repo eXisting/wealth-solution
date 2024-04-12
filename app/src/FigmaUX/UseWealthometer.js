@@ -17,11 +17,12 @@ import donation from '../Media/donation.svg'
 import {
   updateMonthlyContribution,
 } from '../redux/decadeOneReducer';
+
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import PieChartControlledComponent from './Components/PieChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 
-const UseWealthometer = ({store}) => {
+const UseWealthometer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,6 +56,7 @@ const UseWealthometer = ({store}) => {
         </Typography>
       </Box>
       <CircleSlider min={0} max={20000} 
+        step={100}
         initialValue={trimToInt(monthlyContribution)} 
         titleText={"Monthly Savings"}
         updateRedux={handleUpdateContributions} 
