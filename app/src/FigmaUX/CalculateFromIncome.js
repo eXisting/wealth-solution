@@ -95,7 +95,7 @@ const CalculateFromIncome = () => {
   }
 
   const updateDecadeContributions = (stageIndex, newValue) => {
-    dispatch(updateFunctions[stageIndex].updateMonthlyContribution(newValue));
+    // dispatch(updateFunctions[stageIndex].updateMonthlyContribution(newValue));
   }
 
   function calculateTotal() {
