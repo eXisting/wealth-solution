@@ -1,10 +1,10 @@
 
-function calculateSavings(contribution, years, savings) {
+function calculateSavings(contribution, years, savings, compoundInterest = 10) {
   if (savings === 0 && contribution === 0) {
     return 0;
   }
 
-  const r = parseFloat(10) / 100;
+  const r = parseFloat(compoundInterest) / 100;
   const n = 12;
 
   var t = years;
@@ -19,15 +19,6 @@ function calculateSavings(contribution, years, savings) {
 function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, stageEnabled2, stageEnabled3) {
   if (desiredResult <= startingSavings)
   {
-      // updateDecadeAge(1, 0);
-      // updateDecadeMonthlyContribution(1, 0);
-
-      // updateDecadeAge(2, 0);
-      // updateDecadeMonthlyContribution(2, 0);
-
-      // updateDecadeAge(3, 0);
-      // updateDecadeMonthlyContribution(3, 0);
-
       return [
         { age: 0, contribution: 0 },
         { age: 0, contribution: 0 },
@@ -94,15 +85,6 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
 
     third = calculateContribution(desiredResult, calculatedInSecond, thirdPeriod);
   }
-
-  // updateDecadeAge(1, first[0]);
-  // updateDecadeMonthlyContribution(1, first[1]);
-
-  // updateDecadeAge(2, second[0]);
-  // updateDecadeMonthlyContribution(2, second[1]);
-
-  // updateDecadeAge(3, third[0]);
-  // updateDecadeMonthlyContribution(3, third[1]);
 
   return [
     { age: first[0], contribution: first[1] },

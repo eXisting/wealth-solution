@@ -44,6 +44,7 @@ import PieChartComponent from './Components/PieChartComponent';
 import DashedSlider from './Components/DashedSlider';
 import { totalSavingsPerContributions } from './Global/ChartsMath';
 import { setSmallestCombination } from './Global/Math';
+import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -174,6 +175,7 @@ const CalculateFromTotalSavings = () => {
 
   return (
     <Box gap={8}>
+      <NavigationHeaderComponent></NavigationHeaderComponent>
       <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
         <Typography variant="h5">Calculate from total savings</Typography>
         <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>

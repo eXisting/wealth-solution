@@ -113,6 +113,28 @@ function drawCurvedLineChart(canvas,
   });
 }
 
+const CurvedLineChartControlledComponent = ({decadeOneAge, decadeTwoAge, decadeThreeAge, 
+  startingSavings, 
+  decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled,
+  decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution}) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    drawCurvedLineChart(canvas, 
+      decadeOneAge, decadeTwoAge, decadeThreeAge, 
+      startingSavings, 
+      decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled,
+      decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
+  }, [startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
+    decadeOneAge, decadeTwoAge, decadeThreeAge, 
+    decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled]);
+
+  return <canvas id="linechart" ref={canvasRef}></canvas>;
+};
+
 const CurvedLineChartComponent = () => {
   const canvasRef = useRef(null);
 

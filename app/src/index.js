@@ -20,8 +20,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Router>
           <RootApp>
             <Routes>
-              {/* <Route path="/" element={<CalculateFromTotalSavings store={store}/>} /> */}
-              <Route path="/" element={<UseWealthometer store={store}/>} />
+              <Route path="/" element={<UseWealthometer store={store} />} />
+              <Route path="/fromTotalSavings" element={<CalculateFromTotalSavings store={store}/>} />
               {/* <Route path="/initial-data" element={<InitialValuesPage />} />
               <Route path="/savings-graph" element={<SavingsGraphPage />} />
               <Route path="/decade-one" element={<DecadeOnePage />} />

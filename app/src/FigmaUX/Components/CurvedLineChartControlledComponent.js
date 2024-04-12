@@ -1,0 +1,147 @@
+import React, { useEffect, useRef } from 'react';
+import { currentDate, formatCurrency, trimToInt } from '../Global/Global';
+import Chart from 'chart.js/auto';
+import { calculateSavings } from '../Global/Math';
+
+const generateYearsCheckpoints = (years, stepYears) => {
+  let array = new Array (years / stepYears + 1);
+
+  for (let i = 0; i < array.length; i++) {
+      array[i] = (stepYears * i).toString();
+  }
+
+  return array;
+};
+
+const savingsCheckpoints = (years, stepYears, initialSavings, monthlyContribution) => {
+  let yearsCheckpoints = generateYearsCheckpoints(years, stepYears);
+  let array = new Array (years / stepYears + 1);
+  
+  let monthInYear = 12;
+
+  array[0] = initialSavings + (monthlyContribution * monthInYear);
+  for (let i = 1; i < array.length; i++) {
+      array[i] = calculateSavings(monthlyContribution, yearsCheckpoints[i], initialSavings, 10);
+  }
+
+  return array;
+}
+
+const contributionsCheckpoints = (years, stepYears, monthlyContribution) => {
+  let yearsCheckpoints = generateYearsCheckpoints(years, stepYears);
+  let array = new Array (years / stepYears + 1);
+  
+  let monthInYear = 12;
+
+  array[0] = monthlyContribution * monthInYear;
+  for (let i = 1; i < array.length; i++) {
+      array[i] = yearsCheckpoints[i] * monthInYear * monthlyContribution;
+  }
+
+  return array;
+}
+
+function draw(canvas, data, options) {
+  if (canvas) {
+    // Get the chart instance associated with the canvas
+    var existingChart = Chart.getChart(canvas);
+    
+    if (existingChart) {
+        // Update the data and options of the existing chart
+        existingChart.data = data; // Replace newData with your updated data
+        existingChart.options = options; // Replace newOptions with your updated options
+        existingChart.update(); // Update the chart
+        return;
+    }
+}
+
+  // Create a new Chart.js chart on the canvas
+  var ctx = canvas.getContext('2d');
+
+  var chart = new Chart(ctx, {
+      type: "bar",
+      data: data,
+      options: options,
+  });
+}
+
+const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSavings}) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    var data = {
+        labels: generateYearsCheckpoints(years, step),
+        datasets: [
+            {
+                label: 'Contributions',
+                data: contributionsCheckpoints(years, step, monthlyContributions),
+                backgroundColor: '#60d937',
+                barThickness: 'flex', 
+            },
+            {
+                label: 'Total saved',
+                data: savingsCheckpoints(years, step, initialSavings, monthlyContributions),
+                backgroundColor: '#0098ff',
+                barThickness: 'flex'
+            },
+        ],
+    };
+
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false, // Set this to false to control the chart size manually
+        aspectRatio: 3,
+        scales: {
+            x: {
+                stacked: true,
+                position: 'bottom',
+                autoSkip: false, // Show all labels
+                min: 0,
+                max: 40,
+                ticks: {
+                    stepSize: 10,
+                    callback: value => {
+                        return (value * 10) + currentDate().getFullYear();
+                    },
+                }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                ticks: {
+                    callback: value => {
+                        return formatCurrency('$', undefined, trimToInt(value));
+                    },
+                }
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Investment Growth Over Time',
+                
+                padding: {
+                    top: 10,
+                    bottom: 15,
+                },
+                font: {
+                    size: '20rem', // Adjust the font size for the title
+                },
+            },
+            legend: {
+                display: false
+            },
+        },
+    };
+
+    draw(canvas, data, options);
+    
+  }, [monthlyContributions, initialSavings, step, years]);
+
+  return <canvas id="linechart" ref={canvasRef}></canvas>;
+};
+
+export default CurvedLineChartComponent;
