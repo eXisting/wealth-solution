@@ -26,6 +26,13 @@ const NavigationHeaderComponent = () => {
         >
           Wealthometer
         </Button>
+        <Button
+          variant="contained"
+          sx={{ minWidth: 'unset', height: '3rem', backgroundColor: '#4A7DE2' }}
+          onClick={() => navigate('fromIncome')}
+        >
+          From Income
+        </Button>
       </Box>
     </Box>
   );

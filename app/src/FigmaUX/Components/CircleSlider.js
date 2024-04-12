@@ -4,7 +4,7 @@ import { CircularSliderWithChildren } from "react-circular-slider-svg";
 import { formatCurrency, trimToInt } from '../Global/Global';
 import { Add, Remove } from '@mui/icons-material';
 
-const CircleSlider = ({ min, max, initialValue, updateRedux }) => {
+const CircleSlider = ({ min, max, initialValue, titleText, updateRedux }) => {
   const [value1, setValue1] = useState(initialValue);
 
   function handleValueIsSet() {
@@ -45,8 +45,8 @@ const CircleSlider = ({ min, max, initialValue, updateRedux }) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2, marginTop: 8}}>
-      <Box display="flex" alignItems="center" sx={{ m: 2, marginTop: 8, gap: 16 }}>
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2 }}>
+      <Box display="flex" alignItems="center" sx={{ m: 2, gap: 16 }}>
         <Button
           variant="contained"
           sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}
@@ -54,7 +54,7 @@ const CircleSlider = ({ min, max, initialValue, updateRedux }) => {
         >
           <Remove sx={{fill:'#8D9092', opacity:'50%'}} />
         </Button>
-        <Typography sx={{ flexGrow: 1, textAlign: 'center' }}>Monthly Savings</Typography>
+        <Typography sx={{ flexGrow: 1, textAlign: 'center' }}>{titleText}</Typography>
         <Button
           variant="contained"
           sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}

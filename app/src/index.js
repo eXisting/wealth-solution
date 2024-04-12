@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import CalculateFromTotalSavings from './FigmaUX/CalculateFromTotalSavings';
 import UseWealthometer from './FigmaUX/UseWealthometer';
+import CalculateFromIncome from './FigmaUX/CalculateFromIncome';
 
 const RootApp = styled.div`
   width: 100vw;
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Routes>
               <Route path="/" element={<UseWealthometer store={store} />} />
               <Route path="/fromTotalSavings" element={<CalculateFromTotalSavings store={store}/>} />
+              <Route path="/fromIncome" element={<CalculateFromIncome store={store}/>} />
               {/* <Route path="/initial-data" element={<InitialValuesPage />} />
               <Route path="/savings-graph" element={<SavingsGraphPage />} />
               <Route path="/decade-one" element={<DecadeOnePage />} />

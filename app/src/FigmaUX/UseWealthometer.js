@@ -54,7 +54,11 @@ const UseWealthometer = ({store}) => {
           {currentDayFormatted()}
         </Typography>
       </Box>
-      <CircleSlider min={0} max={20000} initialValue={trimToInt(monthlyContribution)} updateRedux={handleUpdateContributions}></CircleSlider>
+      <CircleSlider min={0} max={20000} 
+        initialValue={trimToInt(monthlyContribution)} 
+        titleText={"Monthly Savings"}
+        updateRedux={handleUpdateContributions} 
+      />
       <Box className="section padded-section" display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2 }}>
         <Box>
           <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
