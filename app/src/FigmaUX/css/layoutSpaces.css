@@ -1,0 +1,13 @@
+:root {
+  --space-small-mobile: 16px;
+  --space-regular-mobile: 32px;
+  --space-medium-mobile: 48px;
+
+  --space-small-tablet: 26px;
+  --space-regular-tablet: 38px;
+  --space-medium-tablet: 60px;
+
+  --space-small-pc: 36px;
+  --space-regular-pc: 84px;
+  --space-medium-pc: 120px;
+}

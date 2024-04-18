@@ -3,8 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { CircularSliderWithChildren } from "react-circular-slider-svg";
 import { formatCurrency, trimToInt } from '../Global/Global';
 import { Add, Remove } from '@mui/icons-material';
+import { buildFontSizeCssString } from '../Global/CssStrings';
 
-const CircleSlider = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
+import '../css/fonts.css';
+import '../css/components.css';
+
+const CircleSlider = ({ isMobile, isTablet, min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
   const [value1, setValue1] = useState(initialValue);
 
   useEffect(() => {
@@ -49,22 +53,32 @@ const CircleSlider = ({ min, max, initialValue, step, sign = '$', titleText, upd
   };
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2 }}>
-      <Box display="flex" alignItems="center" sx={{ m: 2, gap: 16 }}>
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+      <Box display="flex" flexDirection={"row"} width={'100%'} alignItems="center" justifyContent="space-between">
         <Button
           variant="contained"
-          sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}
+          width={isMobile ? '40px' : isTablet ? '60px' : '90px'}
+          height={isMobile ? '40px' : isTablet ? '60px' : '90px'}
+          sx={{ padding:`${isMobile ? '11px' : isTablet ? '16px' : '25px'}`, borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
           onClick={() => {decrement(step, min)}}
         >
-          <Remove sx={{fill:'#8D9092', opacity:'50%'}} />
+          <Remove sx={{fill:'#9D9D9D'}} />
         </Button>
-        <Typography sx={{ flexGrow: 1, textAlign: 'center' }}>{titleText}</Typography>
+        <Typography 
+          className='montserrat-regular'
+          fontSize={isMobile ? 
+            buildFontSizeCssString('strong', isMobile, isTablet) : buildFontSizeCssString('medium', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
+        >
+            {titleText}
+        </Typography>
         <Button
           variant="contained"
-          sx={{ borderRadius: '50%', minWidth: 'unset', width: '3rem', height: '3rem', backgroundColor: '#F6F7F7' }}
+          width={isMobile ? '40px' : isTablet ? '60px' : '90px'}
+          height={isMobile ? '40px' : isTablet ? '60px' : '90px'}
+          sx={{ padding:`${isMobile ? '11px' : isTablet ? '16px' : '25px'}`, borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
           onClick={() => {increment(step, max)}}
         >
-          <Add sx={{fill:'#8D9092', opacity:'50%'}} />
+          <Add sx={{fill:'#9D9D9D'}} />
         </Button>
       </Box>
       <CircularSliderWithChildren
@@ -95,11 +109,25 @@ const CircleSlider = ({ min, max, initialValue, step, sign = '$', titleText, upd
               justifyContent: 'center',
               textAlign:'center',
               height: '100%',
-              paddingTop:'10%',
+              width: '100%',
             }}
           >
-            <Typography variant="h5">{sign}</Typography>
-            <Typography variant='h3'>{formatCurrency('$', undefined, value1).substring(1)}</Typography>
+            <Typography 
+              className='poppins-medium'
+              color={'var(--main-color)'}
+              fontSize={isMobile ? 
+                '25px' : isTablet ? '36px' : '50px'} 
+              sx={{ textAlign: 'center' }}
+            >
+              {sign}
+            </Typography>
+            <Typography
+              className='poppins-medium'
+              fontSize={!isMobile && !isTablet ? '100px' : buildFontSizeCssString('big', isMobile, isTablet)}
+              sx={{ textAlign: 'center' }}
+            >{
+              formatCurrency('$', undefined, value1).substring(1)}
+            </Typography>
           </Box>
       </CircularSliderWithChildren>
     </Box>

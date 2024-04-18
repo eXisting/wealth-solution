@@ -3,12 +3,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-const NavigationHeaderComponent = () => {
+const NavigationHeaderComponent = ({margin}) => {
   const navigate = useNavigate();
 
   return (
-    <Box backgroundColor="#111111">
-      <Box style={{ padding: '2vh' }} textAlign={'center'}>
+    <Box backgroundColor="#111111" padding={2} marginTop={margin} marginLeft={margin} marginRight={margin}>
+      <Box textAlign={'center'}>
         <Typography variant="h2" color={"white"}>
           Wealth website
         </Typography>

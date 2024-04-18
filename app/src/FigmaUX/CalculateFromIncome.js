@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, useMediaQuery } from '@mui/material';
 import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import CircleSlider from './Components/CircleSlider';
@@ -12,7 +12,6 @@ import moneyBag from '../Media/moneyBag.svg'
 import moneyBox from '../Media/moneyBox.svg'
 
 // Redux
-
 import {
   updateTotalDecadeSavings as updateFirstDecadeTotalSavings,
   updateDecadeIncome as updateFirstDecadeTotalIncome,
@@ -77,6 +76,9 @@ const CalculateFromIncome = () => {
       updateMonthlyContribution: updateThirdDecadeMonthlyContributions
     },
   ];
+
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const isTablet = useMediaQuery('(max-width:960px)');
 
   useEffect(() => {
     updateView(selectedDecade);

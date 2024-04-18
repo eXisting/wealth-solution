@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Typography, Divider, Box, Grid } from '@material-ui/core';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import { useDispatch } from 'react-redux';
+import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import DashedSlider from './Components/DashedSlider';
-
-import './css/containers.css'
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />

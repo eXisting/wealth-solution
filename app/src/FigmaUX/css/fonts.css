@@ -1,44 +1,52 @@
 :root {
-  --font-size-tiny: 48px / 8 = 6px;
-  --font-size-small: 64px / 8 = 8px;
-  --font-size-regular: 96px;
-  --font-size-medium: 128px;
-  --font-size-strong: 150p;
-  --font-size-big: 200px;
-  --font-size-huge: 225.75px;
+  --font-size-tiny-mobile: 8px;
+  --font-size-small-mobile: 10px;
+  --font-size-regular-mobile: 12px;
+  --font-size-medium-mobile: 16px;
+  --font-size-strong-mobile: 20px;
+  --font-size-big-mobile: 40px;
+  --font-size-huge-mobile: 50px;
 
-  /* --font-size-tiny: 0.375rem;
-  --font-size-small: 0.5rem;
-  --font-size-regular: 0.75rem;
-  --font-size-medium: 1rem;
-  --font-size-strong: 1.171875rem;
-  --font-size-big: 1.5625rem;
-  --font-size-huge: 1.76375rem; */
+  --font-size-tiny-tablet: 12px;
+  --font-size-small-tablet: 18px;
+  --font-size-regular-tablet: 20px;
+  --font-size-medium-tablet: 30px;
+  --font-size-strong-tablet: 60px;
+  --font-size-big-tablet: 72px;
+  --font-size-huge-tablet: 90px;
+
+  --font-size-tiny-pc: 24px;
+  --font-size-small-pc: 30px;
+  --font-size-regular-pc: 36px;
+  --font-size-medium-pc: 40px;
+  --font-size-strong-pc: 60px;
+  --font-size-big-pc: 90px;
+  --font-size-huge-pc: 120px;
 }
 
 .montserrat-bold {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
+  font-family: "Montserrat", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
 }
 
 .montserrat-medium {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
+  font-family: "Montserrat", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
 }
 
 .poppins-medium {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: normal;
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
 }
 
 .montserrat-regular {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Montserrat", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
 }
