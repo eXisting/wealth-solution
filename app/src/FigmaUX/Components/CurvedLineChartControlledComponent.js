@@ -120,7 +120,7 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
                         let number = trimToInt(value);
                         if (number < 1000000)
                             return formatCurrency('$', undefined, number);
-                        return `${(number / 1000000).toFixed(1)}M`;
+                        return `$${(number / 1000000).toFixed(1)}M`;
                     },
                 }
             },

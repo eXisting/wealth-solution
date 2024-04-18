@@ -22,6 +22,7 @@ import donation from '../Media/donation.svg'
 import {
   updateMonthlyContribution,
 } from '../redux/decadeOneReducer';
+import NavigationFooterComponent from './Components/NavigationFooterComponent';
 
 
 const UseWealthometer = () => {
@@ -54,8 +55,9 @@ const UseWealthometer = () => {
 
   return (
     <>
-      <NavigationHeaderComponent margin={'-8px'}></NavigationHeaderComponent>
-      <Box display="flex" flexDirection="column" padding={buildSpaceSizeCssString('regular', isMobile, isTablet)}>
+      <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
+      <Box display="flex" flexDirection="column" paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
+        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)} marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}>
         <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
           marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
           <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
@@ -195,6 +197,7 @@ const UseWealthometer = () => {
           </div>
         </div>
       </Box>
+      <NavigationFooterComponent></NavigationFooterComponent>
     </>
   );
 }
