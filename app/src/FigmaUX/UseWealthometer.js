@@ -8,7 +8,7 @@ import CurvedLineChartControlledComponent from './Components/CurvedLineChartCont
 import PieChartControlledComponent from './Components/PieChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import { calculateSavings } from './Global/Math';
-import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
+import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
 import './css/layoutSpaces.css';
 import './css/fonts.css';
@@ -103,26 +103,65 @@ const UseWealthometer = () => {
             </Typography>
             <Typography 
               className='montserrat-regular'
-              fontSize={
-                isMobile || isTablet ? buildFontSizeCssString('regular', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
+              fontSize={buildFontSizeCssString(isMobile || isTablet ? 'regular' : 'tiny', isMobile, isTablet)}
               textAlign='center'
             >
               (over 40 years)
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem" }}>
-          <Box display="flex" flexDirection="row" gap={8}>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={money} alt="Total Interest Earned" width="100rem" />
-              <Typography variant='body2'>Total Interest Earned</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().interestEarned)}</Typography>
+        <Box marginTop={isMobile ? buildSpaceSizeCssString('medium', isMobile, isTablet) : buildFontSizeCssString('regular', isMobile, isTablet)} 
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+        >
+          <Box display='flex' flexDirection='row' width='100%' alignItems="center" 
+          justifyContent='center'
+            gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')} textAlign='center'
+            marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+          >
+            <Box display="flex" flexDirection="column" alignItems="center" 
+              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+            > 
+              <img src={money} alt="Total Interest Earned"
+                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+              />
+              <Typography 
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isMobile ? 'small' : isTablet ? 'regular' : 'small', isMobile, isTablet)}
+              >
+                Total Interest Earned
+              </Typography>
+              <Typography 
+                className='poppins-medium'
+                color={'var(--main-color)'}
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+              >
+                {formatCurrency('$', false, calculateTotal().interestEarned)}
+              </Typography>
             </Box>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={donation} alt="Total Contributions" width="100rem" />
-              <Typography variant='body2'>Total Contributions</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{
-              formatCurrency('$', false, calculateTotal().sumContributions)}</Typography>
+            <Box display="flex" flexDirection="column" alignItems="center"
+              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+            >
+              <img src={donation} alt="Total Contributions" 
+                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+              />
+              <Typography
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isMobile ? 'small' : 'regular', isMobile, isTablet)}
+              >
+                Total Contributions
+              </Typography>
+              <Typography 
+                className='poppins-medium'
+                color={'var(--main-color)'}
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+              >
+                {formatCurrency('$', false, calculateTotal().sumContributions)}
+              </Typography>
             </Box>
           </Box>
         </Box>
