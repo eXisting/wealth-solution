@@ -21,6 +21,13 @@ function currentDate() {
   return new Date();
 }
 
+function calculateEndYear(years) {
+  let year = currentDate().getFullYear();
+  year += years;
+
+  return year;
+}
+
 function totalEnabledYears(age1, age2, age3, stage1Enabled, stage2Enabled, stage3Enabled) {
   let year = 0;
   if (stage1Enabled) {
@@ -38,4 +45,4 @@ function totalEnabledYears(age1, age2, age3, stage1Enabled, stage2Enabled, stage
   return year;
 }
 
-export {trimToInt, formatCurrency, currentDayFormatted, currentDate, totalEnabledYears};
+export {trimToInt, formatCurrency, currentDayFormatted, currentDate, totalEnabledYears, calculateEndYear};

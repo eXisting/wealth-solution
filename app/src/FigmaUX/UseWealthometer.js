@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Typography, Box, useMediaQuery } from '@mui/material';
-import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
+import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import CircleSlider from './Components/CircleSlider';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import PieChartControlledComponent from './Components/PieChartControlledComponent';
@@ -110,7 +110,7 @@ const UseWealthometer = () => {
             </Typography>
           </Box>
         </Box>
-        <Box marginTop={isMobile ? buildSpaceSizeCssString('medium', isMobile, isTablet) : buildFontSizeCssString('regular', isMobile, isTablet)} 
+        <Box marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
         >
           <Box display='flex' flexDirection='row' width='100%' alignItems="center" 
@@ -165,11 +165,34 @@ const UseWealthometer = () => {
             </Box>
           </Box>
         </Box>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', marginTop: '4rem' }}>
-          <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0}/>
+        <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', 
+          gap: buildSpaceSizeCssString('regular', isMobile, isTablet), 
+          marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
+          marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}
+        >
+          <Typography 
+            className='montserrat-regular'
+            fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+          >
+            Investment Growth Over Time
+          </Typography>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+           height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
+           width: '100%'}}
+          >
+            <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0}/>
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', paddingBottom:'3rem' }}>
-          <PieChartControlledComponent years={40} monthlyContributions={monthlyContribution} initialSavings={0}/>
+        <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
+          <Typography 
+            className='montserrat-regular'
+            fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+          >
+            Investment Balance at Year {calculateEndYear(40)}
+          </Typography>
+          <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
+            <PieChartControlledComponent years={40} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
+          </div>
         </div>
       </Box>
     </>

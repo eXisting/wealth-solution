@@ -1,42 +1,40 @@
 import React, { useEffect, useRef } from 'react';
-import { currentDate, totalEnabledYears, totalYears } from '../Global/Global';
 import Chart from 'chart.js/auto';
-import { useSelector } from 'react-redux';
-import { totalSavingsPerContributions } from '../Global/ChartsMath';
 import { calculateSavings } from '../Global/Math';
 
-function draw(canvas, monthlyContributions, initialSavings, years, endYear) {
+function draw(canvas, monthlyContributions, initialSavings, years, isMobile, isTablet) {
 
   const monthsInYear = 12;
   const totalSaved = calculateSavings(monthlyContributions, years, initialSavings, 10);
   const totalContributions = monthlyContributions * monthsInYear * years;
 
   var data = {
-    labels: ['Total Saved', 'Contribution'],
+    labels: ['Contribution', 'Total Saved'],
     datasets: [{
-      data: [totalSaved, totalContributions],
-      backgroundColor: ['#0098ff', '#60d937'],
+      data: [totalContributions, totalSaved],
+      backgroundColor: ['#33CBCC', '#4A7DE2'],
     }],
   };
   
   var options = {
       plugins: {
           title: {
-              display: true,
-              text: 'Investment Balance at Year ' + (endYear),
-              padding: {
-                  top: 10,
-                  bottom: 15,
-              },
-              font: {
-                  size: '20rem', // Adjust the font size for the title
-              },
+              display: false,
           },
           legend: {
-              display: false, // Hide the legend
-              
+              display: true,
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                pointStyle: 'rectRounded',
+                font: {
+                  family: '"Poppins", sans-serif',
+                  weight: 'normal',
+                  size: isMobile ? '8px' : isTablet ? '12px' : '16px'
+                }
+              }
           },
-      }
+      },
   };
 
   // Check if there is an existing chart on the canvas
@@ -54,31 +52,22 @@ function draw(canvas, monthlyContributions, initialSavings, years, endYear) {
   }
 
   var chart = new Chart(canvas, {
-      type: 'pie',
+      type: 'doughnut',
       data: data,
       options: options,
   });
 }
 
-function calculateEndYear(years) {
-  let year = currentDate().getFullYear();
-  year += years;
-
-  return year;
-}
-
-const PieChartControlledComponent = ({years, monthlyContributions, initialSavings}) => {
+const PieChartControlledComponent = ({years, monthlyContributions, initialSavings, isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const endYear = calculateEndYear(years);
+    draw(canvas, monthlyContributions, initialSavings, years, isMobile, isTablet);
 
-    draw(canvas, monthlyContributions, initialSavings, years, endYear);
-
-  }, [years, monthlyContributions, initialSavings]);
+  }, [years, monthlyContributions, initialSavings, isMobile, isTablet]);
 
   return (
     <canvas id="piechart" ref={canvasRef}></canvas>

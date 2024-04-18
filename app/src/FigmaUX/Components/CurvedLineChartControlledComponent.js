@@ -78,14 +78,12 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
             {
                 label: 'Contributions',
                 data: contributionsCheckpoints(years, step, monthlyContributions),
-                backgroundColor: '#60d937',
-                barThickness: 'flex', 
+                backgroundColor: '#33CBCC',
             },
             {
                 label: 'Total saved',
                 data: savingsCheckpoints(years, step, initialSavings, monthlyContributions),
-                backgroundColor: '#0098ff',
-                barThickness: 'flex'
+                backgroundColor: '#4A7DE2',
             },
         ],
     };
@@ -99,6 +97,9 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
                 stacked: true,
                 position: 'bottom',
                 autoSkip: false, // Show all labels
+                grid: {
+                    display: false,
+                  },    
                 min: 0,
                 max: 40,
                 ticks: {
@@ -110,26 +111,23 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
             },
             y: {
                 stacked: true,
+                grid: {
+                    display: false,
+                  },
                 beginAtZero: true,
                 ticks: {
                     callback: value => {
-                        return formatCurrency('$', undefined, trimToInt(value));
+                        let number = trimToInt(value);
+                        if (number < 1000000)
+                            return formatCurrency('$', undefined, number);
+                        return `${(number / 1000000).toFixed(1)}M`;
                     },
                 }
             },
         },
         plugins: {
             title: {
-                display: true,
-                text: 'Investment Growth Over Time',
-                
-                padding: {
-                    top: 10,
-                    bottom: 15,
-                },
-                font: {
-                    size: '20rem', // Adjust the font size for the title
-                },
+                display: false,
             },
             legend: {
                 display: false
