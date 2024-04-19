@@ -182,7 +182,7 @@ const UseWealthometer = () => {
            height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
            width: '100%'}}
           >
-            <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0}/>
+            <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>

@@ -73,16 +73,7 @@ function drawCurvedLineChart(canvas,
       },
       plugins: {
           title: {
-              display: true,
-              text: 'Investment Growth Over Time',
-              
-              padding: {
-                  top: 10,
-                  bottom: 15,
-              },
-              font: {
-                  size: '20rem', // Adjust the font size for the title
-              },
+              display: false,
           },
           legend: {
               display: false

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Box, useMediaQuery } from '@mui/material';
 import StageSection from './Components/StageSection';
 import StartingAmountSelection from './Components/StartingAmountSelection';
-import { currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
+import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
 import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
 import PieChartComponent from './Components/PieChartComponent';
@@ -13,6 +13,7 @@ import { totalSavingsPerContributions } from './Global/ChartsMath';
 import { setSmallestCombination } from './Global/Math';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
+import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
 // Media
 import money from '../Media/money.svg'
@@ -45,7 +46,7 @@ import {
   updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
-import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
+import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -180,7 +181,9 @@ const CalculateFromTotalSavings = () => {
   return (
     <>
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
-      <Box display="flex" flexDirection="column" paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+      <Box display="flex" flexDirection="column" 
+        paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
         <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
@@ -197,32 +200,15 @@ const CalculateFromTotalSavings = () => {
             {currentDayFormatted()}
           </Typography>
         </Box>
-        <Box gap={2} sx={{ m:4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Grid container direction='column' gap={2} alignItems="center">
-            <Typography variant="h5">Starting amount</Typography>
-            <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
-            <DashedSlider
-              min={5000}
-              max={20000}
-              reduxValue={startingSavings}
-              updateRedux={handleUpdateStartingSavings}
-            />
-          </Grid>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
-            <Typography variant="h5" marginBottom={2}>Your current age</Typography>
-            <DashedSlider
-              min={12}
-              max={50}
-              reduxValue={startingAge}
-              updateRedux={handleUpdateStartingAge}
-            />
-            {/* <CircleSlider min={12} max={55} initialValue={startingAge}></CircleSlider> */}
-            <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
-            <TargetButtonsGroup 
-              desiredResult={desiredResult} 
-              reduxUpdate={handleUpdateDesiredResult}
-            />
-          </Box>
+        
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 
+            reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}/>
+          <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
+          <TargetButtonsGroup 
+            desiredResult={desiredResult} 
+            reduxUpdate={handleUpdateDesiredResult}
+          />
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h6">
               Your savings plan is divided <br />  
@@ -296,28 +282,91 @@ const CalculateFromTotalSavings = () => {
             reduxUpdateContributions={updateDecadeContributions}
           />
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem" }}>
-          <Box display="flex" flexDirection="row" gap={8}>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={money} alt="Total Interest Earned" width="100rem" />
-              <Typography variant='body2'>Total Interest Earned</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().interestEarned)}</Typography>
+        <Box marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+        >
+          <Box display='flex' flexDirection='row' width='100%' alignItems="center" 
+          justifyContent='center'
+            gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')} textAlign='center'
+            marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+          >
+            <Box display="flex" flexDirection="column" alignItems="center" 
+              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+            > 
+              <img src={money} alt="Total Interest Earned"
+                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+              />
+              <Typography 
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isMobile ? 'small' : isTablet ? 'regular' : 'small', isMobile, isTablet)}
+              >
+                Total Interest Earned
+              </Typography>
+              <Typography 
+                className='poppins-medium'
+                color={'var(--main-color)'}
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+              >
+                {formatCurrency('$', false, calculateTotal().interestEarned)}
+              </Typography>
             </Box>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={donation} alt="Total Contributions" width="100rem" />
-              <Typography variant='body2'>Total Contributions</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{
-              formatCurrency('$', false, calculateTotal().sumContributions)}</Typography>
+            <Box display="flex" flexDirection="column" alignItems="center"
+              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+            >
+              <img src={donation} alt="Total Contributions" 
+                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+              />
+              <Typography
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isMobile ? 'small' : 'regular', isMobile, isTablet)}
+              >
+                Total Contributions
+              </Typography>
+              <Typography 
+                className='poppins-medium'
+                color={'var(--main-color)'}
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+              >
+                {formatCurrency('$', false, calculateTotal().sumContributions)}
+              </Typography>
             </Box>
           </Box>
         </Box>
         {!allDecadesDisabled && (
           <>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', marginTop: '4rem' }}>
-              <CurvedLineChartComponent />
+            <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', 
+              gap: buildSpaceSizeCssString('regular', isMobile, isTablet), 
+              marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
+              marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}
+            >
+              <Typography 
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+              >
+                Investment Growth Over Time
+              </Typography>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+              height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
+              width: '100%'}}
+              >
+                <CurvedLineChartComponent isMobile={isMobile} isTablet={isTablet}/>
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem' }}>
-              <PieChartComponent />
+            <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
+              <Typography 
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+              >
+                Investment Balance at Year {calculateEndYear(40)}
+              </Typography>
+              <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
+                <PieChartComponent isMobile={isMobile} isTablet={isTablet}/>
+              </div>
             </div>
           </>
           )}

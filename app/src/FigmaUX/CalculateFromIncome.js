@@ -8,12 +8,18 @@ import CircleSlider from './Components/CircleSlider';
 import StagesProgressSection from './Components/StagesProgressSection';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
+import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
 
 // Media
 import moneyBag from '../Media/moneyBag.svg'
 import moneyBox from '../Media/moneyBox.svg'
 
 // Redux
+import { 
+  updateStartingSavings, 
+  updateStartingAge,
+} from '../redux/initialValuesReducer';
+
 import {
   updateTotalDecadeSavings as updateFirstDecadeTotalSavings,
   updateDecadeIncome as updateFirstDecadeTotalIncome,
@@ -44,10 +50,10 @@ const CalculateFromIncome = () => {
   const isMobile = useMediaQuery('(max-width:744px)');
   const isTablet = useMediaQuery('(max-width:1224px)');
 
-  const initialData = {
-    startingSavings: 5000,
-    startingAge: 25,
-  };
+  const {
+    startingSavings,
+    startingAge,
+  } = useSelector((state) => state.initialPage);
   
   const decades = [
     {
@@ -121,7 +127,7 @@ const CalculateFromIncome = () => {
   };
 
   function selectedDecadeAgeRange() {
-    const lowerBracketYears = selectedDecade * 10 + initialData.startingAge;
+    const lowerBracketYears = selectedDecade * 10 + startingAge;
     const upperBracketYears = lowerBracketYears + 10;
 
     return { lowerBracketYears, upperBracketYears };
@@ -133,6 +139,14 @@ const CalculateFromIncome = () => {
 
   const updateDecadePercentSavings = value => {
     dispatch(updateFunctions[selectedDecade].updatePercents(value));
+  };
+
+  const handleUpdateStartingSavings = (newValue) => {
+    dispatch(updateStartingSavings(newValue));
+  };
+
+  const handleUpdateStartingAge = (newValue) => {
+    dispatch(updateStartingAge(newValue));
   };
 
   function calculateTotal() {
@@ -174,7 +188,12 @@ const CalculateFromIncome = () => {
             {currentDayFormatted()}
           </Typography>
         </Box>
-        <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
+        <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 
+            reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}/>
+        <Box display="flex" flexDirection="column" justifyContent="flex-start" 
+          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+        >
           <StagesProgressSection 
             decadeAgeRange={selectedDecadeAgeRange()}
             stageSelected={updateView} 

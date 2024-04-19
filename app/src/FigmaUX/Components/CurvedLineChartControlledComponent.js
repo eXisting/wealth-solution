@@ -65,7 +65,7 @@ function draw(canvas, data, options) {
   });
 }
 
-const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSavings}) => {
+const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSavings, isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {

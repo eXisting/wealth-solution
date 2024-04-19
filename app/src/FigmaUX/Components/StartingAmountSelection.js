@@ -48,7 +48,7 @@ const StartingAmountSelection = ({ onUpdateStartingSavings }) => {
           onBlur={handleInputBlur}
           autoFocus
           inputProps={{
-            maxLength: 10, // Limit to 10 characters
+            maxLength: 6, // Limit to 10 characters
             style: { textAlign: 'center' }, // Center align the input text
           }}
         />

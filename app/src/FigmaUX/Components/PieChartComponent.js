@@ -26,15 +26,7 @@ function drawPieChart(canvas,
   var options = {
       plugins: {
           title: {
-              display: true,
-              text: 'Investment Balance at Year ' + (endYear),
-              padding: {
-                  top: 10,
-                  bottom: 15,
-              },
-              font: {
-                  size: '20rem', // Adjust the font size for the title
-              },
+              display: false,
           },
           legend: {
               display: false, // Hide the legend

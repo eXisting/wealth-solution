@@ -1,11 +1,12 @@
 import { Button, Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
 import '../css/fonts.css';
 
 const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, isMobile, isTablet }) => {
   const [selectedButton, setSelectedButton] = useState(selectedStage);
+  const parentParentRef = useRef(null);
 
   useEffect(() => {
     setSelectedButton(selectedStage);
@@ -17,13 +18,17 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
   };
 
   return (
-    <Box marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
+    <Box 
+      ref={parentParentRef}
+      marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
       marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
       paddingBottom={isMobile ? '8rem' : isTablet ? '10rem' : '12rem'}
     >
       <Box display='flex' flexDirection='row' justifyContent="space-between" textAlign={'center'} alignItems="center">
-        {[1, 2, 3].map((stage, index) => (
-          <Box key={index} sx={{ position: 'relative' }}>
+        {[1, 2, 3].map((stage, index, array) => (
+          <Box key={index} sx={{ position: 'relative' }} 
+            height={isMobile ? '113px' : isTablet ? '156px' : '187px'}
+          >
             <Button
               variant="contained"
               sx={{
@@ -59,24 +64,24 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
               >
                 DECADE {stage}
               </Typography>
+              {selectedButton === index && (
+              <Typography className='montserrat-bold'
+                  marginTop='35px'
+                  fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+                  color="var(--main-color)"
+                >
+                  ▲
+                </Typography>)}
             </Box>
             {selectedButton === index && (
               <Box 
-                width={'50vw'} marginTop={isMobile || isTablet ? '15px' : '25px'} 
+                width={'60vw'} marginTop={isMobile || isTablet ? '15px' : '25px'} 
                 sx={{ position: 'absolute', 
                   transform: `translateX(-${index * 40}%)`,
                   textAlign: index === 0 ? 'left' : index === 1 ? 'center' : "end",
                   display: 'flex', justifyContent: 'center', flexDirection: 'column' 
                 }}
                 >
-                <Typography className='montserrat-bold'
-                  fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
-                  color="var(--main-color)"
-                  marginLeft={index === 0 ? '5%' : '0px'}
-                  marginRight={index === 2 ? '5%' : '0px'}
-                >
-                  ▲
-                </Typography>
                 <Typography className='montserrat-bold'
                   fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
                   color="var(--main-color)"
