@@ -82,7 +82,7 @@ const UseWealthometer = () => {
           updateRedux={handleUpdateContributions} 
         />
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" 
-          marginTop={'-3.5rem'}
+          // marginTop={'-3.5rem'}
           gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
           <Box>
             <Typography 
@@ -197,7 +197,7 @@ const UseWealthometer = () => {
           </div>
         </div>
       </Box>
-      <NavigationFooterComponent></NavigationFooterComponent>
+      <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
     </>
   );
 }

@@ -32,12 +32,16 @@ import {
   updatePercents as updateThirdDecadePercentage,
   updateMonthlyContribution as updateThirdDecadeMonthlyContributions
 } from '../redux/decadeThreeReducer';
+import NavigationFooterComponent from './Components/NavigationFooterComponent';
 
 const CalculateFromIncome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [selectedDecade, setSelectedDecade] = useState(0);
+
+  const isMobile = useMediaQuery('(max-width:744px)');
+  const isTablet = useMediaQuery('(max-width:1224px)');
 
   const initialData = {
     startingSavings: 5000,
@@ -76,9 +80,6 @@ const CalculateFromIncome = () => {
       updateMonthlyContribution: updateThirdDecadeMonthlyContributions
     },
   ];
-
-  const isMobile = useMediaQuery('(max-width:600px)');
-  const isTablet = useMediaQuery('(max-width:960px)');
 
   useEffect(() => {
     updateView(selectedDecade);
@@ -142,59 +143,62 @@ const CalculateFromIncome = () => {
   }
 
   return (
-    <Box gap={8}>
-      <NavigationHeaderComponent></NavigationHeaderComponent>
-      <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
-        <Typography variant="h5">Calculate from your income</Typography>
-        <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
-          {currentDayFormatted()}
-        </Typography>
-      </Box>
-      <Box display="flex" flexDirection="column" justifyContent="flex-start" sx={{ m: 2, mt: 8 }}>
-        <StagesProgressSection stageSelected={updateView} selectedStage={selectedDecade}></StagesProgressSection>
-        <Box display="flex" alignItems="center" sx={{ m: 2, gap: 16, mt:8, ml:4 }}>
-          <Typography variant="h5" color={'#4A7DE2'}>Your savings between age {selectedDecadeAgeRange().lowerBracketYears} and {selectedDecadeAgeRange().upperBracketYears}</Typography>
+    <>
+      <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
+      <Box gap={8}>
+        <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
+          <Typography variant="h5">Calculate from your income</Typography>
+          <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
+            {currentDayFormatted()}
+          </Typography>
         </Box>
-      </Box>
-      <CircleSlider min={10000} max={1000000} 
-        step={1000}
-        initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
-        titleText={"Estimate your 10 year average income"}
-        updateRedux={updateDecadeIncomeValue} 
-      />
-      <CircleSlider min={0} max={100} 
-        sign='%'
-        step={1}
-        initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)} 
-        titleText={"What % of your income can you save?"}
-        updateRedux={updateDecadePercentSavings} 
-      />
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem", textAlign:"center" }}>
-        <Box display="flex" flexDirection="row" gap={8}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img src={moneyBag} alt="Total Interest Earned" width="100rem" />
-            <Typography variant='body2'>You're saving each month</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().sumContributions)}?</Typography>
-          </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img src={moneyBox} alt="Total Contributions" width="100rem" />
-            <Typography variant='body2'>You're {selectedDecadeAgeRange().upperBracketYears} and already saved</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>{
-            formatCurrency('$', false, calculateTotal().sum)}!</Typography>
+        <Box display="flex" flexDirection="column" justifyContent="flex-start" sx={{ m: 2, mt: 8 }}>
+          <StagesProgressSection stageSelected={updateView} selectedStage={selectedDecade}></StagesProgressSection>
+          <Box display="flex" alignItems="center" sx={{ m: 2, gap: 16, mt:8, ml:4 }}>
+            <Typography variant="h5" color={'#4A7DE2'}>Your savings between age {selectedDecadeAgeRange().lowerBracketYears} and {selectedDecadeAgeRange().upperBracketYears}</Typography>
           </Box>
         </Box>
-      </Box>
-      <Box display="flex" flexDirection="column" alignItems="center">
-          <Button variant="contained" sx={{marginBottom:16, backgroundColor:'#F5A338', color:'white', borderRadius:'4rem', width:'30rem',
-          '&:hover': {
-            backgroundColor: 'black',
-          }}}>
-            <Typography padding={2} variant='h5'>
-              Let's save more
-            </Typography>
-          </Button>
+        <CircleSlider min={10000} max={1000000} 
+          step={1000}
+          initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
+          titleText={"Estimate your 10 year average income"}
+          updateRedux={updateDecadeIncomeValue} 
+        />
+        <CircleSlider min={0} max={100} 
+          sign='%'
+          step={1}
+          initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)} 
+          titleText={"What % of your income can you save?"}
+          updateRedux={updateDecadePercentSavings} 
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem", textAlign:"center" }}>
+          <Box display="flex" flexDirection="row" gap={8}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <img src={moneyBag} alt="Total Interest Earned" width="100rem" />
+              <Typography variant='body2'>You're saving each month</Typography>
+              <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().sumContributions)}?</Typography>
+            </Box>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <img src={moneyBox} alt="Total Contributions" width="100rem" />
+              <Typography variant='body2'>You're {selectedDecadeAgeRange().upperBracketYears} and already saved</Typography>
+              <Typography variant='body1' color={'#4A7DE2'}>{
+              formatCurrency('$', false, calculateTotal().sum)}!</Typography>
+            </Box>
+          </Box>
         </Box>
-    </Box>
+        <Box display="flex" flexDirection="column" alignItems="center">
+            <Button variant="contained" sx={{marginBottom:16, backgroundColor:'#F5A338', color:'white', borderRadius:'4rem', width:'30rem',
+            '&:hover': {
+              backgroundColor: 'black',
+            }}}>
+              <Typography padding={2} variant='h5'>
+                Let's save more
+              </Typography>
+            </Button>
+          </Box>
+      </Box>
+      <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
+    </>
   );
 }
 

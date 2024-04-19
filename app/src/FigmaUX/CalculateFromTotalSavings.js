@@ -1,10 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Grid, Box } from '@mui/material';
-import StageSection from './StageSection';
+import { Typography, Grid, Box, useMediaQuery } from '@mui/material';
+import StageSection from './Components/StageSection';
 import StartingAmountSelection from './Components/StartingAmountSelection';
 import { currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
+import TargetButtonsGroup from './Components/TargetButtonsGroup';
+import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
+import PieChartComponent from './Components/PieChartComponent';
+import DashedSlider from './Components/DashedSlider';
+import { totalSavingsPerContributions } from './Global/ChartsMath';
+import { setSmallestCombination } from './Global/Math';
+import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
+import NavigationFooterComponent from './Components/NavigationFooterComponent';
 
 // Media
 import money from '../Media/money.svg'
@@ -38,17 +46,12 @@ import {
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
 
-import TargetButtonsGroup from './Components/TargetButtonsGroup';
-import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
-import PieChartComponent from './Components/PieChartComponent';
-import DashedSlider from './Components/DashedSlider';
-import { totalSavingsPerContributions } from './Global/ChartsMath';
-import { setSmallestCombination } from './Global/Math';
-import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
-
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery('(max-width:744px)');
+  const isTablet = useMediaQuery('(max-width:1224px)');
 
   const {
     startingSavings,
@@ -174,139 +177,142 @@ const CalculateFromTotalSavings = () => {
   };
 
   return (
-    <Box gap={8}>
-      <NavigationHeaderComponent></NavigationHeaderComponent>
-      <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
-        <Typography variant="h5">Calculate from total savings</Typography>
-        <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
-          {currentDayFormatted()}
-        </Typography>
-      </Box>
-      <Box gap={2} sx={{ m:4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Grid container direction='column' gap={2} alignItems="center">
-          <Typography variant="h5">Starting amount</Typography>
-          <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
-          <DashedSlider
-            min={5000}
-            max={20000}
-            reduxValue={startingSavings}
-            updateRedux={handleUpdateStartingSavings}
-          />
-        </Grid>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
-          <Typography variant="h5" marginBottom={2}>Your current age</Typography>
-          <DashedSlider
-            min={12}
-            max={50}
-            reduxValue={startingAge}
-            updateRedux={handleUpdateStartingAge}
-          />
-          {/* <CircleSlider min={12} max={55} initialValue={startingAge}></CircleSlider> */}
-          <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
-          <TargetButtonsGroup 
-            desiredResult={desiredResult} 
-            reduxUpdate={handleUpdateDesiredResult}
-          />
-        </Box>
-        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography variant="h6">
-            Your savings plan is divided <br />  
-          </Typography>
-          <Typography variant="h6">
-            into <span style={{ color: '#33CBCC' }}>three stages.</span>
-          </Typography>
-          <Typography variant="body1" marginTop={2}>
-            As you make more money you save more
-          </Typography>
-          <Typography variant="body1">
-            money in each stage.
+    <>
+      <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
+      <Box gap={8}>
+        <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
+          <Typography variant="h5">Calculate from total savings</Typography>
+          <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
+            {currentDayFormatted()}
           </Typography>
         </Box>
-      </Box>
-      <Box className="section padded-section" display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2, marginTop: 8}}>
-        <Box>
-          <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
-            Your investment will<br /> be worth
-          </Typography>
-          <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>
-            {formatCurrency('$', false, calculateTotal().sum)}
-          </Typography>
-        </Box>
-        <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over {
-          totalEnabledYears(decades[0].page.age, decades[1].page.age, decades[2].page.age, 
-            decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled)
-        } years)</Typography>
-      </Box>
-      <Box gap={4} sx={{ m:4, marginTop:8, display: 'flex', flexDirection: 'column' }}>
-        <StageSection
-          stageIndex={0}
-          stageNameText="Stage One"
-          ageRangeText="Your stage one age range"
-          minSliderValue={5000}
-          maxSliderValue={20000}
-          isEnabled={decades[0].page.enabled}
-          startingYears={startingAge}
-          years={decades[0].page.age}
-          contributions={decades[0].page.monthlyContribution}
-          reduxUpdateEnabled={updateDecadeEnabled}
-          reduxUpdateYears={updateDecadeYears}
-          reduxUpdateContributions={updateDecadeContributions}
-        />
-        <StageSection
-          stageIndex={1}
-          stageNameText="Stage Two"
-          ageRangeText="Your stage two age range"
-          minSliderValue={6000}
-          maxSliderValue={25000}
-          isEnabled={decades[1].page.enabled}
-          startingYears={startingAge + decades[0].page.age}
-          years={decades[1].page.age}
-          contributions={decades[1].page.monthlyContribution}
-          reduxUpdateEnabled={updateDecadeEnabled}
-          reduxUpdateYears={updateDecadeYears}
-          reduxUpdateContributions={updateDecadeContributions}
-        />
-        <StageSection
-          stageIndex={2}
-          stageNameText="Stage Three"
-          ageRangeText="Your stage three age range"
-          minSliderValue={6000}
-          maxSliderValue={25000}
-          isEnabled={decades[2].page.enabled}
-          startingYears={startingAge + decades[0].page.age + decades[1].page.age}
-          years={decades[2].page.age}
-          contributions={decades[2].page.monthlyContribution}
-          reduxUpdateEnabled={updateDecadeEnabled}
-          reduxUpdateYears={updateDecadeYears}
-          reduxUpdateContributions={updateDecadeContributions}
-        />
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem" }}>
-        <Box display="flex" flexDirection="row" gap={8}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img src={money} alt="Total Interest Earned" width="100rem" />
-            <Typography variant='body2'>Total Interest Earned</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().interestEarned)}</Typography>
+        <Box gap={2} sx={{ m:4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Grid container direction='column' gap={2} alignItems="center">
+            <Typography variant="h5">Starting amount</Typography>
+            <StartingAmountSelection onUpdateStartingSavings={handleUpdateStartingSavings}/>
+            <DashedSlider
+              min={5000}
+              max={20000}
+              reduxValue={startingSavings}
+              updateRedux={handleUpdateStartingSavings}
+            />
+          </Grid>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
+            <Typography variant="h5" marginBottom={2}>Your current age</Typography>
+            <DashedSlider
+              min={12}
+              max={50}
+              reduxValue={startingAge}
+              updateRedux={handleUpdateStartingAge}
+            />
+            {/* <CircleSlider min={12} max={55} initialValue={startingAge}></CircleSlider> */}
+            <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
+            <TargetButtonsGroup 
+              desiredResult={desiredResult} 
+              reduxUpdate={handleUpdateDesiredResult}
+            />
           </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img src={donation} alt="Total Contributions" width="100rem" />
-            <Typography variant='body2'>Total Contributions</Typography>
-            <Typography variant='body1' color={'#4A7DE2'}>{
-            formatCurrency('$', false, calculateTotal().sumContributions)}</Typography>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant="h6">
+              Your savings plan is divided <br />  
+            </Typography>
+            <Typography variant="h6">
+              into <span style={{ color: '#33CBCC' }}>three stages.</span>
+            </Typography>
+            <Typography variant="body1" marginTop={2}>
+              As you make more money you save more
+            </Typography>
+            <Typography variant="body1">
+              money in each stage.
+            </Typography>
           </Box>
         </Box>
+        <Box className="section padded-section" display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2, marginTop: 8}}>
+          <Box>
+            <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
+              Your investment will<br /> be worth
+            </Typography>
+            <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>
+              {formatCurrency('$', false, calculateTotal().sum)}
+            </Typography>
+          </Box>
+          <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over {
+            totalEnabledYears(decades[0].page.age, decades[1].page.age, decades[2].page.age, 
+              decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled)
+          } years)</Typography>
+        </Box>
+        <Box gap={4} sx={{ m:4, marginTop:8, display: 'flex', flexDirection: 'column' }}>
+          <StageSection
+            stageIndex={0}
+            stageNameText="Stage One"
+            ageRangeText="Your stage one age range"
+            minSliderValue={5000}
+            maxSliderValue={20000}
+            isEnabled={decades[0].page.enabled}
+            startingYears={startingAge}
+            years={decades[0].page.age}
+            contributions={decades[0].page.monthlyContribution}
+            reduxUpdateEnabled={updateDecadeEnabled}
+            reduxUpdateYears={updateDecadeYears}
+            reduxUpdateContributions={updateDecadeContributions}
+          />
+          <StageSection
+            stageIndex={1}
+            stageNameText="Stage Two"
+            ageRangeText="Your stage two age range"
+            minSliderValue={6000}
+            maxSliderValue={25000}
+            isEnabled={decades[1].page.enabled}
+            startingYears={startingAge + decades[0].page.age}
+            years={decades[1].page.age}
+            contributions={decades[1].page.monthlyContribution}
+            reduxUpdateEnabled={updateDecadeEnabled}
+            reduxUpdateYears={updateDecadeYears}
+            reduxUpdateContributions={updateDecadeContributions}
+          />
+          <StageSection
+            stageIndex={2}
+            stageNameText="Stage Three"
+            ageRangeText="Your stage three age range"
+            minSliderValue={6000}
+            maxSliderValue={25000}
+            isEnabled={decades[2].page.enabled}
+            startingYears={startingAge + decades[0].page.age + decades[1].page.age}
+            years={decades[2].page.age}
+            contributions={decades[2].page.monthlyContribution}
+            reduxUpdateEnabled={updateDecadeEnabled}
+            reduxUpdateYears={updateDecadeYears}
+            reduxUpdateContributions={updateDecadeContributions}
+          />
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem" }}>
+          <Box display="flex" flexDirection="row" gap={8}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <img src={money} alt="Total Interest Earned" width="100rem" />
+              <Typography variant='body2'>Total Interest Earned</Typography>
+              <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().interestEarned)}</Typography>
+            </Box>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <img src={donation} alt="Total Contributions" width="100rem" />
+              <Typography variant='body2'>Total Contributions</Typography>
+              <Typography variant='body1' color={'#4A7DE2'}>{
+              formatCurrency('$', false, calculateTotal().sumContributions)}</Typography>
+            </Box>
+          </Box>
+        </Box>
+        {!allDecadesDisabled && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', marginTop: '4rem' }}>
+              <CurvedLineChartComponent />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem' }}>
+              <PieChartComponent />
+            </div>
+          </>
+          )}
       </Box>
-      {!allDecadesDisabled && (
-        <>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem', marginTop: '4rem' }}>
-            <CurvedLineChartComponent />
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem', margin: '2rem' }}>
-            <PieChartComponent />
-          </div>
-        </>
-        )}
-    </Box>
+      <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
+    </>
   );
 }
 
