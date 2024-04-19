@@ -186,7 +186,7 @@ const CalculateFromTotalSavings = () => {
         <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
           marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
           <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
-              Use Wealthometer to predict your wealth
+            Calculate from total savings
           </Typography>
           <Typography 
             className='montserrat-medium'
