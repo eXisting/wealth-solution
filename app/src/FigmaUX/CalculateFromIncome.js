@@ -6,6 +6,8 @@ import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global'
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import CircleSlider from './Components/CircleSlider';
 import StagesProgressSection from './Components/StagesProgressSection';
+import NavigationFooterComponent from './Components/NavigationFooterComponent';
+import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
 // Media
 import moneyBag from '../Media/moneyBag.svg'
@@ -32,7 +34,6 @@ import {
   updatePercents as updateThirdDecadePercentage,
   updateMonthlyContribution as updateThirdDecadeMonthlyContributions
 } from '../redux/decadeThreeReducer';
-import NavigationFooterComponent from './Components/NavigationFooterComponent';
 
 const CalculateFromIncome = () => {
   const dispatch = useDispatch();
@@ -142,57 +143,120 @@ const CalculateFromIncome = () => {
     return { sum, sumContributions, interestEarned };
   }
 
+  function nextDecade() {
+    if (selectedDecade + 1 > 2) {
+      navigate('/');
+      return;
+    }
+
+    updateView(selectedDecade + 1);
+  }
+
   return (
     <>
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
-      <Box gap={8}>
-        <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
-          <Typography variant="h5">Calculate from your income</Typography>
-          <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
+      <Box display="flex" flexDirection="column" 
+        paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
+      >
+        <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
+          marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
+          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
+              Use Wealthometer to predict your wealth
+          </Typography>
+          <Typography 
+            className='montserrat-medium'
+            fontSize={
+              isMobile ? buildFontSizeCssString('regular', isMobile, isTablet) :
+              isTablet ? buildFontSizeCssString('small', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
+          >
             {currentDayFormatted()}
           </Typography>
         </Box>
-        <Box display="flex" flexDirection="column" justifyContent="flex-start" sx={{ m: 2, mt: 8 }}>
-          <StagesProgressSection stageSelected={updateView} selectedStage={selectedDecade}></StagesProgressSection>
-          <Box display="flex" alignItems="center" sx={{ m: 2, gap: 16, mt:8, ml:4 }}>
-            <Typography variant="h5" color={'#4A7DE2'}>Your savings between age {selectedDecadeAgeRange().lowerBracketYears} and {selectedDecadeAgeRange().upperBracketYears}</Typography>
-          </Box>
+        <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
+          <StagesProgressSection 
+            decadeAgeRange={selectedDecadeAgeRange()}
+            stageSelected={updateView} 
+            selectedStage={selectedDecade} 
+            isMobile={isMobile} isTablet={isTablet}
+          />
         </Box>
-        <CircleSlider min={10000} max={1000000} 
+        <CircleSlider
+          min={10000} max={1000000} 
           step={1000}
           initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
-          titleText={"Estimate your 10 year average income"}
+          titleText={`Estimate your ${selectedDecade === 0 ? '1st' : selectedDecade === 1 ? '2nd' : '3rd'} decade of savings`}
+          isMobile={isMobile}
+          isTablet={isTablet}
           updateRedux={updateDecadeIncomeValue} 
         />
+        <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} />
         <CircleSlider min={0} max={100} 
           sign='%'
           step={1}
           initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)} 
           titleText={"What % of your income can you save?"}
+          isMobile={isMobile}
+          isTablet={isTablet}
           updateRedux={updateDecadePercentSavings} 
         />
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"4rem", paddingBottom:"4rem", textAlign:"center" }}>
-          <Box display="flex" flexDirection="row" gap={8}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign:"center" }} marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
+          <Box display="flex" flexDirection="row" gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
             <Box display="flex" flexDirection="column" alignItems="center">
               <img src={moneyBag} alt="Total Interest Earned" width="100rem" />
-              <Typography variant='body2'>You're saving each month</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{formatCurrency('$', false, calculateTotal().sumContributions)}?</Typography>
+              <Typography 
+                className='montserrat-regular'
+                fontSize={
+                  isMobile ? '10px' : isTablet ? '14px' : '36px'}
+                textAlign='center'
+              >
+                You're saving each month
+              </Typography>
+              <Typography
+                className='poppins-medium'
+                color='var(--main-color)'
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                textAlign='center'
+              >
+                {formatCurrency('$', false, calculateTotal().sumContributions)}?
+              </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
               <img src={moneyBox} alt="Total Contributions" width="100rem" />
-              <Typography variant='body2'>You're {selectedDecadeAgeRange().upperBracketYears} and already saved</Typography>
-              <Typography variant='body1' color={'#4A7DE2'}>{
-              formatCurrency('$', false, calculateTotal().sum)}!</Typography>
+              <Typography
+                className='montserrat-regular'
+                fontSize={
+                  isMobile ? '10px' : isTablet ? '14px' : '36px'}
+                textAlign='center'
+              >
+                You're {selectedDecadeAgeRange().upperBracketYears} and already saved
+              </Typography>
+              <Typography
+                className='poppins-medium'
+                color='var(--main-color)'
+                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                textAlign='center'
+              >
+                {formatCurrency('$', false, calculateTotal().sum)}!
+              </Typography>
             </Box>
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Button variant="contained" sx={{marginBottom:16, backgroundColor:'#F5A338', color:'white', borderRadius:'4rem', width:'30rem',
+            <Button variant="contained" 
+              sx={{marginBottom:16, backgroundColor:'#F5A338', color:'white', borderRadius:'4rem', 
+              width:'70%',
             '&:hover': {
               backgroundColor: 'black',
-            }}}>
-              <Typography padding={2} variant='h5'>
-                Let's save more
+            }}}
+              onClick={nextDecade}
+            >
+              <Typography 
+                padding={1}
+                className='poppins-medium'
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
+                  {selectedDecade === 2 ? 'What is next?' : `Calculate ${selectedDecade + 1 === 1 ? '2nd' : selectedDecade + 1 === 2 ? '3rd' : ''} Decade`}
               </Typography>
             </Button>
           </Box>

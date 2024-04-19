@@ -45,6 +45,7 @@ import {
   updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
+import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -179,10 +180,20 @@ const CalculateFromTotalSavings = () => {
   return (
     <>
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
-      <Box gap={8}>
-        <Box sx={{ m: 2, justifyContent: 'flex-start' }}>
-          <Typography variant="h5">Calculate from total savings</Typography>
-          <Typography variant="body2" sx={{ fontSize: 'var(--font-size-small)' }}>
+      <Box display="flex" flexDirection="column" paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
+      >
+        <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
+          marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
+          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
+              Use Wealthometer to predict your wealth
+          </Typography>
+          <Typography 
+            className='montserrat-medium'
+            fontSize={
+              isMobile ? buildFontSizeCssString('regular', isMobile, isTablet) :
+              isTablet ? buildFontSizeCssString('small', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
+          >
             {currentDayFormatted()}
           </Typography>
         </Box>
