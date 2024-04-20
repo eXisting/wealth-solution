@@ -12,7 +12,7 @@ const CircleButton = ({ height, width, mainBackgroundColor, mainColorSelected, s
         borderRadius: '50%',
         p: 0,
         minWidth: 0,
-        height:adjustedWidth,
+        height:adjustedHeight,
         width:adjustedWidth,
         backgroundColor: selected ? mainColorSelected : mainBackgroundColor,
         '&:hover': {
