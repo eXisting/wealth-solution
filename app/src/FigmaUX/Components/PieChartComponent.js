@@ -6,6 +6,7 @@ import { totalSavingsPerContributions } from '../Global/ChartsMath';
 
 function drawPieChart(canvas, 
   age1, age2, age3, 
+  isMobile, isTablet,
   startingAge, startingSavings,
   decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution,
   endYear) {
@@ -18,21 +19,30 @@ function drawPieChart(canvas,
   var data = {
     labels: ['Total Saved', 'Contribution'],
     datasets: [{
-      data: [lastTotal.total3, lastTotal.contributionsTotal3],
-      backgroundColor: ['#0098ff', '#60d937'],
+      data: [lastTotal.contributionsTotal3, lastTotal.total3],
+      backgroundColor: ['#33CBCC', '#4A7DE2'],
     }],
   };
 
   var options = {
-      plugins: {
-          title: {
-              display: false,
-          },
-          legend: {
-              display: false, // Hide the legend
-              
-          },
-      }
+    plugins: {
+      title: {
+          display: false,
+      },
+      legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            pointStyle: 'rectRounded',
+            font: {
+              family: '"Poppins", sans-serif',
+              weight: 'normal',
+              size: isMobile ? '8px' : isTablet ? '12px' : '16px'
+            }
+          }
+      },
+    },
   };
 
   // Check if there is an existing chart on the canvas
@@ -63,7 +73,7 @@ function calculateEndYear(stage1Enabled, stage2Enabled, stage3Enabled, age1, age
   return year;
 }
 
-const PieChartComponent = () => {
+const PieChartComponent = ({isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   const {
@@ -109,12 +119,15 @@ const PieChartComponent = () => {
 
     drawPieChart(canvas, 
       years[0], years[1], years[2], 
+      isMobile, isTablet,
       startingAge, startingSavings,
       contributions[0], contributions[1], contributions[2], endYear);
 
-  }, [startingAge, startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
+  }, [startingAge, startingSavings, 
+    decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
     decadeOneAge, decadeTwoAge, decadeThreeAge, 
-    decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled]);
+    decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled, 
+    isMobile, isTablet]);
 
   return (
     <canvas id="piechart" ref={canvasRef}></canvas>

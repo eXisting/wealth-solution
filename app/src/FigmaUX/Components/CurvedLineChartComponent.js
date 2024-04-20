@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { currentDate, totalEnabledYears, trimToInt } from '../Global/Global';
+import { currentDate, formatCurrency, totalEnabledYears, trimToInt } from '../Global/Global';
 import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
 import { contributionsCheckpoints, generateYearsCheckpoints, savingsCheckpoints } from '../Global/ChartsMath';
@@ -30,55 +30,63 @@ function drawCurvedLineChart(canvas,
           {
               label: 'Contributions',
               data: contributions,
-              backgroundColor: '#60d937',
+              backgroundColor: '#33CBCC',
               barThickness: 'flex', 
           },
           {
               label: 'Total saved',
               data: savings,
-              backgroundColor: '#0098ff',
+              backgroundColor: '#4A7DE2',
               barThickness: 'flex'
           },
       ],
   };
 
   var options = {
-      responsive: true,
-      maintainAspectRatio: false, // Set this to false to control the chart size manually
-      aspectRatio: 3,
-      scales: {
-          x: {
-              stacked: true,
-              position: 'bottom',
-              autoSkip: false, // Show all labels
-              min: 0,
-              max: totalYears,
-              ticks: {
-                  stepSize: 1,
-                  callback: value => {
-                      if ((value + 1) % 5 === 0)
-                          return value + currentDate().getFullYear();
-                  },
-              }
-          },
-          y: {
-              stacked: true,
-              beginAtZero: true,
-              ticks: {
-                  callback: value => {
-                      return trimToInt(value);
-                  },
-              }
-          },
-      },
-      plugins: {
-          title: {
-              display: false,
-          },
-          legend: {
-              display: false
-          },
-      },
+    responsive: true,
+    maintainAspectRatio: false, // Set this to false to control the chart size manually
+    aspectRatio: 3,
+    scales: {
+        x: {
+            stacked: true,
+            position: 'bottom',
+            autoSkip: false, // Show all labels
+            grid: {
+                display: false,
+              },    
+            min: 0,
+            max: 40,
+            ticks: {
+                stepSize: 10,
+                callback: value => {
+                    return (value * 10) + currentDate().getFullYear();
+                },
+            }
+        },
+        y: {
+            stacked: true,
+            grid: {
+                display: false,
+              },
+            beginAtZero: true,
+            ticks: {
+                callback: value => {
+                    let number = trimToInt(value);
+                    if (number < 1000000)
+                        return formatCurrency('$', undefined, number);
+                    return `$${(number / 1000000).toFixed(1)}M`;
+                },
+            }
+        },
+    },
+    plugins: {
+        title: {
+            display: false,
+        },
+        legend: {
+            display: false
+        },
+    },
   };
 
   if (canvas) {
