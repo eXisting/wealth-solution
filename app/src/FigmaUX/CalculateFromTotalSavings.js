@@ -13,6 +13,7 @@ import { totalSavingsPerContributions } from './Global/ChartsMath';
 import { setSmallestCombination } from './Global/Math';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
+import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
 // Media
@@ -46,7 +47,6 @@ import {
   updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
-import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -200,49 +200,65 @@ const CalculateFromTotalSavings = () => {
             {currentDayFormatted()}
           </Typography>
         </Box>
-        
+
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 
+          <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge}
+            isMobile={isMobile} isTablet={isTablet}
             reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}/>
-          <Typography variant="h5" marginTop={4}>How much money do you want?</Typography>
+          <Typography className='montserrat-regular'
+            marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
+            fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+          >
+            How much money do you want?
+          </Typography>
           <TargetButtonsGroup 
             desiredResult={desiredResult} 
             reduxUpdate={handleUpdateDesiredResult}
           />
-          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h6">
+          <Box marginTop={isMobile ? '60px' : isTablet ? '84px' : '123px'} 
+            className='montserrat-bold'
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
               Your savings plan is divided <br />  
             </Typography>
-            <Typography variant="h6">
+            <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
               into <span style={{ color: '#33CBCC' }}>three stages.</span>
             </Typography>
-            <Typography variant="body1" marginTop={2}>
+            <Typography className='montserrat-medium' marginTop={2} fontSize={isMobile ? '12px' : isTablet ? '18px' : '24px'}>
               As you make more money you save more
             </Typography>
-            <Typography variant="body1">
+            <Typography className='montserrat-medium' fontSize={isMobile ? '12px' : isTablet ? '18px' : '24px'}>
               money in each stage.
             </Typography>
           </Box>
         </Box>
-        <Box className="section padded-section" display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ m: 2, marginTop: 8}}>
-          <Box>
-            <Typography variant="h5" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center', marginBottom:4 }}>
-              Your investment will<br /> be worth
+        <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center"
+          marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        >
+          <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+            <Typography className='montserrat-regular' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+              Your investment will be worth
             </Typography>
-            <Typography variant="h2" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', color:'#4A7DE2' }}>
+            <Typography className='poppins-medium' color={'var(--main-color)'} fontSize={isMobile ? '40px' : isTablet ? '80px' : '100px'}>
               {formatCurrency('$', false, calculateTotal().sum)}
             </Typography>
           </Box>
-          <Typography variant="body2" style={{ fontFamily: 'Montserrat, sans-serif', textAlign: 'center' }}>(over {
+          <Typography className='montserrat-regular' fontSize={isMobile ? '10px' : isTablet ? '20px' : '30px'}>(over {
             totalEnabledYears(decades[0].page.age, decades[1].page.age, decades[2].page.age, 
               decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled)
           } years)</Typography>
         </Box>
-        <Box gap={4} sx={{ m:4, marginTop:8, display: 'flex', flexDirection: 'column' }}>
+        <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center"
+          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          gap={isMobile ? '33px' : isTablet ? '45px' : '65px'}
+        >
           <StageSection
             stageIndex={0}
             stageNameText="Stage One"
             ageRangeText="Your stage one age range"
+            isMobile={isMobile}
+            isTablet={isTablet}
             minSliderValue={5000}
             maxSliderValue={20000}
             isEnabled={decades[0].page.enabled}
@@ -257,6 +273,8 @@ const CalculateFromTotalSavings = () => {
             stageIndex={1}
             stageNameText="Stage Two"
             ageRangeText="Your stage two age range"
+            isMobile={isMobile}
+            isTablet={isTablet}
             minSliderValue={6000}
             maxSliderValue={25000}
             isEnabled={decades[1].page.enabled}
@@ -271,6 +289,8 @@ const CalculateFromTotalSavings = () => {
             stageIndex={2}
             stageNameText="Stage Three"
             ageRangeText="Your stage three age range"
+            isMobile={isMobile}
+            isTablet={isTablet}
             minSliderValue={6000}
             maxSliderValue={25000}
             isEnabled={decades[2].page.enabled}

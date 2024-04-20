@@ -189,7 +189,9 @@ const CalculateFromIncome = () => {
           </Typography>
         </Box>
         <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 
-            reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}/>
+          isMobile={isMobile} isTablet={isTablet}
+          reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}
+        />
         <Box display="flex" flexDirection="column" justifyContent="flex-start" 
           marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
           marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}

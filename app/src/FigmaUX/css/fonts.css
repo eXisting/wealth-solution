@@ -27,14 +27,14 @@
 .montserrat-bold {
   font-family: "Montserrat", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   font-style: normal !important;
 }
 
 .montserrat-medium {
   font-family: "Montserrat", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   font-style: normal !important;
 }
 
@@ -47,6 +47,6 @@
 .montserrat-regular {
   font-family: "Montserrat", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 400 !important;
+  font-weight: 300 !important;
   font-style: normal !important;
 }

@@ -3,17 +3,10 @@
   --secondary-color: #33CBCC;
 }
 
-.input-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.regular-input {
-  width: 8rem;
-  height: 1.7rem;
-  text-align: center;
-  border: none;
+.divider {
+  border-top: 1px solid #ccc; /* Change color as needed */
+  height: 1px; /* Adjust height as needed */
+  margin: 10px 0; /* Add margin for spacing */
 }
 
 /* TOGGLES */
@@ -66,28 +59,13 @@
 
 /*End TOGGLE*/
 
-.empty-between {
-  justify-content: space-between !important;
-  width: 100%;
-}
-
-.divider {
-  border-top: 1px solid #ccc; /* Change color as needed */
-  height: 1px; /* Adjust height as needed */
-  margin: 10px 0; /* Add margin for spacing */
-}
-
 /*Selectable buttons*/
 
 .selectable-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
   border: 1px solid #EBEDF0;
-  border-radius: 10px;
-  height: 2rem;
-  width: 100%;
   cursor: pointer;
   color: #8D9092;
   transition: box-shadow 0.3s, box-shadow 0.3s;
@@ -95,13 +73,14 @@
 
 .selectable-button.active .selectable-button-icon img,
 .selectable-button.active .selectable-button-text,
-.selectable-button.active .selectable-button-icon-right img {
+.selectable-button.active .selectable-button-icon-right img
+.selectable-button-icon-top-right img {
   color: var(--main-color); /* Active text color */
 }
 
 .selectable-button-icon img,
+.selectable-button-icon-top-right img
 .selectable-button-icon-right img {
-  height: 1.3rem;
   transition: filter 0.3s;
 }
 
@@ -116,7 +95,14 @@
 
 .selectable-button-text {
   flex-grow: 1;
-  font-size: var(--font-size-regular);
+}
+
+.selectable-button-icon-top-right {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  right: 20px;
+  top: 20px;
 }
 
 .selectable-button-icon-right {

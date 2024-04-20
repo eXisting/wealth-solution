@@ -1,8 +1,10 @@
 import React from 'react';
-import { Typography, Divider, Box, Grid } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import DashedSlider from './DashedSlider';
+import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -54,6 +56,7 @@ const IOSSwitch = styled((props) => (
 
 const StageSection = ({ stageIndex, stageNameText, ageRangeText, 
   minSliderValue, maxSliderValue, isEnabled, 
+  isMobile, isTablet,
   startingYears, years, contributions,
   reduxUpdateEnabled, reduxUpdateYears, reduxUpdateContributions }) => {
     
@@ -78,10 +81,12 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
   }
 
   return (
-    <Box sx={{ display:'flex', flexDirection: 'column' }}>
-      <Grid container alignItems="center" justifyContent="space-between">
+    <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+      <Grid container width='100%' alignItems="center" justifyContent="space-between">
         <Grid item>
-          <Typography variant="h5">{stageNameText}</Typography>
+          <Typography className='montserrat-regular' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+            {stageNameText}
+          </Typography>
         </Grid>
         <Grid item>
           <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
@@ -90,23 +95,31 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
       <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"black" }} />
       {isEnabled && (
         <>
-        <Grid container justifyContent="space-between" alignItems="center">
+        <Grid container width='100%' justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="h6">{ageRangeText}</Typography>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+                {ageRangeText}
+              </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h5">{startingYears}-{startingYears+yearsNormalized()}</Typography>
+              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+                {startingYears}-{startingYears+yearsNormalized()}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="h6"># of years in stage {stageIndex + 1}</Typography>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+                # of years in stage {stageIndex + 1}
+              </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h5">{yearsNormalized()}</Typography>
+              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+                {yearsNormalized()}
+              </Typography>
             </Grid>
           </Grid>
-          <Grid container alignItems='center' direction='row'>
+          <Grid container alignItems='center' direction='row' style={{marginTop:buildSpaceSizeCssString('regular', isMobile, isTablet)}}>
             <DashedSlider 
               min={1} 
               max={5} 
@@ -115,12 +128,18 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
               updateRedux={(newValue) => yearChanged(stageIndex, newValue) }
             />
           </Grid>
-          <Grid container justifyContent="space-between" alignItems="center">
+          <Grid container justifyContent="space-between" alignItems="center" style={{marginTop:buildSpaceSizeCssString('medium', isMobile, isTablet), 
+            marginBottom:buildSpaceSizeCssString('medium', isMobile, isTablet)}}
+          >
             <Grid item>
-              <Typography variant="h6">Monthly savings</Typography>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+                Monthly savings
+              </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h5">{contributions}</Typography>
+              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+                {contributions}
+              </Typography>
             </Grid>
           </Grid>
           <DashedSlider 

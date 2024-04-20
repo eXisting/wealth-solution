@@ -2,24 +2,36 @@ import React, { useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import StartingAmountSelection from './StartingAmountSelection';
 import DashedSlider from './DashedSlider';
+import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
-import '../css/components.css';
+import '../css/layoutSpaces.css';
+import '../css/fonts.css';
 
-const InitialDataSectionComponent = ({startingSavings, startingAge, reduxStartingSavingsUpdate, reduxStartingAgeUpdate}) => {
+const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, isTablet, reduxStartingSavingsUpdate, reduxStartingAgeUpdate}) => {
   return (
     <>
-      <Grid container direction='column' gap={2} alignItems="center">
-        <Typography variant="h5">Starting amount</Typography>
-        <StartingAmountSelection onUpdateStartingSavings={reduxStartingSavingsUpdate}/>
+      <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}>
+        <Typography className='montserrat-regular' fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}>
+          Starting amount
+        </Typography>
+        <StartingAmountSelection marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)} 
+          isMobile={isMobile} isTablet={isTablet} 
+          onUpdateStartingSavings={reduxStartingSavingsUpdate}
+        />
         <DashedSlider
           min={5000}
           max={20000}
           reduxValue={startingSavings}
           updateRedux={reduxStartingSavingsUpdate}
         />
-      </Grid>
+      </Box>
       <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
-        <Typography variant="h5" marginBottom={2}>Your current age</Typography>
+        <Typography className='montserrat-regular' 
+          fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+          marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+        >
+          Your current age
+        </Typography>
         <DashedSlider
           min={12}
           max={50}

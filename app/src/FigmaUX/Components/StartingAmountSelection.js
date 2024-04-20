@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, TextField } from '@material-ui/core';
+import { Box, Typography, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { formatCurrency, trimToInt } from '../Global/Global';
+import { buildFontSizeCssString } from '../Global/CssStrings';
 
 import editIcon from '../../Media/edit.svg';
 
-const StartingAmountSelection = ({ onUpdateStartingSavings }) => {
+import '../css/fonts.css'
+
+const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateStartingSavings }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -38,7 +41,7 @@ const StartingAmountSelection = ({ onUpdateStartingSavings }) => {
   }, [startingSavings]);
 
   return (
-    <Grid item style={{ position: 'relative', width: 'fit-content' }}>
+    <Box style={{ marginBottom:marginBottom, position: 'relative', width: 'fit-content' }}>
       {isEditing ? (
         <TextField
           id="savingsInput"
@@ -55,23 +58,22 @@ const StartingAmountSelection = ({ onUpdateStartingSavings }) => {
       ) : (
         <>
           <Typography
-            id="savingsData"
-            variant="h3"
-            style={{ display: 'inline-block', cursor: 'pointer' }}
+            className='poppins-medium'
+            style={{ fontSize:buildFontSizeCssString('huge', isMobile, isTablet), display: 'inline-block', cursor: 'pointer' }}
             onClick={handleEditClick}
           >
             {formatCurrency('$', undefined, startingSavings)}
             <img
               id="editIcon"
               src={editIcon}
-              height={16}
-              style={{ position: 'absolute', top: 2, right: -24, cursor: 'pointer' }}
+              height={isMobile ? '14px' : isTablet ? '22px' : '29px'}
+              style={{ position: 'absolute', top: '10%', right: '-10%', cursor: 'pointer' }}
               alt="Edit Icon"
             />
           </Typography>
         </>
       )}
-    </Grid>
+    </Box>
   );
 };
 
