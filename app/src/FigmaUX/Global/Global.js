@@ -31,14 +31,23 @@ function calculateEndYear(years) {
 function totalEnabledYears(age1, age2, age3, stage1Enabled, stage2Enabled, stage3Enabled) {
   let year = 0;
   if (stage1Enabled) {
+    if (age1 === 0)
+      age1 = 1;
+
     year += Number(age1);
   }
 
   if (stage2Enabled) {
+    if (age2 === 0)
+      age2 = 1;
+
     year += Number(age2);
   }
 
   if (stage3Enabled) {
+    if (age3 === 0)
+      age3 = 1;
+
     year += Number(age3);
   }
 

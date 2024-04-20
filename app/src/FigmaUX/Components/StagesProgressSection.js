@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
 import '../css/fonts.css';
+import CircleButton from './CircleButton';
 
 const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, isMobile, isTablet }) => {
   const [selectedButton, setSelectedButton] = useState(selectedStage);
@@ -29,34 +30,19 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
           <Box key={index} sx={{ position: 'relative' }} 
             height={isMobile ? '113px' : isTablet ? '156px' : '187px'}
           >
-            <Button
-              variant="contained"
-              sx={{
-                position: 'relative',
-                borderRadius: '50%',
-                p: 0,
-                minWidth: 0,
-                width: isMobile ? '26px' : isTablet ? '37px' : '51px',
-                height: isMobile ? '26px' : isTablet ? '37px' : '51px',
-                backgroundColor: selectedButton === index ? 'var(--main-color)' : '#D9D9D9',
-                '&:hover': {
-                  backgroundColor: 'var(--main-color)',
-                }
-              }}
-              onClick={() => handleButtonClick(index)}
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'calc(100% - 10px)',
-                  height: 'calc(100% - 10px)',
-                  borderRadius: '50%',
-                  backgroundColor: 'white',
-                }}/>
-            </Button>
+            <CircleButton
+              isMobile={isMobile}
+              isTablet={isTablet}
+              mainBackgroundColor={'#D9D9D9'}
+              mainColorSelected={'var(--main-color)'}
+              secondaryColor={'#FFFFFF'}
+              secondaryColorSelected={'#FFFFFF'}
+              width={isMobile ? '26px' : isTablet ? '37px' : '51px'}
+              height={isMobile ? '26px' : isTablet ? '37px' : '51px'}
+              selected={selectedButton === index}
+              increaseSize={true}
+              onClick={() => {handleButtonClick(index)}}
+            />
             <Box textAlign={'center'} marginTop={isMobile ? '18px' : isTablet ? '25px' : '35px'} >
               <Typography className='montserrat-medium'
                 fontSize={isMobile ? '12px' : isTablet ? '18px' : '26px'}

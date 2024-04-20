@@ -1,23 +1,24 @@
 import React from 'react';
 import { Divider, Grid } from '@material-ui/core';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import DashedSlider from './DashedSlider';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
+import CircleButton from './CircleButton';
 
-const IOSSwitch = styled((props) => (
+const IOSSwitch = styled(({ isMobile, isTablet, ...props }) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 50,
-  height: 26,
+))(({ theme, isMobile, isTablet }) => ({
+  width: isMobile ? '34px' : isTablet ? '47px' : '73px',
+  height: isMobile ? '20px' : isTablet ? '26px' : '40px',
   padding: 0,
   '& .MuiSwitch-switchBase': {
-    padding: 0,
-    margin: 2,
+    padding: isMobile ? 2.5 : isTablet ? 3 : 4,
+    margin: isMobile ,
     transitionDuration: '500ms',
     '&.Mui-checked': {
-      transform: 'translateX(24px)',
+      transform: `translateX(${isMobile ? '14px' : isTablet ? '20px' : '30px'})`,
       color: '#fff',
       '& + .MuiSwitch-track': {
         backgroundColor: '#181547',
@@ -41,11 +42,11 @@ const IOSSwitch = styled((props) => (
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 22,
-    height: 22,
+    width: isMobile ? '14px' : isTablet ? '20px' : '30px',
+    height: isMobile ? '14px' : isTablet ? '20px' : '30px',
   },
   '& .MuiSwitch-track': {
-    borderRadius: 26 / 2,
+    borderRadius: isMobile ? '10px' : isTablet ? '13px' : '20px',
     backgroundColor: '#9A98A3',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
@@ -53,6 +54,7 @@ const IOSSwitch = styled((props) => (
     }),
   },
 }));
+
 
 const StageSection = ({ stageIndex, stageNameText, ageRangeText, 
   minSliderValue, maxSliderValue, isEnabled, 
@@ -89,7 +91,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
           </Typography>
         </Grid>
         <Grid item>
-          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
+          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} isMobile={isMobile} isTablet={isTablet} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
         </Grid>
       </Grid>
       <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"black" }} />
@@ -119,14 +121,33 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
               </Typography>
             </Grid>
           </Grid>
-          <Grid container alignItems='center' direction='row' style={{marginTop:buildSpaceSizeCssString('regular', isMobile, isTablet)}}>
-            <DashedSlider 
-              min={1} 
-              max={5} 
-              step={1}
-              reduxValue={yearsNormalized()}
-              updateRedux={(newValue) => yearChanged(stageIndex, newValue) }
-            />
+          <Grid container alignItems='center' direction='row' justifyContent='center' 
+            style={{marginTop:buildSpaceSizeCssString('regular', isMobile, isTablet), gap: isMobile ? '26px' : isTablet ? '45px' : '68px'}}
+          >
+            {[1, 2, 3, 4, 5].map((number) => (
+              <Box key={number} display="flex" flexDirection='column' textAlign={'center'}>
+                <Box textAlign={'center'} marginBottom='2px' >
+                  <Typography className='montserrat-medium'
+                    fontSize={isMobile ? '12px' : isTablet ? '18px' : '26px'}
+                    color="#D9D9D9"
+                  >
+                    {number}
+                  </Typography>
+                </Box>
+                <CircleButton
+                  isMobile={isMobile}
+                  isTablet={isTablet}
+                  selected={yearsNormalized() === number}
+                  width={isMobile ? '38px' : isTablet ? '72px' : '100px'}
+                  height={isMobile ? '38px' : isTablet ? '72px' : '100px'}
+                  mainBackgroundColor={'#FFFFFF'}
+                  mainColorSelected={'#FFFFFF'}
+                  secondaryColor={'#F7F7F7'}
+                  secondaryColorSelected={'var(--main-color)'}
+                  onClick={() => yearChanged(stageIndex, number)}
+                />
+              </Box>
+            ))}
           </Grid>
           <Grid container justifyContent="space-between" alignItems="center" style={{marginTop:buildSpaceSizeCssString('medium', isMobile, isTablet), 
             marginBottom:buildSpaceSizeCssString('medium', isMobile, isTablet)}}
