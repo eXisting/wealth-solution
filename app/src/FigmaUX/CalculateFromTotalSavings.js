@@ -126,6 +126,9 @@ const CalculateFromTotalSavings = () => {
       updateDecadeYears(stageIndex, 0);
       updateDecadeContributions(stageIndex, 0);
     }
+    else {
+      updateDecadeYears(stageIndex, 1);
+    }
 
     dispatch(updateFunctions[stageIndex].updateEnabled(newValue));
   }

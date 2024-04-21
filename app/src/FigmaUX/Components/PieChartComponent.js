@@ -14,12 +14,16 @@ function drawPieChart(canvas,
   var totalPerContributions = totalSavingsPerContributions(startingAge, age1, age2, age3, 
     startingSavings,
     decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
+    var totalSaved = totalPerContributions[totalPerContributions.length - 1].total3;
 
-  var lastTotal = totalPerContributions[totalPerContributions.length - 1];
+    let totalContributed = totalPerContributions.reduce((acc, curr) => {
+      return acc + (curr.contributionsTotal1 || 0) + (curr.contributionsTotal2 || 0) + (curr.contributionsTotal3 || 0);
+    }, 0);
+
   var data = {
-    labels: ['Total Saved', 'Contribution'],
+    labels: ['Contribution', 'Total Saved'],
     datasets: [{
-      data: [lastTotal.contributionsTotal3, lastTotal.total3],
+      data: [totalContributed, totalSaved],
       backgroundColor: ['#33CBCC', '#4A7DE2'],
     }],
   };
