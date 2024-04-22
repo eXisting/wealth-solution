@@ -10,10 +10,8 @@ const CustomThumbSlider = styled(Slider)(({ width }) => ({
   position: 'absolute !important',
   width: `${width}px !important`,
   '& .MuiSlider-thumb': {
-    height: 50,
-    width: 50,
-    backgroundColor: '#fff',
-    border: '4px solid var(--main-color)',
+    height: '50px',
+    width: '60px',
     '&:hover': {
       boxShadow: '0 0 0 8px rgba(58, 133, 137, 0.16)',
     },
@@ -32,13 +30,20 @@ const CustomThumbSlider = styled(Slider)(({ width }) => ({
 function AirbnbThumbComponent(props) {
   const { children, ...other } = props;
   return (
-    <SliderThumb {...other}>
-      {children}
-      {/* <Box
+    <SliderThumb backgroundColor='white' {...other} >
+      <Box
+        position={'absolute'}
         backgroundColor={'var(--main-color)'} 
-        width={'7.5px'} 
+        width={'8px'} 
         height={'120px'} 
-      /> */}
+        zIndex={1}
+      />
+      <Box width={'100%'} height={'100%'} 
+      backgroundColor='#fff'
+      border='6px solid var(--main-color)'
+      borderRadius={'50%'} zIndex={2}>
+      </Box>
+      {children}
     </SliderThumb>
   );
 }
@@ -56,14 +61,10 @@ const generateLines = (numLines, highlightedIndex) => {
         lineHeight = '70%'; // Height for specific lines
     }
 
-    const isHighlighted = i === highlightedIndex;
-    const width = isHighlighted ? '7.5px' : '5px';
-    const height = isHighlighted ? '75%' : lineHeight;
-
     lines.push(<Box key={i} 
-      backgroundColor={i === highlightedIndex ? 'var(--main-color)' : '#D9D9D9'} 
-      width={width} 
-      height={height} 
+      backgroundColor={'#D9D9D9'} 
+      width={'5px'} 
+      height={lineHeight} 
     />);
   }
   return lines;
@@ -136,10 +137,12 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
         step={(max - min) / (numLines - 1)}
         defaultValue={Math.round(reduxValue)}
       />
-      <Typography className='montserrat-medium' 
+      <Typography className='montserrat-medium'
+        color={'var(--main-color)'} 
         fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
         style={{ position: 'absolute', bottom: 0, left: '10%', marginBottom: '-2%' }}>{min}</Typography>
       <Typography className='montserrat-medium' 
+        color={'var(--main-color)'}
         fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
         style={{ position: 'absolute', bottom: 0, right: '10%', marginBottom: '-2%' }}>{max}</Typography>
     </Box>
