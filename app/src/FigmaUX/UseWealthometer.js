@@ -7,6 +7,7 @@ import CircleSlider from './Components/CircleSlider';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import PieChartControlledComponent from './Components/PieChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
+import NavigationFooterComponent from './Components/NavigationFooterComponent';
 import { calculateSavings } from './Global/Math';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 
@@ -22,7 +23,6 @@ import donation from '../Media/donation.svg'
 import {
   updateMonthlyContribution,
 } from '../redux/decadeOneReducer';
-import NavigationFooterComponent from './Components/NavigationFooterComponent';
 
 
 const UseWealthometer = () => {
