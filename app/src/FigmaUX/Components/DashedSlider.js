@@ -30,7 +30,7 @@ const CustomThumbSlider = styled(Slider)(({ width }) => ({
 function AirbnbThumbComponent(props) {
   const { children, ...other } = props;
   return (
-    <SliderThumb backgroundColor='white' {...other} >
+    <SliderThumb {...other} >
       <Box
         position={'absolute'}
         backgroundColor={'var(--main-color)'} 

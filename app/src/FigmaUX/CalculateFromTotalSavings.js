@@ -1,14 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { batch } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Grid, Box, useMediaQuery } from '@mui/material';
 import StageSection from './Components/StageSection';
-import StartingAmountSelection from './Components/StartingAmountSelection';
 import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
 import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
-import PieChartComponent from './Components/PieChartComponent';
-import DashedSlider from './Components/DashedSlider';
+import DoughnutChartComponent from './Components/DoughnutChartComponent';
 import { totalSavingsPerContributions } from './Global/ChartsMath';
 import { setSmallestCombination } from './Global/Math';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
@@ -105,21 +104,28 @@ const CalculateFromTotalSavings = () => {
   };
 
   const handleUpdateDesiredResult = (newValue) => {
-    dispatch(updateDesiredResult(newValue));
-    const [stage1, stage2, stage3] = setSmallestCombination(newValue, startingSavings, 
-      decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled);
+    const [stage1, stage2, stage3] = setSmallestCombination(
+      newValue,
+      startingSavings,
+      decades[0].page.enabled,
+      decades[1].page.enabled,
+      decades[2].page.enabled
+    );
 
-      // console.log("Stage 1 - Age:", stage1.age, "Contribution:", stage1.contribution);
-      // console.log("Stage 2 - Age:", stage2.age, "Contribution:", stage2.contribution);
-      // console.log("Stage 3 - Age:", stage3.age, "Contribution:", stage3.contribution);
-      
-      dispatch(updateFirstDecadeAge(stage1.age));
-      dispatch(updateFirstDecadeMonthlyContribution(stage1.contribution));
-      dispatch(updateSecondDecadeAge(stage2.age));
-      dispatch(updateSecondDecadeMonthlyContribution(stage2.contribution));
-      dispatch(updateThirdDecadeAge(stage3.age));
-      dispatch(updateThirdDecadeMonthlyContribution(stage3.contribution));
+    const actions = [
+      updateDesiredResult(newValue),
+      updateFunctions[0].updateAge(stage1.age),
+      updateFunctions[0].updateMonthlyContribution(stage1.contribution),
+      updateFunctions[1].updateAge(stage2.age),
+      updateFunctions[1].updateMonthlyContribution(stage2.contribution),
+      updateFunctions[2].updateAge(stage3.age),
+      updateFunctions[2].updateMonthlyContribution(stage3.contribution),
+    ];
+    
+    for(var i = 0; i < actions.length; i++)
+      dispatch(actions[i]);
   };
+  
 
   const updateDecadeEnabled = (stageIndex, newValue) => {
     if (newValue === false) {
@@ -388,7 +394,7 @@ const CalculateFromTotalSavings = () => {
                 Investment Balance at Year {calculateEndYear(40)}
               </Typography>
               <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
-                <PieChartComponent isMobile={isMobile} isTablet={isTablet}/>
+                <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
               </div>
             </div>
           </>

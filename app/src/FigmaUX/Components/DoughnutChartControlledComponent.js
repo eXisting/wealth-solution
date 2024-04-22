@@ -58,7 +58,7 @@ function draw(canvas, monthlyContributions, initialSavings, years, isMobile, isT
   });
 }
 
-const PieChartControlledComponent = ({years, monthlyContributions, initialSavings, isMobile, isTablet}) => {
+const DoughnutChartControlledComponent = ({years, monthlyContributions, initialSavings, isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -74,4 +74,4 @@ const PieChartControlledComponent = ({years, monthlyContributions, initialSaving
   );
 };
 
-export default PieChartControlledComponent;
+export default DoughnutChartControlledComponent;

@@ -64,7 +64,7 @@ function drawPieChart(canvas,
   }
 
   var chart = new Chart(canvas, {
-      type: 'pie',
+      type: 'doughnut',
       data: data,
       options: options,
   });
@@ -77,7 +77,7 @@ function calculateEndYear(stage1Enabled, stage2Enabled, stage3Enabled, age1, age
   return year;
 }
 
-const PieChartComponent = ({isMobile, isTablet}) => {
+const DoughnutChartComponent = ({isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   const {
@@ -138,4 +138,4 @@ const PieChartComponent = ({isMobile, isTablet}) => {
   );
 };
 
-export default PieChartComponent;
+export default DoughnutChartComponent;

@@ -5,7 +5,7 @@ import { Typography, Box, useMediaQuery } from '@mui/material';
 import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import CircleSlider from './Components/CircleSlider';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
-import PieChartControlledComponent from './Components/PieChartControlledComponent';
+import DoughnutChartControlledComponent from './Components/DoughnutChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
 import { calculateSavings } from './Global/Math';
@@ -193,7 +193,7 @@ const UseWealthometer = () => {
             Investment Balance at Year {calculateEndYear(40)}
           </Typography>
           <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
-            <PieChartControlledComponent years={40} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
+            <DoughnutChartControlledComponent years={40} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
           </div>
         </div>
       </Box>
