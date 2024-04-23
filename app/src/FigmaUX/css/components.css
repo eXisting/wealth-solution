@@ -3,6 +3,15 @@
   --secondary-color: #33CBCC;
 }
 
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
 .divider {
   border-top: 1px solid #ccc; /* Change color as needed */
   height: 1px; /* Adjust height as needed */

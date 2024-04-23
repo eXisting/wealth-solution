@@ -6,6 +6,7 @@ import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssSt
 
 import '../css/layoutSpaces.css';
 import '../css/fonts.css';
+import SnapHorizontalSelectionComponent from './SnapHorizontalSelectionComponent';
 
 const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, isTablet, reduxStartingSavingsUpdate, reduxStartingAgeUpdate}) => {
   return (
@@ -32,12 +33,7 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
         >
           Your current age
         </Typography>
-        <DashedSlider
-          min={12}
-          max={50}
-          reduxValue={startingAge}
-          updateRedux={reduxStartingAgeUpdate}
-        />
+        <SnapHorizontalSelectionComponent min={12} max={50} reduxValue={startingAge} updateRedux={reduxStartingAgeUpdate} />
       </Box>
     </>
   );
