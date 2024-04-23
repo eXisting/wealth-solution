@@ -82,7 +82,7 @@ const CircleSlider = ({ isMobile, isTablet, min, max, initialValue, step, sign =
         </Button>
       </Box>
       <CircularSliderWithChildren
-        size={300}
+        size={isMobile ? 300 : isTablet ? 450 : 550}
         trackWidth={16}
         minValue={min}
         maxValue={max}
