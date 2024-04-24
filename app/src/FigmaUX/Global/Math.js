@@ -17,19 +17,19 @@ function calculateSavings(contribution, years, savings, compoundInterest = 10) {
 
 
 function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, stageEnabled2, stageEnabled3) {
-  if (desiredResult <= startingSavings)
-  {
-      return [
-        { age: 0, contribution: 0 },
-        { age: 0, contribution: 0 },
-        { age: 0, contribution: 0 }
-      ];
+  if (desiredResult <= startingSavings) {
+    return [
+      { age: 0, contribution: 0 },
+      { age: 0, contribution: 0 },
+      { age: 0, contribution: 0 }
+    ];
   }
 
-  let savingPeriod = 40;
+  let savingPeriod = 15;
 
-  if (startingSavings >= desiredResult * 0.01)
-    savingPeriod = 20;
+  if (startingSavings >= desiredResult * 0.01) {
+    savingPeriod = 10;
+  }
 
   let decadeOneEnabled = stageEnabled1;
   let decadeTwoEnabled = stageEnabled2;
@@ -38,51 +38,24 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
   let first = [0, 0];
   let calculatedInFirst = startingSavings;
   if (decadeOneEnabled) {
-    let firstPeriod = decadeTwoEnabled && decadeThreeEnabled ?
-      Math.floor(savingPeriod * 0.13) :
-      decadeTwoEnabled ^ decadeThreeEnabled ?
-      Math.floor(savingPeriod * 0.38) :
-      savingPeriod;
-
-      let firstResult = decadeTwoEnabled && decadeThreeEnabled ?
-      desiredResult * 0.01 :
-      decadeTwoEnabled ^ decadeThreeEnabled ?
-      desiredResult * 0.05 :
-      desiredResult;
-
+    let firstPeriod = Math.min(Math.floor(savingPeriod * 0.13), 5);
+    let firstResult = desiredResult * (decadeTwoEnabled && decadeThreeEnabled ? 0.01 : decadeTwoEnabled ^ decadeThreeEnabled ? 0.05 : 1);
     first = calculateContribution(firstResult, startingSavings, firstPeriod);
     calculatedInFirst = calculateSavings(first[1], first[0], startingSavings);
   }
 
   let second = [0, 0];
   let calculatedInSecond = calculatedInFirst;
-  if (calculatedInFirst < desiredResult && decadeTwoEnabled){
-
-    let secondPeriod = decadeOneEnabled && decadeThreeEnabled ?
-      Math.floor(savingPeriod * 0.38) :
-      decadeOneEnabled ?
-      savingPeriod - first[0] :
-      decadeThreeEnabled ?
-      Math.floor(savingPeriod * 0.38) :
-      savingPeriod;
-
-
-    let secondResult = decadeOneEnabled && decadeThreeEnabled ?
-      desiredResult * 0.11 :
-      decadeOneEnabled ?
-      desiredResult :
-      decadeThreeEnabled ?
-      desiredResult * 0.11 :
-      desiredResult;
-
+  if (calculatedInFirst < desiredResult && decadeTwoEnabled) {
+    let secondPeriod = Math.min(Math.floor(savingPeriod * 0.38), 5);
+    let secondResult = desiredResult * (decadeOneEnabled && decadeThreeEnabled ? 0.11 : decadeOneEnabled ? 1 : decadeThreeEnabled ? 0.11 : 1);
     second = calculateContribution(secondResult, calculatedInFirst, secondPeriod);
     calculatedInSecond = calculateSavings(second[1], second[0], calculatedInFirst);
   }
 
   let third = [0, 0];
-  if (calculatedInSecond < desiredResult && decadeThreeEnabled){
-    let thirdPeriod = savingPeriod - first[0] - second[0];
-
+  if (calculatedInSecond < desiredResult && decadeThreeEnabled) {
+    let thirdPeriod = Math.min(savingPeriod - first[0] - second[0], 5);
     third = calculateContribution(desiredResult, calculatedInSecond, thirdPeriod);
   }
 
