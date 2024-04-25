@@ -28,20 +28,30 @@ const CustomThumbSlider = styled(Slider)(({ width }) => ({
 }));
 
 function AirbnbThumbComponent(props) {
+  const theme = useTheme();
   const { children, ...other } = props;
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+  const size = isMobile ? '37px' : isTablet ? '62px' : '90px';
+
   return (
-    <SliderThumb {...other} >
+    <SliderThumb sx={{width: `${size} !important`, height: `${size} !important`}} {...other} >
       <Box
         position={'absolute'}
         backgroundColor={'var(--main-color)'} 
-        width={'8px'} 
-        height={'120px'} 
+        width={isMobile ? '4.25px' : isTablet ? '7.25px' : '10px'}
+        height={isMobile ? '91px' : isTablet ? '150px' : '222px'} 
         zIndex={1}
       />
-      <Box width={'100%'} height={'100%'} 
-      backgroundColor='#fff'
-      border='6px solid var(--main-color)'
-      borderRadius={'50%'} zIndex={2}>
+      <Box 
+      width={size}
+      height={size}
+        backgroundColor='#fff'
+        position={'absolute'}
+        border={`${isMobile ? '4px' : '8px'} solid var(--main-color)`}
+        borderRadius={'50%'} zIndex={2}>
       </Box>
       {children}
     </SliderThumb>
@@ -55,10 +65,10 @@ AirbnbThumbComponent.propTypes = {
 const generateLines = (numLines, highlightedIndex) => {
   const lines = [];
   for (let i = 0; i < numLines; i++) {
-    let lineHeight = '30%'; // Default height for most lines
+    let lineHeight = '60%'; // Default height for most lines
     if (i >= 3 || (i <= numLines - 3)) {
       if ((i + 1) % 4 === 0)
-        lineHeight = '70%'; // Height for specific lines
+        lineHeight = '100%'; // Height for specific lines
     }
 
     lines.push(<Box key={i} 
@@ -120,7 +130,7 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   }
 
   return (
-    <Box ref={parentRef} height="200px" display="flex" alignItems={'center'} flexDirection="row" width={'100%'} justifyContent={'center'} gap={`${space}px`} position={'relative'}>
+    <Box ref={parentRef} height={isMobile ? '57px' : isTablet ? '90px' : '141px'} display="flex" alignItems={'center'} flexDirection="row" width={'100%'} justifyContent={'center'} gap={`${space}px`} position={'relative'}>
       {generateLines(numLines, highlightedIndex)}
       <CustomThumbSlider
         slots={{ thumb: AirbnbThumbComponent }}
@@ -140,11 +150,11 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
       <Typography className='montserrat-medium'
         color={'var(--main-color)'} 
         fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: 0, left: '10%', marginBottom: '-2%' }}>{min}</Typography>
+        style={{ position: 'absolute', bottom: 0, left: '10%', marginBottom: '-10%' }}>{min}</Typography>
       <Typography className='montserrat-medium' 
         color={'var(--main-color)'}
         fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: 0, right: '10%', marginBottom: '-2%' }}>{max}</Typography>
+        style={{ position: 'absolute', bottom: 0, right: '10%', marginBottom: '-10%' }}>{max}</Typography>
     </Box>
   );
 };

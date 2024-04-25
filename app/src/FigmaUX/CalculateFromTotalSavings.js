@@ -260,7 +260,7 @@ const CalculateFromTotalSavings = () => {
         </Box>
         <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center"
           marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
-          gap={isMobile ? '33px' : isTablet ? '45px' : '65px'}
+          gap={isMobile ? '80px' : isTablet ? '100px' : '150px'}
         >
           <StageSection
             stageIndex={0}

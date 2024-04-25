@@ -16,7 +16,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
   const circleWidth = isMobile ? 132 : isTablet ? 185 : 255;
   
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef && scrollRef.current) {
       const newSnapPoints = [];
       for(let i = min; i <= max; i++) {
         newSnapPoints.push((i - min) * circleWidth);
@@ -41,16 +41,18 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
       clearTimeout(scrollRef.current.scrollTimeout);
 
       scrollRef.current.scrollTimeout = setTimeout(() => {
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const nearestSnapPoint = snapPoints.reduce((prev, curr) => Math.abs(curr - scrollLeft) < Math.abs(prev - scrollLeft) ? curr : prev);
-        scrollRef.current.scroll({
-          left: nearestSnapPoint,
-          behavior: 'smooth',
-        });
+        if (scrollRef && scrollRef.current) {
+          const scrollLeft = scrollRef.current.scrollLeft;
+          const nearestSnapPoint = snapPoints.reduce((prev, curr) => Math.abs(curr - scrollLeft) < Math.abs(prev - scrollLeft) ? curr : prev);
+          scrollRef.current.scroll({
+            left: nearestSnapPoint,
+            behavior: 'smooth',
+          });
 
-        const currentIndex = snapPoints.findIndex(point => point === nearestSnapPoint);
-        const value = currentIndex + min;
-        updateRedux(value);
+          const currentIndex = snapPoints.findIndex(point => point === nearestSnapPoint);
+          const value = currentIndex + min;
+          updateRedux(value);
+        }
       }, 100); // Adjust the debounce time as needed
     }
   };
