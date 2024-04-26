@@ -1,6 +1,5 @@
 import { RoundSlider } from 'mz-react-round-slider';
 import { useState } from 'react';
-import { formatCurrency } from '../Global/Global';
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { buildFontSizeCssString } from '../Global/CssStrings';
@@ -76,7 +75,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
           setPointers(newPointers);
         }}
         pathStartAngle={ 15 }
-        pathEndAngle={ 360 }
+        pathEndAngle={ 375 }
         animateOnClick={ true }
         pathThickness={ isMobile ? 24 : isTablet ? 50 : 80 }
 
