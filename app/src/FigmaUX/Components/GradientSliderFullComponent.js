@@ -5,6 +5,7 @@ import { Add, Remove } from '@mui/icons-material';
 import { buildFontSizeCssString } from '../Global/CssStrings';
 
 import '../css/fonts.css';
+import '../css/components.css'
 
 const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
   const theme = useTheme();
