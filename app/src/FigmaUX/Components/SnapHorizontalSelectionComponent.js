@@ -23,7 +23,6 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
       }
 
       setSnapPoints(newSnapPoints);
-      console.log(getIndexOutOfValue(reduxValue))
       scrollRef.current.scroll({
         left: newSnapPoints[getIndexOutOfValue(reduxValue)],
         behavior: 'smooth',
@@ -58,7 +57,6 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
   };
 
   const renderCircle = (index) => {
-    // console.log(index + min, reduxValue)
     const isSelected = index === reduxValue;
     
     const circleStyle = {

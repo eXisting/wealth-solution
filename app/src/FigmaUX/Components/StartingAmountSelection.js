@@ -32,8 +32,6 @@ const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateSta
     setIsEditing(false);
     
     onUpdateStartingSavings(editedValue);
-    
-    console.log('Edited value:', editedValue);
   };
 
   useEffect(() => {

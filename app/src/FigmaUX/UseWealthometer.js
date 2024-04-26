@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Typography, Box, useMediaQuery } from '@mui/material';
 import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
-import CircleSlider from './Components/CircleSlider';
+import GradientSliderComponent from './Components/GradientSliderComponent';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import DoughnutChartControlledComponent from './Components/DoughnutChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
@@ -23,7 +23,6 @@ import donation from '../Media/donation.svg'
 import {
   updateMonthlyContribution,
 } from '../redux/decadeOneReducer';
-
 
 const UseWealthometer = () => {
   const dispatch = useDispatch();
@@ -72,9 +71,7 @@ const UseWealthometer = () => {
             {currentDayFormatted()}
           </Typography>
         </Box>
-        <CircleSlider 
-          isMobile={isMobile}
-          isTablet={isTablet}
+        <GradientSliderComponent
           min={0} max={20000} 
           step={100}
           initialValue={trimToInt(monthlyContribution)} 

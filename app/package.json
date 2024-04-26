@@ -18,6 +18,7 @@
     "chart.js": "^4.4.2",
     "lodash": "^4.17.21",
     "material-ui-slider": "^3.0.8",
+    "mz-react-round-slider": "^1.0.3",
     "pure-react-carousel": "^1.21.1",
     "rc-slider": "^10.1.1",
     "react": "^18.2.0",

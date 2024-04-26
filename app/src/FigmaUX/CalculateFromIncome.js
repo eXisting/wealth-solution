@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Box, Button, useMediaQuery } from '@mui/material';
 import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
-import CircleSlider from './Components/CircleSlider';
 import StagesProgressSection from './Components/StagesProgressSection';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from './Global/CssStrings';
 import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
+import GradientSliderComponent from './Components/GradientSliderComponent';
+import GradientSliderFullComponent from './Components/GradientSliderFullComponent';
 
 // Media
 import moneyBag from '../Media/moneyBag.svg'
@@ -203,7 +204,7 @@ const CalculateFromIncome = () => {
             isMobile={isMobile} isTablet={isTablet}
           />
         </Box>
-        <CircleSlider
+        <GradientSliderComponent
           min={10000} max={1000000} 
           step={1000}
           initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
@@ -213,7 +214,7 @@ const CalculateFromIncome = () => {
           updateRedux={updateDecadeIncomeValue} 
         />
         <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} />
-        <CircleSlider min={0} max={100} 
+        <GradientSliderFullComponent min={0} max={100} 
           sign='%'
           step={1}
           initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)} 
