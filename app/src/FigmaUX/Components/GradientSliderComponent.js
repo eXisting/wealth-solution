@@ -123,13 +123,10 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
           sx={{
             display: 'flex',
             position: 'absolute',
-            zIndex: -1,
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             textAlign:'center',
-            height: '100%',
-            width: '100%',
           }}
       >
         <Typography 
