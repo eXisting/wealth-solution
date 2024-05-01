@@ -1,106 +1,59 @@
 import React, { useEffect, useRef } from 'react';
-import { currentDate, formatCurrency, totalEnabledYears, trimToInt } from '../Global/Global';
-import { useSelector } from 'react-redux';
+import { currentDate, formatCurrency, trimToInt } from '../Global/Global';
 import Chart from 'chart.js/auto';
-import { contributionsCheckpoints, generateYearsCheckpoints, savingsCheckpoints } from '../Global/ChartsMath';
+import { calculateSavings } from '../Global/Math';
 
-function drawCurvedLineChart(canvas, 
-  age1, age2, age3, 
-  startingSavings, 
-  stageEnabled1, stageEnabled2, stageEnabled3,
-  contribution1, contribution2, contribution3) {
+const generateYearsCheckpoints = (years, stepYears) => {
+  let array = new Array (years / stepYears + 1);
 
-  const totalYears = totalEnabledYears(age1, age2, age3, stageEnabled1, stageEnabled2, stageEnabled3);
-  
-  var yearsCheckpoints = generateYearsCheckpoints(totalYears);
-  
-  var contributions = contributionsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
-    age1, age2, age3,
-    stageEnabled1, stageEnabled2, stageEnabled3,
-    contribution1, contribution2, contribution3);
-
-  var savings = savingsCheckpoints(yearsCheckpoints, totalYears, startingSavings, 
-    age1, age2, age3,
-    stageEnabled1, stageEnabled2, stageEnabled3,
-    contribution1, contribution2, contribution3);
-
-  var data = {
-      labels: yearsCheckpoints,
-      datasets: [
-          {
-              label: 'Contributions',
-              data: contributions,
-              backgroundColor: '#33CBCC',
-              barThickness: 'flex', 
-          },
-          {
-              label: 'Total saved',
-              data: savings,
-              backgroundColor: '#4A7DE2',
-              barThickness: 'flex'
-          },
-      ],
-  };
-
-  var options = {
-    responsive: true,
-    maintainAspectRatio: false, // Set this to false to control the chart size manually
-    aspectRatio: 3,
-    scales: {
-        x: {
-            stacked: true,
-            position: 'bottom',
-            autoSkip: false, // Show all labels
-            grid: {
-                display: false,
-              },    
-            min: 0,
-            max: 40,
-            ticks: {
-                stepSize: 10,
-                callback: value => {
-                    return (value * 10) + currentDate().getFullYear();
-                },
-            }
-        },
-        y: {
-            stacked: true,
-            grid: {
-                display: false,
-              },
-            beginAtZero: true,
-            ticks: {
-                callback: value => {
-                    let number = trimToInt(value);
-                    if (number < 1000000)
-                        return formatCurrency('$', undefined, number);
-                    return `$${(number / 1000000).toFixed(1)}M`;
-                },
-            }
-        },
-    },
-    plugins: {
-        title: {
-            display: false,
-        },
-        legend: {
-            display: false
-        },
-    },
-  };
-
-  if (canvas) {
-      // Get the chart instance associated with the canvas
-      var existingChart = Chart.getChart(canvas);
-      
-      if (existingChart) {
-          // Update the data and options of the existing chart
-          existingChart.data = data; // Replace newData with your updated data
-          existingChart.options = options; // Replace newOptions with your updated options
-          existingChart.update(); // Update the chart
-          return;
-      }
+  for (let i = 0; i < array.length; i++) {
+      array[i] = (stepYears * i).toString();
   }
+
+  return array;
+};
+
+const savingsCheckpoints = (years, stepYears, initialSavings, monthlyContribution) => {
+  let yearsCheckpoints = generateYearsCheckpoints(years, stepYears);
+  let array = new Array (years / stepYears + 1);
+  
+  let monthInYear = 12;
+
+  array[0] = initialSavings + (monthlyContribution * monthInYear);
+  for (let i = 1; i < array.length; i++) {
+      array[i] = calculateSavings(monthlyContribution, yearsCheckpoints[i], initialSavings, 10);
+  }
+
+  return array;
+}
+
+const contributionsCheckpoints = (years, stepYears, monthlyContribution) => {
+  let yearsCheckpoints = generateYearsCheckpoints(years, stepYears);
+  let array = new Array (years / stepYears + 1);
+  
+  let monthInYear = 12;
+
+  array[0] = monthlyContribution * monthInYear;
+  for (let i = 1; i < array.length; i++) {
+      array[i] = yearsCheckpoints[i] * monthInYear * monthlyContribution;
+  }
+
+  return array;
+}
+
+function draw(canvas, data, options) {
+  if (canvas) {
+    // Get the chart instance associated with the canvas
+    var existingChart = Chart.getChart(canvas);
+    
+    if (existingChart) {
+        // Update the data and options of the existing chart
+        existingChart.data = data; // Replace newData with your updated data
+        existingChart.options = options; // Replace newOptions with your updated options
+        existingChart.update(); // Update the chart
+        return;
+    }
+}
 
   // Create a new Chart.js chart on the canvas
   var ctx = canvas.getContext('2d');
@@ -112,65 +65,83 @@ function drawCurvedLineChart(canvas,
   });
 }
 
-const CurvedLineChartControlledComponent = ({decadeOneAge, decadeTwoAge, decadeThreeAge, 
-  startingSavings, 
-  decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled,
-  decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution}) => {
+const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSavings, isMobile, isTablet}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    
+    var data = {
+        labels: generateYearsCheckpoints(years, step),
+        datasets: [
+            {
+                label: 'Contributions',
+                data: contributionsCheckpoints(years, step, monthlyContributions),
+                backgroundColor: '#33CBCC',
+                borderRadius: 40,
+                maxBarThickness: 12,
+            },
+            {
+                label: 'Total saved',
+                data: savingsCheckpoints(years, step, initialSavings, monthlyContributions),
+                backgroundColor: '#4A7DE2',
+                borderRadius: 40,
+                maxBarThickness: 12,
+            },
+        ],
+    };
 
-    drawCurvedLineChart(canvas, 
-      decadeOneAge, decadeTwoAge, decadeThreeAge, 
-      startingSavings, 
-      decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled,
-      decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
-  }, [startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
-    decadeOneAge, decadeTwoAge, decadeThreeAge, 
-    decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled]);
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false, // Set this to false to control the chart size manually
+        aspectRatio: 3,
+        scales: {
+            x: {
+                stacked: true,
+                position: 'bottom',
+                autoSkip: false, // Show all labels
+                grid: {
+                    display: false,
+                  },    
+                min: 0,
+                max: 40,
+                ticks: {
+                    stepSize: step,
+                    callback: value => {
+                        return (value * step) + currentDate().getFullYear();
+                    },
+                }
+            },
+            y: {
+                stacked: true,
+                grid: {
+                    display: false,
+                  },
+                beginAtZero: true,
+                ticks: {
+                    callback: value => {
+                        let number = trimToInt(value);
+                        if (number < 1000000)
+                            return formatCurrency('$', undefined, number);
+                        return `$${(number / 1000000).toFixed(1)}M`;
+                    },
+                }
+            },
+        },
+        plugins: {
+            title: {
+                display: false,
+            },
+            legend: {
+                display: false
+            },
+        },
+    };
 
-  return <canvas id="linechart" ref={canvasRef}></canvas>;
-};
-
-const CurvedLineChartComponent = () => {
-  const canvasRef = useRef(null);
-
-  const {
-    startingSavings,
-  } = useSelector((state) => state.initialPage);
-
-  const {
-    monthlyContribution: decadeOneMonthlyContribution,
-    age: decadeOneAge,
-    enabled: decadeOneEnabled,
-  } = useSelector(state => state.decadeOnePage);
-
-  const {
-    monthlyContribution: decadeTwoMonthlyContribution,
-    age: decadeTwoAge,
-    enabled: decadeTwoEnabled,
-  } = useSelector(state => state.decadeTwoPage);
-
-  const {
-    monthlyContribution: decadeThreeMonthlyContribution,
-    age: decadeThreeAge,
-    enabled: decadeThreeEnabled,
-  } = useSelector(state => state.decadeThreePage);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    drawCurvedLineChart(canvas, 
-      decadeOneAge, decadeTwoAge, decadeThreeAge, 
-      startingSavings, 
-      decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled,
-      decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution);
-  }, [startingSavings, decadeOneMonthlyContribution, decadeTwoMonthlyContribution, decadeThreeMonthlyContribution, 
-    decadeOneAge, decadeTwoAge, decadeThreeAge, 
-    decadeOneEnabled, decadeTwoEnabled, decadeThreeEnabled]);
+    draw(canvas, data, options);
+    
+  }, [monthlyContributions, initialSavings, step, years]);
 
   return <canvas id="linechart" ref={canvasRef}></canvas>;
 };

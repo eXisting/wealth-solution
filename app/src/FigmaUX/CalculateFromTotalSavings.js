@@ -6,7 +6,7 @@ import { Typography, Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import StageSection from './Components/StageSection';
 import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
-import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
+import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import DoughnutChartComponent from './Components/DoughnutChartComponent';
 import { totalSavingsPerContributions } from './Global/ChartsMath';
 import { setSmallestCombination } from './Global/Math';
@@ -377,7 +377,7 @@ const CalculateFromTotalSavings = () => {
               height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
               width: '100%'}}
               >
-                <CurvedLineChartComponent isMobile={isMobile} isTablet={isTablet}/>
+                <CurvedLineChartControlledComponent />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
@@ -387,8 +387,27 @@ const CalculateFromTotalSavings = () => {
               >
                 Investment Balance at Year {calculateEndYear(40)}
               </Typography>
-              <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
+              <div style={{ position: 'relative', height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
                 <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
+                <div style={{ position: 'absolute', top: -30, left: 0, right: 0, bottom: 0, 
+                  display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                  zIndex:'-1'
+                  }}>
+                  <Typography 
+                    className='montserrat-regular'
+                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                    textAlign='center'
+                  >
+                    Total Saved
+                  </Typography>
+                  <Typography 
+                    className='montserrat-bold'
+                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                    textAlign='center'
+                  >
+                    {formatCurrency('$', false, calculateTotal().sum)}
+                  </Typography>
+                </div>
               </div>
             </div>
           </>

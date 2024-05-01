@@ -167,7 +167,7 @@ const UseWealthometer = () => {
            height: isMobile ? '200px' : isTablet ? '327px' : '402px',
            width: '100%'}}
           >
-            <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
+            <CurvedLineChartControlledComponent years={40} step={1} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('small', isMobile, isTablet) }}>
@@ -177,8 +177,27 @@ const UseWealthometer = () => {
           >
             Investment Balance at Year {calculateEndYear(40)}
           </Typography>
-          <div style={{ height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
+          <div style={{ position: 'relative', height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
             <DoughnutChartControlledComponent years={40} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
+            <div style={{ position: 'absolute', top: -30, left: 0, right: 0, bottom: 0, 
+              display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+              zIndex:'-1'
+              }}>
+              <Typography 
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                textAlign='center'
+              >
+                Total Saved
+              </Typography>
+              <Typography 
+                className='montserrat-bold'
+                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                textAlign='center'
+              >
+                {formatCurrency('$', false, calculateTotal().sum)}
+              </Typography>
+            </div>
           </div>
         </div>
       </Box>
