@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import GradientSliderComponent from './Components/GradientSliderComponent';
-import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
+import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
 import DoughnutChartControlledComponent from './Components/DoughnutChartControlledComponent';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
@@ -167,7 +167,7 @@ const UseWealthometer = () => {
            height: isMobile ? '200px' : isTablet ? '327px' : '402px',
            width: '100%'}}
           >
-            <CurvedLineChartControlledComponent years={40} step={1} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
+            <CurvedLineChartComponent years={40} step={1} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('small', isMobile, isTablet) }}>
