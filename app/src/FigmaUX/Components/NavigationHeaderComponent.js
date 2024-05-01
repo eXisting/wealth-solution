@@ -61,20 +61,20 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
       ) : (
         <ButtonGroup variant="text" sx={{gap:2}}>
           <Button
-            sx={{ fontSize:'18px', color: location.pathname === '/' ? '#4A7DE2' : 'black', border:'none !important'}}
+            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/' ? '#4A7DE2' : 'black', border:'none !important'}}
             onClick={() => navigate('/')}
           >
             Wealthometer
           </Button>
           <Button
-            sx={{ fontSize:'18px', color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black', border:'none !important'}}
+            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black', border:'none !important'}}
             onClick={() => navigate('/fromTotalSavings')}
           >
             Calculate from total savings
           </Button>
           
           <Button
-            sx={{ fontSize:'18px', color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black', border:'none !important'}}
+            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black', border:'none !important'}}
             onClick={() => navigate('/fromIncome')}
           >
             Calculate from income

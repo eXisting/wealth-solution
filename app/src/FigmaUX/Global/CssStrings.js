@@ -10,7 +10,7 @@ function buildSpaceSizeCssString(size, isMobile, isTablet) {
 }
 
 function buildCalculatedCssString(originalVarString, operation, operand) {
-  return `calc(${originalVarString}${operation}${operand})`;
+  return `calc(${originalVarString} ${operation} ${operand})`;
 }
 
 /**

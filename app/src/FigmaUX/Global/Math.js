@@ -24,41 +24,37 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
     ];
   }
 
-  let savingPeriod = 15;
+  let savingPeriod = 30;
 
   if (startingSavings >= desiredResult * 0.01) {
-    savingPeriod = 10;
+    savingPeriod = 15;
   }
 
   let decadeOneEnabled = stageEnabled1;
   let decadeTwoEnabled = stageEnabled2;
   let decadeThreeEnabled = stageEnabled3;
 
-  let remainingYears = savingPeriod;
-  
   let first = [0, 0];
   let calculatedInFirst = startingSavings;
   if (decadeOneEnabled) {
-    let firstPeriod = Math.min(Math.floor(savingPeriod * 0.25), remainingYears);
-    let firstResult = desiredResult * (decadeTwoEnabled && decadeThreeEnabled ? 0.01 : decadeTwoEnabled ^ decadeThreeEnabled ? 0.05 : 1);
+    let firstPeriod = Math.min(Math.floor(savingPeriod * 0.13), 10);
+    let firstResult = desiredResult * 0.01;
     first = calculateContribution(firstResult, startingSavings, firstPeriod);
     calculatedInFirst = calculateSavings(first[1], first[0], startingSavings);
-    remainingYears -= firstPeriod;
   }
 
   let second = [0, 0];
   let calculatedInSecond = calculatedInFirst;
   if (calculatedInFirst < desiredResult && decadeTwoEnabled) {
-    let secondPeriod = Math.min(Math.floor(savingPeriod * 0.3), remainingYears);
-    let secondResult = desiredResult * (decadeOneEnabled && decadeThreeEnabled ? 0.11 : decadeOneEnabled ? 1 : decadeThreeEnabled ? 0.11 : 1);
+    let secondPeriod = Math.min(Math.floor(savingPeriod * 0.3), 10);
+    let secondResult = desiredResult * 0.11;
     second = calculateContribution(secondResult, calculatedInFirst, secondPeriod);
     calculatedInSecond = calculateSavings(second[1], second[0], calculatedInFirst);
-    remainingYears -= secondPeriod;
   }
 
   let third = [0, 0];
   if (calculatedInSecond < desiredResult && decadeThreeEnabled) {
-    let thirdPeriod = Math.min(remainingYears, 5);
+    let thirdPeriod = Math.min(savingPeriod - first[0] - second[0], 10);
     third = calculateContribution(desiredResult, calculatedInSecond, thirdPeriod);
   }
 
@@ -67,7 +63,7 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
     { age: second[0], contribution: second[1] },
     { age: third[0], contribution: third[1] }
   ];
-};
+}
 
 
 function calculateMinimumYearsForFutureValue(futureValue, principal, maxContribution, desiredResult) {

@@ -15,7 +15,7 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
   const theme = useTheme();
 
   const [activeButton, setActiveButton] = useState(
-    desiredResult === 1000000 ? 0 : desiredResult === 3000000 ? 1 : 2
+    desiredResult === 1000000 ? 0 : desiredResult === 3000000 ? 1 : desiredResult === 5000000 ? 2 : 0
   );
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

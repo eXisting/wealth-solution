@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, useMediaQuery } from '@mui/material';
+import { Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import GradientSliderComponent from './Components/GradientSliderComponent';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
@@ -26,10 +26,11 @@ import {
 
 const UseWealthometer = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  
+  const theme = useTheme();
 
-  const isMobile = useMediaQuery('(max-width:744px)');
-  const isTablet = useMediaQuery('(max-width:1224px)');
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   useEffect(() => {
     handleUpdateContributions(1000)
@@ -57,35 +58,26 @@ const UseWealthometer = () => {
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
       <Box display="flex" flexDirection="column" paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
         paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)} marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}>
-        <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
-          marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
-          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
+        <Box display="flex" flexDirection="column" marginBottom={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "1.5")}>
+          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
               Use Wealthometer to predict your wealth
-          </Typography>
-          <Typography 
-            className='montserrat-medium'
-            fontSize={
-              isMobile ? buildFontSizeCssString('regular', isMobile, isTablet) :
-              isTablet ? buildFontSizeCssString('small', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
-          >
-            {currentDayFormatted()}
           </Typography>
         </Box>
         <GradientSliderComponent
-          min={0} max={20000} 
+          min={0} max={1600} 
           step={100}
           initialValue={trimToInt(monthlyContribution)} 
           titleText={"Monthly Savings"}
           updateRedux={handleUpdateContributions} 
         />
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" 
-          // marginTop={'-3.5rem'}
+          zIndex={-1}
+          marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', "-2.2")}
           gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
           <Box>
             <Typography 
               className='montserrat-medium'
-              fontSize={
-                isMobile ? '14px' : isTablet ? buildFontSizeCssString('regular', isMobile, isTablet) : '26px'}
+              fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
               textAlign='center'
             >
               Your investment will<br /> be worth
@@ -93,16 +85,14 @@ const UseWealthometer = () => {
             <Typography 
               className='poppins-medium'
               color='var(--main-color)'
-              fontSize={
-                isMobile ? buildFontSizeCssString('big', isMobile, isTablet) 
-                : isTablet ? buildFontSizeCssString('strong', isMobile, isTablet) : '80px'}
+              fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
               textAlign='center'
             >
               {formatCurrency('$', false, calculateTotal().sum)}
             </Typography>
             <Typography 
               className='montserrat-regular'
-              fontSize={buildFontSizeCssString(isMobile || isTablet ? 'regular' : 'tiny', isMobile, isTablet)}
+              fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
               textAlign='center'
             >
               (over 40 years)
@@ -110,54 +100,53 @@ const UseWealthometer = () => {
           </Box>
         </Box>
         <Box marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
+          marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)} 
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
         >
-          <Box display='flex' flexDirection='row' width='100%' alignItems="center" 
-          justifyContent='center'
+          <Box display='flex' flexDirection='row' width='100%' alignItems="center" justifyContent='center'
             gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')} textAlign='center'
             marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
             marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            marginTop={buildCalculatedCssString(buildSpaceSizeCssString('regular', isMobile, isTablet), '*', !isMobile && !isTablet ? '-1.5' : '-1')}
           >
             <Box display="flex" flexDirection="column" alignItems="center" 
-              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
-              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+              width={isMobile ? '120px' : isTablet ? '208px' : '305px'}
             > 
               <img src={money} alt="Total Interest Earned"
-                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                width={isMobile ? '27px' : isTablet ? '35px' : '40px'}
+                height={isMobile ? '27px' : isTablet ? '35px' : '40px'}
               />
               <Typography 
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isMobile ? 'small' : isTablet ? 'regular' : 'small', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
               >
                 Total Interest Earned
               </Typography>
               <Typography 
                 className='poppins-medium'
                 color={'var(--main-color)'}
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
               >
                 {formatCurrency('$', false, calculateTotal().interestEarned)}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center"
-              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
-              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+              width={isMobile ? '120px' : isTablet ? '208px' : '305px'}
             >
               <img src={donation} alt="Total Contributions" 
-                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                width={isMobile ? '27px' : isTablet ? '35px' : '40px'}
+                height={isMobile ? '27px' : isTablet ? '35px' : '40px'}
               />
               <Typography
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isMobile ? 'small' : 'regular', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
               >
                 Total Contributions
               </Typography>
               <Typography 
                 className='poppins-medium'
                 color={'var(--main-color)'}
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
               >
                 {formatCurrency('$', false, calculateTotal().sumContributions)}
               </Typography>
@@ -165,9 +154,8 @@ const UseWealthometer = () => {
           </Box>
         </Box>
         <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', 
-          gap: buildSpaceSizeCssString('regular', isMobile, isTablet), 
-          marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
-          marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}
+          gap: buildSpaceSizeCssString('tiny', isMobile, isTablet), 
+          marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet)}}
         >
           <Typography 
             className='montserrat-regular'
@@ -176,13 +164,13 @@ const UseWealthometer = () => {
             Investment Growth Over Time
           </Typography>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
-           height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
+           height: isMobile ? '200px' : isTablet ? '327px' : '402px',
            width: '100%'}}
           >
             <CurvedLineChartControlledComponent years={40} step={10} monthlyContributions={monthlyContribution} initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
+        <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('small', isMobile, isTablet) }}>
           <Typography 
             className='montserrat-regular'
             fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}

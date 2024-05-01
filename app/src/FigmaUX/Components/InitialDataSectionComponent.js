@@ -13,7 +13,7 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
     <>
       <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}>
         <Typography className='montserrat-regular' fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}>
-          Starting amount
+          How much do you have saved today?
         </Typography>
         <StartingAmountSelection marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)} 
           isMobile={isMobile} isTablet={isTablet} 

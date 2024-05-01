@@ -189,6 +189,6 @@ html {
 }
 
 .mz-round-slider {
-  padding: 30px !important;
+  padding: 1rem !important;
   overflow-clip-margin: padding-box !important;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { batch } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
-import { Typography, Grid, Box, useMediaQuery } from '@mui/material';
+import { Typography, Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import StageSection from './Components/StageSection';
 import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
@@ -51,8 +51,10 @@ const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isMobile = useMediaQuery('(max-width:744px)');
-  const isTablet = useMediaQuery('(max-width:1224px)');
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const {
     startingSavings,
@@ -196,17 +198,9 @@ const CalculateFromTotalSavings = () => {
         marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
         <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
-          marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
-          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
-            Calculate from total savings
-          </Typography>
-          <Typography 
-            className='montserrat-medium'
-            fontSize={
-              isMobile ? buildFontSizeCssString('regular', isMobile, isTablet) :
-              isTablet ? buildFontSizeCssString('small', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
-          >
-            {currentDayFormatted()}
+          marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}>
+          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
+            Let us calculate a savings plan for you.
           </Typography>
         </Box>
 
@@ -268,8 +262,8 @@ const CalculateFromTotalSavings = () => {
             ageRangeText="Your stage one age range"
             isMobile={isMobile}
             isTablet={isTablet}
-            minSliderValue={5000}
-            maxSliderValue={20000}
+            minSliderValue={1}
+            maxSliderValue={5000}
             isEnabled={decades[0].page.enabled}
             startingYears={startingAge}
             years={decades[0].page.age}
@@ -284,8 +278,8 @@ const CalculateFromTotalSavings = () => {
             ageRangeText="Your stage two age range"
             isMobile={isMobile}
             isTablet={isTablet}
-            minSliderValue={6000}
-            maxSliderValue={25000}
+            minSliderValue={1}
+            maxSliderValue={10000}
             isEnabled={decades[1].page.enabled}
             startingYears={startingAge + decades[0].page.age}
             years={decades[1].page.age}
@@ -300,8 +294,8 @@ const CalculateFromTotalSavings = () => {
             ageRangeText="Your stage three age range"
             isMobile={isMobile}
             isTablet={isTablet}
-            minSliderValue={6000}
-            maxSliderValue={25000}
+            minSliderValue={1}
+            maxSliderValue={15000}
             isEnabled={decades[2].page.enabled}
             startingYears={startingAge + decades[0].page.age + decades[1].page.age}
             years={decades[2].page.age}

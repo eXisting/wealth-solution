@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Button, useMediaQuery } from '@mui/material';
+import { Typography, Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import StagesProgressSection from './Components/StagesProgressSection';
@@ -45,11 +45,12 @@ import {
 const CalculateFromIncome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const [selectedDecade, setSelectedDecade] = useState(0);
-
-  const isMobile = useMediaQuery('(max-width:744px)');
-  const isTablet = useMediaQuery('(max-width:1224px)');
 
   const {
     startingSavings,
@@ -177,16 +178,8 @@ const CalculateFromIncome = () => {
       >
         <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
           marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
-          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '38px' : '52px'}>
+          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
               Calculate from your income
-          </Typography>
-          <Typography 
-            className='montserrat-medium'
-            fontSize={
-              isMobile ? buildFontSizeCssString('regular', isMobile, isTablet) :
-              isTablet ? buildFontSizeCssString('small', isMobile, isTablet) : buildFontSizeCssString('tiny', isMobile, isTablet)}
-          >
-            {currentDayFormatted()}
           </Typography>
         </Box>
         <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 

@@ -3,25 +3,25 @@
   --font-size-small-mobile: 10px;
   --font-size-regular-mobile: 12px;
   --font-size-medium-mobile: 16px;
-  --font-size-strong-mobile: 20px;
+  --font-size-strong-mobile: 30px;
   --font-size-big-mobile: 40px;
   --font-size-huge-mobile: 50px;
 
-  --font-size-tiny-tablet: 12px;
-  --font-size-small-tablet: 18px;
-  --font-size-regular-tablet: 20px;
-  --font-size-medium-tablet: 30px;
-  --font-size-strong-tablet: 60px;
-  --font-size-big-tablet: 72px;
-  --font-size-huge-tablet: 90px;
+  --font-size-tiny-tablet: 8.4px;
+  --font-size-small-tablet: 12.6px;
+  --font-size-regular-tablet: 14px;
+  --font-size-medium-tablet: 21px;
+  --font-size-strong-tablet: 42px;
+  --font-size-big-tablet: 50.4px;
+  --font-size-huge-tablet: 63px;
 
-  --font-size-tiny-pc: 24px;
-  --font-size-small-pc: 30px;
-  --font-size-regular-pc: 36px;
-  --font-size-medium-pc: 40px;
-  --font-size-strong-pc: 60px;
-  --font-size-big-pc: 90px;
-  --font-size-huge-pc: 120px;
+  --font-size-tiny-pc: 16.8px;
+  --font-size-small-pc: 21px;
+  --font-size-regular-pc: 25.2px;
+  --font-size-medium-pc: 28px;
+  --font-size-strong-pc: 48px;
+  --font-size-big-pc: 63px;
+  --font-size-huge-pc: 84px;
 }
 
 .montserrat-bold {

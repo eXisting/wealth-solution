@@ -124,7 +124,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
           <Grid container alignItems='center' direction='row' justifyContent='center' 
             style={{marginTop:buildSpaceSizeCssString('regular', isMobile, isTablet), gap: isMobile ? '26px' : isTablet ? '45px' : '68px'}}
           >
-            {[1, 2, 3, 4, 5].map((number) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
               <Box key={number} display="flex" flexDirection='column' textAlign={'center'}>
                 <Box textAlign={'center'} marginBottom='2px' >
                   <Typography className='montserrat-medium'
