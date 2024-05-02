@@ -41,6 +41,11 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
     });
   };
 
+  const data = [];
+  for (let value = min; value <= max; value += step) {
+    data.push(value);
+  }
+
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <Box display="flex" flexDirection={"row"} width={'100%'} alignItems="center" justifyContent="space-between">
@@ -100,7 +105,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         textFontFamily={"'Poppins', sans-serif"}
 
         mousewheelDisabled={true}
-        step={step}
+        data={data}
         min={ min }
         max={ max }
       >
