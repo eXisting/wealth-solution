@@ -79,6 +79,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         pointers={pointers}
         onChange={newPointers => {
           setPointers(newPointers);
+          updateRedux(newPointers[0].value);
         }}
         pathStartAngle={ 15 }
         pathEndAngle={ 375 }
