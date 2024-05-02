@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { currentDate, formatCurrency, totalEnabledYears, trimToInt } from '../Global/Global';
 import { useSelector } from 'react-redux';
-import Chart from 'chart.js/auto';
+import Chart, { Tooltip } from 'chart.js/auto';
 import { contributionsCheckpoints, generateYearsCheckpoints, savingsCheckpoints } from '../Global/ChartsMath';
 
 function drawCurvedLineChart(canvas, 
@@ -45,6 +45,22 @@ function drawCurvedLineChart(canvas,
           },
       ],
   };
+
+  Tooltip.positioners.bottom = function(items) {
+    const pos = Tooltip.positioners.average(items);
+    if (pos === false) {
+        return false;
+    }
+
+    const chart = this.chart;
+
+    return {
+        x: pos.x,
+        y: chart.chartArea.bottom,
+        xAlign: 'center',
+        yAlign: 'bottom',
+    };
+};
 
   var options = {
     responsive: true,
@@ -90,6 +106,9 @@ function drawCurvedLineChart(canvas,
         legend: {
             display: false
         },
+        tooltip: {
+          position: 'bottom'
+        }
     },
   };
 
