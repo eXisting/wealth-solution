@@ -11,6 +11,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
   const theme = useTheme();
 
   const [ pointers, setPointers ] = useState([{ value: initialValue }]);
+  const [displayedValue, setDisplayedValue] = useState(initialValue);
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -79,6 +80,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         pointers={pointers}
         onChange={newPointers => {
           setPointers(newPointers);
+          setDisplayedValue(newPointers[0].value);
           updateRedux(newPointers[0].value);
         }}
         pathStartAngle={ 15 }
@@ -126,7 +128,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
           className='poppins-medium'
           fontSize={!isMobile && !isTablet ? '100px' : buildFontSizeCssString('big', isMobile, isTablet)}
           sx={{ textAlign: 'center' }}
-        >{`${pointers[0].value}%`}
+        >{`${displayedValue}%`}
         </Typography>
       </Box>
     </Box>

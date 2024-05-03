@@ -12,6 +12,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
   const theme = useTheme();
 
   const [ pointers, setPointers ] = useState([{ value: initialValue }]);
+  const [displayedValue, setDisplayedValue] = useState(initialValue);
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -75,6 +76,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         pointers={pointers}
         onChange={newPointers => {
           setPointers(newPointers);
+          setDisplayedValue(newPointers[0].value);
           updateRedux(newPointers[0].value);
         }}
         animateOnClick={ true }
@@ -144,7 +146,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
           fontSize={buildFontSizeCssString('big', isMobile, isTablet)}
           sx={{ textAlign: 'center' }}
         >{
-          formatCurrency('$', undefined, pointers[0].value)}
+          formatCurrency('$', undefined, displayedValue)}
         </Typography>
       </Box>
     </Box>
