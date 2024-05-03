@@ -21,6 +21,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
       const newPointers = [...prevPointers];
       newPointers[0] = { ...newPointers[0], value: newPointers[0].value + interval };
       if (newPointers[0].value <= max) {
+        setDisplayedValue(newPointers[0].value);
         updateRedux(newPointers[0].value);
         return newPointers;
       } else {
@@ -34,6 +35,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
       const newPointers = [...prevPointers];
       newPointers[0] = { ...newPointers[0], value: newPointers[0].value - interval };
       if (newPointers[0].value >= min) {
+        setDisplayedValue(newPointers[0].value);
         updateRedux(newPointers[0].value);
         return newPointers;
       } else {
