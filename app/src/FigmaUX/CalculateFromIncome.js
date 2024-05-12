@@ -198,7 +198,7 @@ const CalculateFromIncome = () => {
           />
         </Box>
         <GradientSliderComponent
-          min={10000} max={1000000} 
+          min={25000} max={350000} 
           step={1000}
           initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
           titleText={'Estimate your average income in the next 10 years'}
