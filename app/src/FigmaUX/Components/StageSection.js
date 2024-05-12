@@ -99,7 +99,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
         <>
         <Grid container width='100%' justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
                 {ageRangeText}
               </Typography>
             </Grid>
@@ -111,7 +111,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
           </Grid>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
                 # of years in stage {stageIndex + 1}
               </Typography>
             </Grid>
@@ -129,7 +129,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
                 <Box textAlign={'center'} marginBottom='2px' >
                   <Typography className='montserrat-medium'
                     fontSize={isMobile ? '12px' : isTablet ? '18px' : '26px'}
-                    color="#D9D9D9"
+                    color="#666666"
                   >
                     {number}
                   </Typography>
@@ -149,17 +149,19 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
               </Box>
             ))}
           </Grid>
-          <Grid container justifyContent="space-between" alignItems="center" style={{marginTop:buildSpaceSizeCssString('medium', isMobile, isTablet), 
-            marginBottom:buildSpaceSizeCssString('medium', isMobile, isTablet)}}
+          <Grid container
+                justifyContent="space-between" alignItems="center"
+                style={{marginTop:buildSpaceSizeCssString('medium', isMobile, isTablet),
+                  marginBottom:buildSpaceSizeCssString('medium', isMobile, isTablet)}}
           >
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('small', isMobile, isTablet)}>
+              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
                 Monthly savings
               </Typography>
             </Grid>
             <Grid item>
               <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
-                {contributions}
+                ${contributions}
               </Typography>
             </Grid>
           </Grid>

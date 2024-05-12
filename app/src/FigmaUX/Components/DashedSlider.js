@@ -130,7 +130,15 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   }
 
   return (
-    <Box ref={parentRef} height={isMobile ? '57px' : isTablet ? '90px' : '141px'} display="flex" alignItems={'center'} flexDirection="row" width={'100%'} justifyContent={'center'} gap={`${space}px`} position={'relative'}>
+    <Box
+        ref={parentRef}
+        height={isMobile ? '57px' : isTablet ? '90px' : '141px'}
+        display="flex" alignItems={'center'}
+        flexDirection="row" width={'100%'}
+        justifyContent={'center'}
+        gap={`${space}px`}
+        position={'relative'}
+    >
       {generateLines(numLines, highlightedIndex)}
       <CustomThumbSlider
         slots={{ thumb: AirbnbThumbComponent }}

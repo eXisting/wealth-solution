@@ -65,6 +65,51 @@ function setSmallestCombination(desiredResult, startingSavings, stageEnabled1, s
   ];
 }
 
+function setDefaultCombination(desiredResult, startingSavings, stageEnabled1, stageEnabled2, stageEnabled3) {
+  if (desiredResult <= startingSavings) {
+    return [
+      { age: 0, contribution: 0 },
+      { age: 0, contribution: 0 },
+      { age: 0, contribution: 0 }
+    ];
+  }
+
+  let savingPeriod = 30;
+
+  let decadeOneEnabled = stageEnabled1;
+  let decadeTwoEnabled = stageEnabled2;
+  let decadeThreeEnabled = stageEnabled3;
+
+  let first = [0, 0];
+  let calculatedInFirst = startingSavings;
+  if (decadeOneEnabled) {
+    let firstPeriod = 10;
+    let firstResult = startingSavings > desiredResult * 0.01 ? desiredResult * 0.08 : desiredResult * 0.045;
+    first = calculateContribution(firstResult, startingSavings, firstPeriod);
+    calculatedInFirst = calculateSavings(first[1], first[0], startingSavings);
+  }
+
+  let second = [0, 0];
+  let calculatedInSecond = calculatedInFirst;
+  if (calculatedInFirst < desiredResult && decadeTwoEnabled) {
+    let secondPeriod = 10;
+    let secondResult = startingSavings > desiredResult * 0.01 ? desiredResult * 0.28 : desiredResult * 0.25;
+    second = calculateContribution(secondResult, calculatedInFirst, secondPeriod);
+    calculatedInSecond = calculateSavings(second[1], second[0], calculatedInFirst);
+  }
+
+  let third = [0, 0];
+  if (calculatedInSecond < desiredResult && decadeThreeEnabled) {
+    let thirdPeriod = 10;
+    third = calculateContribution(desiredResult, calculatedInSecond, thirdPeriod);
+  }
+
+  return [
+    { age: first[0], contribution: first[1] },
+    { age: second[0], contribution: second[1] },
+    { age: third[0], contribution: third[1] }
+  ];
+}
 
 function calculateMinimumYearsForFutureValue(futureValue, principal, maxContribution, desiredResult) {
   let maxYears = 15;
@@ -104,4 +149,4 @@ function calculateContribution(futureValue, principal, maxYears, desiredResult) 
   return [maxYears, contribution];
 }
 
-export {calculateSavings, setSmallestCombination, calculateMinimumYearsForFutureValue, calculateContribution};
+export {calculateSavings, setSmallestCombination, setDefaultCombination, calculateMinimumYearsForFutureValue, calculateContribution};

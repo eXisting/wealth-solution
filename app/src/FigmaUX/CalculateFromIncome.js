@@ -201,7 +201,7 @@ const CalculateFromIncome = () => {
           min={10000} max={1000000} 
           step={1000}
           initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
-          titleText={`Estimate your ${selectedDecade === 0 ? '1st' : selectedDecade === 1 ? '2nd' : '3rd'} decade of savings`}
+          titleText={'Estimate your average income in the next 10 years'}
           isMobile={isMobile}
           isTablet={isTablet}
           updateRedux={updateDecadeIncomeValue} 

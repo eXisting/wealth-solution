@@ -8,7 +8,7 @@ import editIcon from '../../Media/edit.svg';
 
 import '../css/fonts.css'
 
-const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateStartingSavings }) => {
+const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateStartingSavings, maxValue }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -24,14 +24,16 @@ const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateSta
   };
 
   const handleInputChange = (e) => {
-    var number = trimToInt(e.target.value);
+    let number = trimToInt(e.target.value);
     setEditedValue(number);
   };
 
   const handleInputBlur = () => {
     setIsEditing(false);
-    
-    onUpdateStartingSavings(editedValue);
+
+    let number = editedValue > maxValue ? maxValue : editedValue;
+
+    onUpdateStartingSavings(number);
   };
 
   useEffect(() => {

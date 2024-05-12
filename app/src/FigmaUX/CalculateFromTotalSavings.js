@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { batch } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
-import { Typography, Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import {Typography, Grid, Box, useMediaQuery, useTheme, Button} from '@mui/material';
 import StageSection from './Components/StageSection';
 import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
 import CurvedLineChartControlledComponent from './Components/CurvedLineChartControlledComponent';
 import DoughnutChartComponent from './Components/DoughnutChartComponent';
 import { totalSavingsPerContributions } from './Global/ChartsMath';
-import { setSmallestCombination } from './Global/Math';
+import {setDefaultCombination, setSmallestCombination} from './Global/Math';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import NavigationFooterComponent from './Components/NavigationFooterComponent';
 import InitialDataSectionComponent from './Components/InitialDataSectionComponent';
@@ -51,17 +51,24 @@ const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const theme = useTheme();
+  const [isStagesVisible, setStageVisible] = useState(false);
 
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+  useEffect(() => {
+    handleUpdateDesiredResult(1000000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     startingSavings,
     startingAge,
     desiredResult
   } = useSelector((state) => state.initialPage);
-  
+
   const decades = [
     {
       page: useSelector((state) => state.decadeOnePage),
@@ -96,17 +103,21 @@ const CalculateFromTotalSavings = () => {
   ];
 
   const allDecadesDisabled = decades.every((decade) => !decade.page.enabled);
-
   const handleUpdateStartingSavings = (newValue) => {
     dispatch(updateStartingSavings(newValue));
+
   };
+
+  const enableStagesVisibility = (newValue) => {
+    setStageVisible(true);
+  }
 
   const handleUpdateStartingAge = (newValue) => {
     dispatch(updateStartingAge(newValue));
   };
 
   const handleUpdateDesiredResult = (newValue) => {
-    const [stage1, stage2, stage3] = setSmallestCombination(
+    const [stage1, stage2, stage3] = setDefaultCombination(
       newValue,
       startingSavings,
       decades[0].page.enabled,
@@ -127,7 +138,6 @@ const CalculateFromTotalSavings = () => {
     for(var i = 0; i < actions.length; i++)
       dispatch(actions[i]);
   };
-  
 
   const updateDecadeEnabled = (stageIndex, newValue) => {
     if (newValue === false) {
@@ -191,29 +201,49 @@ const CalculateFromTotalSavings = () => {
 
   return (
     <>
-      <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
-      <Box display="flex" flexDirection="column" 
-        paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
+      <NavigationHeaderComponent
+          isMobile={isMobile}
+          isTablet={isTablet}
+      />
+      <Box
+          display="flex"
+          flexDirection="column"
+          paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
-        <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
-          marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}>
-          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            gap={buildSpaceSizeCssString('small', isMobile, isTablet)}
+            marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
+        >
+          <Typography
+              className='montserrat-bold'
+              fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+          >
             Let us calculate a savings plan for you.
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge}
-            isMobile={isMobile} isTablet={isTablet}
-            reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}/>
-          <Typography className='montserrat-regular'
-            marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
-            marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
-            fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+        <Box
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <InitialDataSectionComponent
+              startingSavings={startingSavings}
+              startingAge={startingAge}
+              isMobile={isMobile} isTablet={isTablet}
+              reduxStartingAgeUpdate={handleUpdateStartingAge}
+              reduxStartingSavingsUpdate={handleUpdateStartingSavings}
+          />
+          <Typography
+              className='montserrat-regular'
+              align={'center'}
+              marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+              marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
+              fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
           >
-            How much money do you want?
+            You choose your wealth number, and we will <br/> show you how much to save
           </Typography>
           <TargetButtonsGroup 
             desiredResult={desiredResult} 
@@ -252,167 +282,200 @@ const CalculateFromTotalSavings = () => {
               decades[0].page.enabled, decades[1].page.enabled, decades[2].page.enabled)
           } years)</Typography>
         </Box>
-        <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center"
-          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
-          gap={isMobile ? '80px' : isTablet ? '100px' : '150px'}
+        {!isStagesVisible && (
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         >
-          <StageSection
-            stageIndex={0}
-            stageNameText="Stage One"
-            ageRangeText="Your stage one age range"
-            isMobile={isMobile}
-            isTablet={isTablet}
-            minSliderValue={1}
-            maxSliderValue={5000}
-            isEnabled={decades[0].page.enabled}
-            startingYears={startingAge}
-            years={decades[0].page.age}
-            contributions={decades[0].page.monthlyContribution}
-            reduxUpdateEnabled={updateDecadeEnabled}
-            reduxUpdateYears={updateDecadeYears}
-            reduxUpdateContributions={updateDecadeContributions}
-          />
-          <StageSection
-            stageIndex={1}
-            stageNameText="Stage Two"
-            ageRangeText="Your stage two age range"
-            isMobile={isMobile}
-            isTablet={isTablet}
-            minSliderValue={1}
-            maxSliderValue={10000}
-            isEnabled={decades[1].page.enabled}
-            startingYears={startingAge + decades[0].page.age}
-            years={decades[1].page.age}
-            contributions={decades[1].page.monthlyContribution}
-            reduxUpdateEnabled={updateDecadeEnabled}
-            reduxUpdateYears={updateDecadeYears}
-            reduxUpdateContributions={updateDecadeContributions}
-          />
-          <StageSection
-            stageIndex={2}
-            stageNameText="Stage Three"
-            ageRangeText="Your stage three age range"
-            isMobile={isMobile}
-            isTablet={isTablet}
-            minSliderValue={1}
-            maxSliderValue={15000}
-            isEnabled={decades[2].page.enabled}
-            startingYears={startingAge + decades[0].page.age + decades[1].page.age}
-            years={decades[2].page.age}
-            contributions={decades[2].page.monthlyContribution}
-            reduxUpdateEnabled={updateDecadeEnabled}
-            reduxUpdateYears={updateDecadeYears}
-            reduxUpdateContributions={updateDecadeContributions}
-          />
-        </Box>
-        <Box marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)} 
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
-        >
-          <Box display='flex' flexDirection='row' width='100%' alignItems="center" 
-          justifyContent='center'
-            gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')} textAlign='center'
-            marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
-            marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+          <Box
+              position={'relative'}
+              padding={isMobile ? '20px' : '30px'}
+              borderRadius={isMobile ? '10px' : isTablet ? '15px' : '20px'}
+              flex="1"
+              maxWidth={!isMobile && !isTablet ? '280px' : '100%'}
+              flexDirection={isMobile || isTablet ? 'row' : 'column'}
+              onClick={() => enableStagesVisibility()}
+              sx={{ cursor: 'pointer' }}
+              backgroundColor={'var(--main-color)'}
           >
-            <Box display="flex" flexDirection="column" alignItems="center" 
-              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
-              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
-            > 
-              <img src={money} alt="Total Interest Earned"
-                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-              />
-              <Typography 
-                className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isMobile ? 'small' : isTablet ? 'regular' : 'small', isMobile, isTablet)}
-              >
-                Total Interest Earned
-              </Typography>
-              <Typography 
+            <Typography
+                padding={1}
                 className='poppins-medium'
-                color={'var(--main-color)'}
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
-              >
-                {formatCurrency('$', false, calculateTotal().interestEarned)}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column" alignItems="center"
-              width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
-              height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                color={'#000000'}
             >
-              <img src={donation} alt="Total Contributions" 
-                width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-                height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
-              />
-              <Typography
-                className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isMobile ? 'small' : 'regular', isMobile, isTablet)}
-              >
-                Total Contributions
-              </Typography>
-              <Typography 
-                className='poppins-medium'
-                color={'var(--main-color)'}
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
-              >
-                {formatCurrency('$', false, calculateTotal().sumContributions)}
-              </Typography>
-            </Box>
+              Let's see your plan!
+            </Typography>
           </Box>
         </Box>
-        {!allDecadesDisabled && (
-          <>
-            <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', 
-              gap: buildSpaceSizeCssString('regular', isMobile, isTablet), 
-              marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
-              marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}
-            >
-              <Typography 
-                className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+        )}
+        {isStagesVisible && (
+            <>
+              <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center"
+                marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+                gap={isMobile ? '80px' : isTablet ? '100px' : '150px'}
               >
-                Investment Growth Over Time
-              </Typography>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
-              height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
-              width: '100%'}}
+                <StageSection
+                  stageIndex={0}
+                  stageNameText="Stage One"
+                  ageRangeText="Your stage one age range"
+                  isMobile={isMobile}
+                  isTablet={isTablet}
+                  minSliderValue={1}
+                  maxSliderValue={5000}
+                  isEnabled={decades[0].page.enabled}
+                  startingYears={startingAge}
+                  years={decades[0].page.age}
+                  contributions={decades[0].page.monthlyContribution}
+                  reduxUpdateEnabled={updateDecadeEnabled}
+                  reduxUpdateYears={updateDecadeYears}
+                  reduxUpdateContributions={updateDecadeContributions}
+                />
+                <StageSection
+                  stageIndex={1}
+                  stageNameText="Stage Two"
+                  ageRangeText="Your stage two age range"
+                  isMobile={isMobile}
+                  isTablet={isTablet}
+                  minSliderValue={1}
+                  maxSliderValue={10000}
+                  isEnabled={decades[1].page.enabled}
+                  startingYears={startingAge + decades[0].page.age}
+                  years={decades[1].page.age}
+                  contributions={decades[1].page.monthlyContribution}
+                  reduxUpdateEnabled={updateDecadeEnabled}
+                  reduxUpdateYears={updateDecadeYears}
+                  reduxUpdateContributions={updateDecadeContributions}
+                />
+                <StageSection
+                  stageIndex={2}
+                  stageNameText="Stage Three"
+                  ageRangeText="Your stage three age range"
+                  isMobile={isMobile}
+                  isTablet={isTablet}
+                  minSliderValue={1}
+                  maxSliderValue={15000}
+                  isEnabled={decades[2].page.enabled}
+                  startingYears={startingAge + decades[0].page.age + decades[1].page.age}
+                  years={decades[2].page.age}
+                  contributions={decades[2].page.monthlyContribution}
+                  reduxUpdateEnabled={updateDecadeEnabled}
+                  reduxUpdateYears={updateDecadeYears}
+                  reduxUpdateContributions={updateDecadeContributions}
+                />
+              </Box>
+              <Box marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
               >
-                <CurvedLineChartControlledComponent />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
-              <Typography 
-                className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
-              >
-                Investment Balance at Year {calculateEndYear(40)}
-              </Typography>
-              <div style={{ position: 'relative', height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
-                <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
-                <div style={{ position: 'absolute', top: -30, left: 0, right: 0, bottom: 0, 
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-                  zIndex:'-1'
-                  }}>
-                  <Typography 
-                    className='montserrat-regular'
-                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
-                    textAlign='center'
+                <Box display='flex' flexDirection='row' width='100%' alignItems="center"
+                justifyContent='center'
+                  gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')} textAlign='center'
+                  marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                  marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                >
+                  <Box display="flex" flexDirection="column" alignItems="center"
+                    width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+                    height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
                   >
-                    Total Saved
-                  </Typography>
-                  <Typography 
-                    className='montserrat-bold'
-                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
-                    textAlign='center'
+                    <img src={money} alt="Total Interest Earned"
+                      width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                      height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                    />
+                    <Typography
+                      className='montserrat-regular'
+                      fontSize={buildFontSizeCssString(isMobile ? 'small' : isTablet ? 'regular' : 'small', isMobile, isTablet)}
+                    >
+                      Total Interest Earned
+                    </Typography>
+                    <Typography
+                      className='poppins-medium'
+                      color={'var(--main-color)'}
+                      fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                    >
+                      {formatCurrency('$', false, calculateTotal().interestEarned)}
+                    </Typography>
+                  </Box>
+                  <Box display="flex" flexDirection="column" alignItems="center"
+                    width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+                    height={isMobile ? '77px' : isTablet ? '151px' : '276px'}
                   >
-                    {formatCurrency('$', false, calculateTotal().sum)}
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </>
-          )}
-      </Box>
+                    <img src={donation} alt="Total Contributions"
+                      width={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                      height={isMobile ? '37px' : isTablet ? '45px' : '126px'}
+                    />
+                    <Typography
+                      className='montserrat-regular'
+                      fontSize={buildFontSizeCssString(isMobile ? 'small' : 'regular', isMobile, isTablet)}
+                    >
+                      Total Contributions
+                    </Typography>
+                    <Typography
+                      className='poppins-medium'
+                      color={'var(--main-color)'}
+                      fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                    >
+                      {formatCurrency('$', false, calculateTotal().sumContributions)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              {!allDecadesDisabled && (
+                <>
+                  <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center',
+                    gap: buildSpaceSizeCssString('regular', isMobile, isTablet),
+                    marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
+                    marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}
+                  >
+                    <Typography
+                      className='montserrat-regular'
+                      fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                    >
+                      Investment Growth Over Time
+                    </Typography>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
+                    width: '100%'}}
+                    >
+                      <CurvedLineChartControlledComponent />
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', gap:buildSpaceSizeCssString('regular', isMobile, isTablet) }}>
+                    <Typography
+                      className='montserrat-regular'
+                      fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                    >
+                      Investment Balance at Year {calculateEndYear(40)}
+                    </Typography>
+                    <div style={{ position: 'relative', height: isMobile ? '230px' : isTablet ? '384px' : '493px', width: isMobile ? '230px' : isTablet ? '384px' : '493px' }}>
+                      <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
+                      <div style={{ position: 'absolute', top: -30, left: 0, right: 0, bottom: 0,
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                        zIndex:'-1'
+                        }}>
+                        <Typography
+                          className='montserrat-regular'
+                          fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                          textAlign='center'
+                        >
+                          Total Saved
+                        </Typography>
+                        <Typography
+                          className='montserrat-bold'
+                          fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                          textAlign='center'
+                        >
+                          {formatCurrency('$', false, calculateTotal().sum)}
+                        </Typography>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+        )}
+        </Box>
       <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
     </>
   );

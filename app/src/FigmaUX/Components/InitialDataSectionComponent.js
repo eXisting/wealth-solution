@@ -15,9 +15,12 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
         <Typography className='montserrat-regular' fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}>
           How much do you have saved today?
         </Typography>
-        <StartingAmountSelection marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)} 
-          isMobile={isMobile} isTablet={isTablet} 
-          onUpdateStartingSavings={reduxStartingSavingsUpdate}
+        <StartingAmountSelection
+            marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            isMobile={isMobile}
+            isTablet={isTablet}
+            maxValue={20000}
+            onUpdateStartingSavings={reduxStartingSavingsUpdate}
         />
         <DashedSlider
           min={5000}
