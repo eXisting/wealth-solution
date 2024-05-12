@@ -283,33 +283,28 @@ const CalculateFromTotalSavings = () => {
           } years)</Typography>
         </Box>
         {!isStagesVisible && (
-        <Box
+          <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
             marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        >
-          <Box
-              position={'relative'}
-              padding={isMobile ? '20px' : '30px'}
-              borderRadius={isMobile ? '10px' : isTablet ? '15px' : '20px'}
-              flex="1"
-              maxWidth={!isMobile && !isTablet ? '280px' : '100%'}
-              flexDirection={isMobile || isTablet ? 'row' : 'column'}
-              onClick={() => enableStagesVisibility()}
-              sx={{ cursor: 'pointer' }}
-              backgroundColor={'var(--main-color)'}
           >
-            <Typography
+            <Button variant="contained" 
+              sx={{marginBottom:16, backgroundColor:'var(--main-color)', color:'white', borderRadius:'1rem', 
+              width:'30%',
+            '&:hover': {
+              backgroundColor: 'black',
+            }}}
+              onClick={enableStagesVisibility}
+            >
+              <Typography 
                 padding={1}
                 className='poppins-medium'
-                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
-                color={'#000000'}
-            >
-              Let's see your plan!
-            </Typography>
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
+                Let's see your plan!
+              </Typography>
+            </Button>
           </Box>
-        </Box>
         )}
         {isStagesVisible && (
             <>
