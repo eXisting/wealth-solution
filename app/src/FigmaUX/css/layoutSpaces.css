@@ -2,13 +2,16 @@
   --space-small-mobile: 16px;
   --space-regular-mobile: 32px;
   --space-medium-mobile: 45px;
+  --space-big-mobile: 60px;
 
   --space-small-tablet: 18.2px;
   --space-regular-tablet: 31.5px;
   --space-medium-tablet: 42px;
+  --space-big-tablet: 53px;
 
   --space-small-pc: 25.2px;
   --space-semi-small-pc: 32.2px;
   --space-regular-pc: 40.8px;
   --space-medium-pc: 64px;
+  --space-big-pc: 90px;
 }

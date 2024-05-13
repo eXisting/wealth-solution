@@ -3,6 +3,7 @@
   --font-size-small-mobile: 10px;
   --font-size-regular-mobile: 12px;
   --font-size-medium-mobile: 16px;
+  --font-size-intermediate-pc: 22px;
   --font-size-strong-mobile: 30px;
   --font-size-big-mobile: 40px;
   --font-size-huge-mobile: 50px;
@@ -11,6 +12,7 @@
   --font-size-small-tablet: 12.6px;
   --font-size-regular-tablet: 14px;
   --font-size-medium-tablet: 21px;
+  --font-size-intermediate-pc: 30px;
   --font-size-strong-tablet: 42px;
   --font-size-big-tablet: 50.4px;
   --font-size-huge-tablet: 63px;
@@ -19,6 +21,7 @@
   --font-size-small-pc: 21px;
   --font-size-regular-pc: 25.2px;
   --font-size-medium-pc: 28px;
+  --font-size-intermediate-pc: 36px;
   --font-size-strong-pc: 48px;
   --font-size-big-pc: 63px;
   --font-size-huge-pc: 84px;
