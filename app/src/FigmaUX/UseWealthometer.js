@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, useMediaQuery, useTheme, Divider } from '@mui/material';
+import {Typography, Box, useMediaQuery, useTheme, Divider, createTheme} from '@mui/material';
+import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 import { calculateEndYear, currentDate, currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import GradientSliderComponent from './Components/GradientSliderComponent';
 import CurvedLineChartComponent from './Components/CurvedLineChartComponent';
@@ -26,11 +27,23 @@ import {
 
 const UseWealthometer = () => {
   const dispatch = useDispatch();
-  
-  const theme = useTheme();
+
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        narrowDesktop: 1050,
+      },
+    },
+  });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isNarrowDesktop = useMediaQuery(theme.breakpoints.between('md', 'narrowDesktop'));
 
   useEffect(() => {
     handleUpdateContributions(1000)
@@ -172,7 +185,7 @@ const UseWealthometer = () => {
                 </Typography>
                 <Typography
                   className='poppins-medium'
-                  color={'var(--main-color)'}
+                  color={'var(--secondary-color)'}
                   fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
                 >
                   {formatCurrency('$', false, calculateTotal().interestEarned)}
@@ -198,7 +211,7 @@ const UseWealthometer = () => {
               </Typography>
               <Typography
                   className='poppins-medium'
-                  color={'var(--main-color)'}
+                  color={'var(--secondary-color)'}
                   fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
               >
                 {formatCurrency('$', false, calculateTotal().sumContributions)}
@@ -282,9 +295,7 @@ const UseWealthometer = () => {
               flexDirection="row"
               justifyContent="center"
               alignItems="center"
-              gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
-              paddingLeft={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2.1')}
-              paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+              gap={ isNarrowDesktop ? '' : buildSpaceSizeCssString('medium', isMobile, isTablet )}
             >
               <Box
                 display="flex"
@@ -311,8 +322,8 @@ const UseWealthometer = () => {
                 >
                   <Box>
                     <Typography
-                      className='montserrat-medium'
-                      fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                      className='montserrat-regular'
+                      fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
                       textAlign='center'
                     >
                       Your investment will<br/> be worth
@@ -347,8 +358,8 @@ const UseWealthometer = () => {
                     alignItems="center"
                     justifyContent='center'
                     gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '2')} textAlign='center'
-                    marginLeft={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
-                    marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                    marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+                    marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
                     marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet))}
                 >
                   <Box
@@ -372,7 +383,7 @@ const UseWealthometer = () => {
                     </Typography>
                     <Typography
                       className='poppins-medium'
-                      color={'var(--main-color)'}
+                      color={'var(--secondary-color)'}
                       fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
                     >
                       {formatCurrency('$', false, calculateTotal().interestEarned)}
@@ -403,7 +414,7 @@ const UseWealthometer = () => {
                     </Typography>
                     <Typography
                       className='poppins-medium'
-                      color={'var(--main-color)'}
+                      color={'var(--secondary-color)'}
                       fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
                     >
                       {formatCurrency('$', false, calculateTotal().sumContributions)}
@@ -417,7 +428,7 @@ const UseWealthometer = () => {
           flexDirection="row"
           justifyContent="center"
           alignItems="center"
-          gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         >
           <div
             style={{

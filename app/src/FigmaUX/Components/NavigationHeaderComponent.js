@@ -1,10 +1,13 @@
-import { Box, Button, ButtonGroup, Typography, IconButton, Menu, MenuItem } from "@mui/material";
+import {Box, Button, ButtonGroup, Typography, IconButton, Menu, MenuItem, Divider} from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import logo from '../../Media/logo.png';
+import highLevel from '../../Media/highLevel.svg';
+import calculate from '../../Media/calculate.svg';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from "../Global/CssStrings";
+import donation from "../../Media/donation.svg";
 
 const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
   const navigate = useNavigate();
@@ -25,63 +28,200 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-      paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-      paddingTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
-      gap={4}
-    >
-      <Box paddingLeft={buildCalculatedCssString(buildSpaceSizeCssString('regular', isMobile, isTablet), '*', '-1')} display="flex" alignItems="center">
-        <img src={logo} style={{width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px'}} alt="Company Logo" />
-      </Box>
+    <>
       {isMobile || isTablet ? (
         <>
-          <IconButton onClick={handleMenuClick}>
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+            paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+            paddingTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
+            gap={4}
           >
-            <MenuItem onClick={() => handleMenuItemClick('/fromTotalSavings')}>
-              From Total
-            </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick('/')}>
-              Wealthometer
-            </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick('/fromIncome')}>
-              From Income
-            </MenuItem>
-          </Menu>
+            <Box
+              display="flex"
+              alignItems="center"
+            >
+              <img
+                src={logo}
+                style={{width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px'}}
+                alt="Company Logo"
+              />
+            </Box>
+            <IconButton onClick={handleMenuClick}>
+              <MenuIcon />
+            </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleMenuItemClick('/fromTotalSavings')}>
+                  From Total
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('/')}>
+                  Wealthometer
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('/fromIncome')}>
+                  From Income
+                </MenuItem>
+              </Menu>
+          </Box>
         </>
       ) : (
-        <ButtonGroup variant="text" sx={{gap:2}}>
-          <Button
-            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/' ? '#4A7DE2' : 'black', border:'none !important'}}
-            onClick={() => navigate('/')}
+        <Box
+          paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          paddingTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
+        >
+          <img
+            src={logo}
+            style={{width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px'}}
+            alt="Company Logo"
+          />
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            zIndex={-1}
+            marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+            marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
+            gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
           >
-            Wealthometer
-          </Button>
-          <Button
-            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black', border:'none !important'}}
-            onClick={() => navigate('/fromTotalSavings')}
-          >
-            Calculate from total savings
-          </Button>
-          
-          <Button
-            sx={{ fontSize:buildFontSizeCssString('tiny', isMobile, isTablet), color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black', border:'none !important'}}
-            onClick={() => navigate('/fromIncome')}
-          >
-            Calculate from income
-          </Button>
-        </ButtonGroup>
+            <ButtonGroup
+              variant="text"
+              sx={{gap:2}}
+            >
+              <Button
+                sx={{
+                  color: location.pathname === '/' ? '#4A7DE2' : 'black',
+                  border: 'none !important'
+                }}
+                onClick={() => navigate('/')}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  zIndex={-1}
+                  gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                  marginRight={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+                >
+                  <Typography
+                    className='montserrat-medium'
+                    align={'left'}
+                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                  >
+                    Use Our Calculators
+                  </Typography>
+                  <Typography
+                    className='montserrat-regular'
+                    align={'left'}
+                    fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.7')}
+                  >
+                    Estimate your wealth or estimate your wealth based from income
+                  </Typography>
+                </Box>
+              </Button>
+              <Button
+                sx={{
+                  color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black',
+                  border: 'none !important'
+                }}
+                onClick={() => navigate('/fromTotalSavings')}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  zIndex={-1}
+                  gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
+                >
+                  <img
+                    src={highLevel}
+                    alt="Total Contributions"
+                    width={isMobile ? '27px' : isTablet ? '35px' : '50px'}
+                    height={isMobile ? '27px' : isTablet ? '35px' : '50px'}
+                  />
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    zIndex={-1}
+                    gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                  >
+                    <Typography
+                      className='montserrat-medium'
+                      align={'left'}
+                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.7')}
+                    >
+                      Wealthometer
+                    </Typography>
+                    <Typography
+                      className='montserrat-regular'
+                      align={'left'}
+                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
+                    >
+                      Estimate your wealth
+                    </Typography>
+                  </Box>
+                </Box>
+              </Button>
+              <Button
+                sx={{
+                  color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black',
+                  border:'none !important'}}
+                onClick={() => navigate('/fromIncome')}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  zIndex={-1}
+                  gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
+                >
+                  <img
+                    src={calculate}
+                    alt="Total Contributions"
+                    width={isMobile ? '27px' : isTablet ? '35px' : '50px'}
+                    height={isMobile ? '27px' : isTablet ? '35px' : '50px'}
+                  />
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    zIndex={-1}
+                    gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                  >
+                    <Typography
+                      className='montserrat-medium'
+                      align={'left'}
+                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.7')}
+                    >
+                      Calculate from income
+                    </Typography>
+                    <Typography
+                      className='montserrat-regular'
+                      align={'left'}
+                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
+                    >
+                      Estimate your wealth based from income
+                    </Typography>
+                  </Box>
+                </Box>
+              </Button>
+            </ButtonGroup>
+          </Box>
+          <Divider
+            orientation="horizontal"
+          />
+        </Box>
       )}
-    </Box>
+    </>
   );
 };
 

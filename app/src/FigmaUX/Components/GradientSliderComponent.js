@@ -51,7 +51,12 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
   }
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
       <Box display="flex" flexDirection={"row"} width={'100%'} alignItems="center" justifyContent="space-between">
         <Button
           variant="contained"
@@ -84,7 +89,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         animateOnClick={ true }
         pathStartAngle={ 140 }
         pathEndAngle={ 40 }
-        pathThickness={ 16 }
+        pathThickness={ isMobile ? 16 : isTablet ? 18 : 25 }
         SvgDefs={
           <linearGradient 
               id="color-slider-gradient" 
@@ -109,8 +114,8 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         
         pointerBorderColor={'white'}
         pointerBorder={isMobile ? 2 : isTablet ? 3 : 4}
-        pointerRadius={isMobile ? 13 : isTablet ? 16 : 20}
-        pathRadius={isMobile ? 120 : isTablet ? 150 : 200 }
+        pointerRadius={isMobile ? 13 : isTablet ? 16 : 25}
+        pathRadius={isMobile ? 120 : isTablet ? 150 : 170 }
         
         hideText={true}
         textPrefix={sign}
