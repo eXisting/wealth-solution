@@ -87,7 +87,7 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
             yAlign: 'bottom',
         };
     };
-    
+
     var data = {
         labels: generateYearsCheckpoints(years, step),
         datasets: [
@@ -108,7 +108,7 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
         ],
     };
 
-    var options = {
+      var options = {
         responsive: true,
         maintainAspectRatio: false, // Set this to false to control the chart size manually
         aspectRatio: 3,
@@ -119,13 +119,13 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
                 autoSkip: false, // Show all labels
                 grid: {
                     display: false,
-                  },    
+                  },
                 min: 0,
                 max: 40,
                 ticks: {
                     stepSize: step,
                     callback: value => {
-                        return (value * step) + currentDate().getFullYear();
+                        return step == 1 ? '' : ((value - 1) * step) + currentDate().getFullYear();
                     },
                 }
             },
@@ -159,7 +159,7 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
     };
 
     draw(canvas, data, options);
-    
+
   }, [monthlyContributions, initialSavings, step, years]);
 
   return <canvas id="linechart" ref={canvasRef}></canvas>;
