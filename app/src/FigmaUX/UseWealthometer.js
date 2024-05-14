@@ -371,9 +371,9 @@ const UseWealthometer = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '500px',
-                gap: buildSpaceSizeCssString('tiny', isMobile, isTablet),
+                gap: buildSpaceSizeCssString('small', isMobile, isTablet),
                 marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
-                marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)
+                marginTop: buildSpaceSizeCssString('small', isMobile, isTablet)
               }}
           >
             <Typography
@@ -384,9 +384,11 @@ const UseWealthometer = () => {
               Investment Growth <br/> Over Time
             </Typography>
             <div style={{
-              display: 'flex', justifyContent: 'center', alignItems: 'center',
-              height: isMobile ? '200px' : isTablet ? '327px' : '402px',
-              width: '100%'
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: isMobile ? '200px' : isTablet ? '327px' : '402px',
+                width: '100%'
             }}
             >
               <CurvedLineChartComponent
@@ -401,18 +403,19 @@ const UseWealthometer = () => {
           </div>
           <div style={{
             display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-            gap: buildSpaceSizeCssString('small', isMobile, isTablet)
-          }}
+            gap: buildSpaceSizeCssString('small', isMobile, isTablet),
+            marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
+            marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)}}
           >
             <Typography
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
             >
               Investment Balance at Year {calculateEndYear(40)}
             </Typography>
             <div style={{
-              position: 'relative', height: isMobile ? '230px' : isTablet ? '384px' : '493px',
-              width: '384px'
+              position: 'relative', height: '450px',
+              width: '340px'
             }}
             >
               <DoughnutChartControlledComponent
@@ -423,9 +426,8 @@ const UseWealthometer = () => {
                   isTablet={isTablet}
               />
               <div style={{
-                position: 'absolute', top: -30, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column',
-                justifyContent: 'center', alignItems: 'center', zIndex: '-1'
-              }}
+                position: 'absolute', top: -150, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column',
+                justifyContent: 'center', alignItems: 'center', zIndex: '-1'}}
               >
                 <Typography
                     className='montserrat-regular'
@@ -439,7 +441,7 @@ const UseWealthometer = () => {
                     fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
                     textAlign='center'
                 >
-                  {formatCurrency('$', false, calculateTotal().sum)}
+                  {formatCurrency('', false, calculateTotal().sum)}
                 </Typography>
               </div>
             </div>
