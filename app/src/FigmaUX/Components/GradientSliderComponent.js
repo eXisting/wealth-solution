@@ -62,7 +62,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         </Button>
         <Typography
           className='montserrat-regular'
-          fontSize={buildFontSizeCssString('intermediate', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
+          fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'regular', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
         >
             {titleText}
         </Typography>
