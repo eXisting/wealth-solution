@@ -291,7 +291,7 @@ const CalculateFromTotalSavings = () => {
           >
             <Button variant="contained" 
               sx={{marginBottom:16, backgroundColor:'var(--main-color)', color:'white', borderRadius:'1rem', 
-              width:'30%',
+              width:isMobile || isTablet ? '70%' : '50%',
             '&:hover': {
               backgroundColor: 'black',
             }}}
