@@ -7,7 +7,6 @@ import logo from '../../Media/logo.png';
 import highLevel from '../../Media/highLevel.svg';
 import calculate from '../../Media/calculate.svg';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from "../Global/CssStrings";
-import donation from "../../Media/donation.svg";
 
 const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
   const navigate = useNavigate();
@@ -97,10 +96,10 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
             >
               <Button
                 sx={{
-                  color: location.pathname === '/' ? '#4A7DE2' : 'black',
+                  color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black',
                   border: 'none !important'
                 }}
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/fromTotalSavings')}
               >
                 <Box
                   display="flex"
@@ -127,10 +126,10 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
               </Button>
               <Button
                 sx={{
-                  color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black',
+                  color: location.pathname === '/' ? '#4A7DE2' : 'black',
                   border: 'none !important'
                 }}
-                onClick={() => navigate('/fromTotalSavings')}
+                onClick={() => navigate('/')}
               >
                 <Box
                   display="flex"
