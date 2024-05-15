@@ -1,5 +1,5 @@
-import { Button, Box, Typography } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import {Button, Box, Typography, Divider} from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
 import '../css/fonts.css';
@@ -23,12 +23,22 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
       ref={parentParentRef}
       marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
       marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
-      paddingBottom={isMobile ? '8rem' : isTablet ? '10rem' : '12rem'}
+      pmarginBottom={buildSpaceSizeCssString('small')}
     >
-      <Box display='flex' flexDirection='row' justifyContent="space-between" textAlign={'center'} alignItems="center">
+      <Box
+        display='flex'
+        flexDirection='row'
+        justifyContent="center"
+        textAlign={'center'}
+        alignItems="center"
+        marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+        marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+      >
         {[1, 2, 3].map((stage, index, array) => (
-          <Box key={index} sx={{ position: 'relative' }} 
-            height={isMobile ? '113px' : isTablet ? '156px' : '187px'}
+          <Box
+            key={index} sx={{ position: 'relative' }}
+            marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+            marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           >
             <CircleButton
               isMobile={isMobile}
@@ -37,47 +47,40 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
               mainColorSelected={'var(--main-color)'}
               secondaryColor={'#FFFFFF'}
               secondaryColorSelected={'#FFFFFF'}
-              width={isMobile ? '26px' : isTablet ? '37px' : '51px'}
-              height={isMobile ? '26px' : isTablet ? '37px' : '51px'}
+              width={isMobile ? '26px' : isTablet ? '37px' : '30px'}
+              height={isMobile ? '26px' : isTablet ? '37px' : '30px'}
               selected={selectedButton === index}
               increaseSize={true}
               onClick={() => {handleButtonClick(index)}}
             />
             <Box textAlign={'center'} marginTop={isMobile ? '18px' : isTablet ? '25px' : '35px'} >
               <Typography className='montserrat-medium'
-                fontSize={isMobile ? '12px' : isTablet ? '18px' : '26px'}
-                color="var(--main-color)"
+                fontSize={isMobile ? '8px' : isTablet ? '13px' : '18px'}
+                color={selectedButton === index ? "var(--main-color)" : '#D9D9D9'}
               >
                 DECADE {stage}
               </Typography>
-              {selectedButton === index && (
-              <Typography className='montserrat-bold'
-                  marginTop='35px'
-                  fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
-                  color="var(--main-color)"
-                >
-                  ▲
-                </Typography>)}
             </Box>
-            {selectedButton === index && (
-              <Box 
-                width={'60vw'} marginTop={isMobile || isTablet ? '15px' : '25px'} 
-                sx={{ position: 'absolute', 
-                  transform: `translateX(-${index * 40}%)`,
-                  textAlign: index === 0 ? 'left' : index === 1 ? 'center' : "end",
-                  display: 'flex', justifyContent: 'center', flexDirection: 'column' 
-                }}
-                >
-                <Typography className='montserrat-bold'
-                  fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
-                  color="var(--main-color)"
-                >
-                  Your savings between the <br/> ages {decadeAgeRange.lowerBracketYears} and {decadeAgeRange.upperBracketYears}
-                </Typography>
-              </Box>
-            )}
           </Box>
         ))}
+      </Box>
+      <Box
+        textAlign={'center'}
+        alignItems="center"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <Typography
+          className='montserrat-bold'
+          marginTop={buildSpaceSizeCssString('medium')}
+          fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+          color="var(--main-color)"
+        >
+          Your savings between the ages {decadeAgeRange.lowerBracketYears} and {decadeAgeRange.upperBracketYears}
+        </Typography>
       </Box>
     </Box>
   );

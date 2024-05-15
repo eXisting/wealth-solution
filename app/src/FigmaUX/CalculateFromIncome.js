@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import {Typography, Box, Button, useMediaQuery, useTheme, Divider} from '@mui/material';
 import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import StagesProgressSection from './Components/StagesProgressSection';
@@ -176,80 +176,139 @@ const CalculateFromIncome = () => {
         paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
-        <Box display="flex" flexDirection="column" gap={buildSpaceSizeCssString('small', isMobile, isTablet)} 
-          marginBottom={isMobile ? '65px' : isTablet ? '85px' : '90px'}>
-          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
-              Calculate from your income
+        <Box 
+        display="flex" flexDirection="row"justifyContent="center"
+        marginBottom={isMobile ? '10px' : isTablet ? '18px' : '20px'}>
+          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}>
+            <span
+              className='montserrat-bold'
+              align='center'
+              style={{
+                fontSize: buildFontSizeCssString('strong', isMobile, isTablet),
+                color: "grey.700",
+                backgroundColor: "primary",
+                backgroundImage: 'linear-gradient(45deg, #33CBCC, #4A7DE2)',
+                backgroundSize: "100%",
+                backgroundRepeat: "repeat",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent"
+              }}
+            >
+              Calculate
+            </span> from your income
           </Typography>
         </Box>
-        <InitialDataSectionComponent startingSavings={startingSavings} startingAge={startingAge} 
-          isMobile={isMobile} isTablet={isTablet}
-          reduxStartingAgeUpdate={handleUpdateStartingAge} reduxStartingSavingsUpdate={handleUpdateStartingSavings}
-        />
-        <Box display="flex" flexDirection="column" justifyContent="flex-start" 
-          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+        <Box display="flex" flexDirection="column" justifyContent="flex-start"
+          marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
         >
-          <StagesProgressSection 
+          <StagesProgressSection
             decadeAgeRange={selectedDecadeAgeRange()}
-            stageSelected={updateView} 
-            selectedStage={selectedDecade} 
+            stageSelected={updateView}
+            selectedStage={selectedDecade}
             isMobile={isMobile} isTablet={isTablet}
           />
         </Box>
         <GradientSliderComponent
-          min={25000} max={300000} 
+          min={25000} max={300000}
           step={1000}
-          initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)} 
+          initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)}
           titleText={'Estimate your average income in the next 10 years'}
           isMobile={isMobile}
           isTablet={isTablet}
-          updateRedux={updateDecadeIncomeValue} 
+          updateRedux={updateDecadeIncomeValue}
         />
         <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} />
-        <GradientSliderFullComponent min={0} max={100} 
+        <GradientSliderFullComponent min={0} max={100}
           sign='%'
           step={1}
-          initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)} 
+          initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
           titleText={"What % of your income can you save?"}
           isMobile={isMobile}
           isTablet={isTablet}
-          updateRedux={updateDecadePercentSavings} 
+          updateRedux={updateDecadePercentSavings}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign:"center" }} marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
-          <Box display="flex" flexDirection="row" gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={moneyBag} alt="Total Interest Earned" width="100rem" />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign:"center"}}
+          marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+        >
+          <Box
+            display="flex"
+            flexDirection="row"
+            gap={buildSpaceSizeCssString('big', isMobile, isTablet)}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              marginLeft={buildSpaceSizeCssString('small', isMobile, isTablet)}
+              marginRight={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+            >
+              <img
+                src={moneyBox}
+                alt="Total Interest Earned"
+                width="100rem"
+              />
               <Typography 
                 className='montserrat-regular'
                 fontSize={
                   isMobile ? '10px' : isTablet ? '14px' : '36px'}
                 textAlign='center'
               >
-                You're saving each month
+                You're saving <br/>each month
               </Typography>
               <Typography
-                className='poppins-medium'
-                color='var(--main-color)'
+                className='montserrat-bold'
+                color='var(--secondary-color)'
                 fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
                 textAlign='center'
               >
                 {formatCurrency('$', false, calculateTotal().sumContributions)}?
               </Typography>
             </Box>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <img src={moneyBox} alt="Total Contributions" width="100rem" />
+            <Box
+              display='flex'
+              flexDirection='column'
+              alignItems="center"
+              justifyContent='center'
+            >
+              <Divider
+                orientation={'vertical'}
+                sx={{
+                  height: '50%',
+                  backgroundColor: '#D6D6D6',
+                  margin: '0 10px' }}
+                flexItem
+              />
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              marginLeft={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+              marginRight={buildSpaceSizeCssString('small', isMobile, isTablet)}
+            >
+              <img
+                src={moneyBag}
+                alt="Total Contributions"
+                width="100rem"
+              />
               <Typography
                 className='montserrat-regular'
                 fontSize={
                   isMobile ? '10px' : isTablet ? '14px' : '36px'}
                 textAlign='center'
               >
-                You're {selectedDecadeAgeRange().upperBracketYears} and already saved
+                You're {selectedDecadeAgeRange().upperBracketYears} and <br/>already saved
               </Typography>
               <Typography
-                className='poppins-medium'
-                color='var(--main-color)'
+                className='montserrat-bold'
+                color='var(--secondary-color)'
                 fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
                 textAlign='center'
               >
@@ -258,20 +317,32 @@ const CalculateFromIncome = () => {
             </Box>
           </Box>
         </Box>
-        <Box display="flex" flexDirection="column" alignItems="center">
-            <Button variant="contained" 
-              sx={{marginBottom:16, backgroundColor:'#F5A338', color:'white', borderRadius:'4rem', 
-              width:'70%',
-            '&:hover': {
-              backgroundColor: 'black',
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center">
+            <Button
+              variant="contained"
+              sx={{
+                padding: '20px 50px',
+                marginBottom:16,
+                backgroundColor:'#F5A338',
+                color:'white',
+                borderRadius:'4rem',
+                width:'fit-content',
+                '&:hover': {
+                  backgroundColor: 'black',
             }}}
               onClick={nextDecade}
             >
               <Typography 
                 padding={1}
                 className='poppins-medium'
-                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}>
-                  {selectedDecade === 2 ? 'What is next?' : `Calculate ${selectedDecade + 1 === 1 ? '2nd' : selectedDecade + 1 === 2 ? '3rd' : ''} Decade`}
+                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                paddingLeft={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                paddingRight={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+              >
+                  {selectedDecade === 2 ? 'Let’s save more' : `Calculate ${selectedDecade + 1 === 1 ? '2nd' : selectedDecade + 1 === 2 ? '3rd' : ''} Decade`}
               </Typography>
             </Button>
           </Box>
