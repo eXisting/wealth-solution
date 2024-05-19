@@ -220,9 +220,25 @@ const CalculateFromTotalSavings = () => {
         >
           <Typography
               className='montserrat-bold'
-              fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+              fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+              align={'center'}
           >
-            Let us calculate a savings plan for you.
+            Let us calculate a
+            <span
+              className='montserrat-bold'
+              align='center'
+              style={{
+                fontSize: buildFontSizeCssString('strong', isMobile, isTablet),
+                color: "grey.700",
+                backgroundColor: "primary",
+                backgroundImage: 'linear-gradient(45deg, #33CBCC, #4A7DE2)',
+                backgroundSize: "100%",
+                backgroundRepeat: "repeat",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent"}}
+            > savings plan
+          </span> for you
           </Typography>
         </Box>
 
@@ -230,18 +246,18 @@ const CalculateFromTotalSavings = () => {
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
         >
           <InitialDataSectionComponent
-              startingSavings={startingSavings}
-              startingAge={startingAge}
-              isMobile={isMobile} isTablet={isTablet}
-              reduxStartingAgeUpdate={handleUpdateStartingAge}
-              reduxStartingSavingsUpdate={handleUpdateStartingSavings}
+            startingSavings={startingSavings}
+            startingAge={startingAge}
+            isMobile={isMobile} isTablet={isTablet}
+            reduxStartingAgeUpdate={handleUpdateStartingAge}
+            reduxStartingSavingsUpdate={handleUpdateStartingSavings}
           />
           <Typography
-              className='montserrat-regular'
-              align={'center'}
-              marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
-              marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
-              fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+            className='montserrat-regular'
+            align={'center'}
+            marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
+            fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
           >
             You choose your wealth number, and we will <br/> show you how much to save
           </Typography>

@@ -57,23 +57,36 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
       justifyContent="center"
       alignItems="center"
     >
-      <Box display="flex" flexDirection={"row"} width={'100%'} alignItems="center" justifyContent="space-between">
+      <Box
+        display="flex"
+        flexDirection={"row"}
+        width={'100%'}
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <Button
           variant="contained"
-          sx={{ padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"), borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
+          sx={{
+            padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"),
+            borderRadius: '50%',
+            minWidth: 'unset',
+            backgroundColor: '#F6F7F7' }}
           onClick={() => {decrement(step, min)}}
         >
           <Remove sx={{fill:'#9D9D9D'}} />
         </Button>
         <Typography
           className='montserrat-regular'
+          marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'regular', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
         >
             {titleText}
         </Typography>
         <Button
           variant="contained"
-          sx={{ padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"), borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
+          sx={{
+            padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"), borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
           onClick={() => {increment(step, max)}}
         >
           <Add sx={{fill:'#9D9D9D'}} />

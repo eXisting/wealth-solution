@@ -199,9 +199,12 @@ const CalculateFromIncome = () => {
             </span> from your income
           </Typography>
         </Box>
-        <Box display="flex" flexDirection="column" justifyContent="flex-start"
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
           marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-          marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         >
           <StagesProgressSection
             decadeAgeRange={selectedDecadeAgeRange()}
@@ -210,25 +213,63 @@ const CalculateFromIncome = () => {
             isMobile={isMobile} isTablet={isTablet}
           />
         </Box>
-        <GradientSliderComponent
-          min={25000} max={300000}
-          step={1000}
-          initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)}
-          titleText={'Estimate your average income in the next 10 years'}
-          isMobile={isMobile}
-          isTablet={isTablet}
-          updateRedux={updateDecadeIncomeValue}
-        />
-        <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)} />
-        <GradientSliderFullComponent min={0} max={100}
-          sign='%'
-          step={1}
-          initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
-          titleText={"What % of your income can you save?"}
-          isMobile={isMobile}
-          isTablet={isTablet}
-          updateRedux={updateDecadePercentSavings}
-        />
+        {isMobile || isTablet ? (
+          <>
+            <GradientSliderComponent
+              min={25000} max={300000}
+              step={1000}
+              initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)}
+              titleText={'Estimate your average income in the next 10 years'}
+              isMobile={isMobile}
+              isTablet={isTablet}
+              updateRedux={updateDecadeIncomeValue}
+            />
+            <GradientSliderFullComponent
+              min={0}
+              max={100}
+              sign='%'
+              step={1}
+              initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
+              titleText={"What % of your income can you save?"}
+              isMobile={isMobile}
+              isTablet={isTablet}
+              updateRedux={updateDecadePercentSavings}
+            />
+          </>
+        ) : (
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="start"
+            alignContent="centre"
+            gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+            marginBottom={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+          >
+            <GradientSliderComponent
+              min={25000} max={300000}
+              step={1000}
+              initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)}
+              titleText={'Estimate your 10 year average income'}
+              isMobile={isMobile}
+              isTablet={isTablet}
+              updateRedux={updateDecadeIncomeValue}
+              flexGrow={1}
+            />
+            <GradientSliderFullComponent
+              min={0}
+              max={100}
+              sign='%'
+              step={1}
+              initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
+              titleText={"What % of your income can you save?"}
+              isMobile={isMobile}
+              isTablet={isTablet}
+              updateRedux={updateDecadePercentSavings}
+              flexGrow={1}
+            />
+          </Box>
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -236,36 +277,35 @@ const CalculateFromIncome = () => {
             alignItems: 'center',
             textAlign:"center"}}
           marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
-          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
         >
           <Box
             display="flex"
             flexDirection="row"
-            gap={buildSpaceSizeCssString('big', isMobile, isTablet)}>
+            gap={buildSpaceSizeCssString('big', isMobile, isTablet)}
+          >
             <Box
               display="flex"
               flexDirection="column"
               alignItems="center"
               marginLeft={buildSpaceSizeCssString('small', isMobile, isTablet)}
-              marginRight={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+              marginRight={buildSpaceSizeCssString('small', isMobile, isTablet)}
             >
               <img
                 src={moneyBox}
                 alt="Total Interest Earned"
-                width="100rem"
+                width="70rem"
               />
               <Typography 
                 className='montserrat-regular'
-                fontSize={
-                  isMobile ? '10px' : isTablet ? '14px' : '36px'}
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                 textAlign='center'
               >
-                You're saving <br/>each month
+                You're saving each month
               </Typography>
               <Typography
                 className='montserrat-bold'
                 color='var(--secondary-color)'
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                 textAlign='center'
               >
                 {formatCurrency('$', false, calculateTotal().sumContributions)}?
@@ -290,26 +330,25 @@ const CalculateFromIncome = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              marginLeft={buildSpaceSizeCssString('medium', isMobile, isTablet)}
               marginRight={buildSpaceSizeCssString('small', isMobile, isTablet)}
+              marginLeft={buildSpaceSizeCssString('small', isMobile, isTablet)}
             >
               <img
                 src={moneyBag}
                 alt="Total Contributions"
-                width="100rem"
+                width="70rem"
               />
               <Typography
                 className='montserrat-regular'
-                fontSize={
-                  isMobile ? '10px' : isTablet ? '14px' : '36px'}
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                 textAlign='center'
               >
-                You're {selectedDecadeAgeRange().upperBracketYears} and <br/>already saved
+                You're {selectedDecadeAgeRange().upperBracketYears} and already saved
               </Typography>
               <Typography
                 className='montserrat-bold'
                 color='var(--secondary-color)'
-                fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'strong', isMobile, isTablet)}
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                 textAlign='center'
               >
                 {formatCurrency('$', false, calculateTotal().sum)}!
@@ -325,7 +364,6 @@ const CalculateFromIncome = () => {
               variant="contained"
               sx={{
                 padding: '20px 50px',
-                marginBottom:16,
                 backgroundColor:'#F5A338',
                 color:'white',
                 borderRadius:'4rem',

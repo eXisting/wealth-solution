@@ -83,8 +83,9 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent="center"
+            justifyContent="start-flex"
             alignItems="center"
+            width={'100%'}
             zIndex={-1}
             marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
             marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
@@ -93,6 +94,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
             <ButtonGroup
               variant="text"
               sx={{gap:2}}
+              width={'100%'}
             >
               <Button
                 sx={{
@@ -106,12 +108,12 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                   flexDirection="column"
                   zIndex={-1}
                   gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
-                  marginRight={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+                  marginRight={buildSpaceSizeCssString('big', isMobile, isTablet)}
                 >
                   <Typography
                     className='montserrat-medium'
                     align={'left'}
-                    fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                    fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                   >
                     Use Our Calculators
                   </Typography>
@@ -124,95 +126,103 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                   </Typography>
                 </Box>
               </Button>
-              <Button
-                sx={{
-                  color: location.pathname === '/' ? '#4A7DE2' : 'black',
-                  border: 'none !important'
-                }}
-                onClick={() => navigate('/')}
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="flex-end"
               >
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  alignItems="center"
-                  zIndex={-1}
-                  gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
+                <Button
+                  sx={{
+                    color: location.pathname === '/' ? '#4A7DE2' : 'black',
+                    border: 'none !important'
+                  }}
+                  onClick={() => navigate('/')}
                 >
-                  <img
-                    src={highLevel}
-                    alt="Total Contributions"
-                    width={isMobile ? '27px' : isTablet ? '35px' : '50px'}
-                    height={isMobile ? '27px' : isTablet ? '35px' : '50px'}
-                  />
                   <Box
                     display="flex"
-                    flexDirection="column"
-                    justifyContent="flex-start"
-                    alignItems="flex-start"
+                    flexDirection="row"
+                    justifyContent="center"
+                    alignItems="center"
                     zIndex={-1}
-                    gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                    gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
                   >
-                    <Typography
-                      className='montserrat-medium'
-                      align={'left'}
-                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.7')}
+                    <img
+                      src={highLevel}
+                      alt="Total Contributions"
+                      width={isMobile ? '27px' : isTablet ? '35px' : '60px'}
+                      height={isMobile ? '27px' : isTablet ? '35px' : '60px'}
+                    />
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="flex-start"
+                      alignItems="flex-start"
+                      zIndex={-1}
+                      gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
                     >
-                      Wealthometer
-                    </Typography>
-                    <Typography
-                      className='montserrat-regular'
-                      align={'left'}
-                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
-                    >
-                      Estimate your wealth
-                    </Typography>
+                      <Typography
+                        className='montserrat-medium'
+                        align={'left'}
+                        fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
+                      >
+                        Wealthometer
+                      </Typography>
+                      <Typography
+                        className='montserrat-regular'
+                        align={'left'}
+                        fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
+                        color={'#6D6D6D'}
+                      >
+                        Estimate your wealth
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Button>
-              <Button
-                sx={{
-                  color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black',
-                  border:'none !important'}}
-                onClick={() => navigate('/fromIncome')}
-              >
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  alignItems="center"
-                  zIndex={-1}
-                  gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
+                </Button>
+                <Button
+                  sx={{
+                    color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black',
+                    border:'none !important'}}
+                  onClick={() => navigate('/fromIncome')}
                 >
-                  <img
-                    src={calculate}
-                    alt="Total Contributions"
-                    width={isMobile ? '27px' : isTablet ? '35px' : '50px'}
-                    height={isMobile ? '27px' : isTablet ? '35px' : '50px'}
-                  />
                   <Box
                     display="flex"
-                    flexDirection="column"
+                    flexDirection="row"
+                    justifyContent="center"
+                    alignItems="center"
                     zIndex={-1}
-                    gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
+                    gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
                   >
-                    <Typography
-                      className='montserrat-medium'
-                      align={'left'}
-                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.7')}
+                    <img
+                      src={calculate}
+                      alt="Total Contributions"
+                      width={isMobile ? '27px' : isTablet ? '35px' : '60px'}
+                      height={isMobile ? '27px' : isTablet ? '35px' : '60px'}
+                    />
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      zIndex={-1}
+                      gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
                     >
-                      Calculate from income
-                    </Typography>
-                    <Typography
-                      className='montserrat-regular'
-                      align={'left'}
-                      fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
-                    >
-                      Estimate your wealth based from income
-                    </Typography>
+                      <Typography
+                        className='montserrat-medium'
+                        align={'left'}
+                        fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
+                      >
+                        Calculate from income
+                      </Typography>
+                      <Typography
+                        className='montserrat-regular'
+                        align={'left'}
+                        fontSize={buildCalculatedCssString(buildFontSizeCssString('tiny', isMobile, isTablet), '*', '0.5')}
+                        color={'#6D6D6D'}
+                      >
+                        Estimate your wealth based from income
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Button>
+                </Button>
+              </Box>
             </ButtonGroup>
           </Box>
           <Divider

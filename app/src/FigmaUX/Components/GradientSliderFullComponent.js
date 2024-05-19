@@ -2,12 +2,13 @@ import { RoundSlider } from 'mz-react-round-slider';
 import { useState } from 'react';
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
-import { buildFontSizeCssString } from '../Global/CssStrings';
+import { buildFontSizeCssString, buildCalculatedCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
 import '../css/fonts.css';
 import '../css/components.css'
 
-const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
+const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) =>
+{
   const theme = useTheme();
 
   const [ pointers, setPointers ] = useState([{ value: initialValue }]);
@@ -50,29 +51,48 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
   }
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      <Box display="flex" flexDirection={"row"} width={'100%'} alignItems="center" justifyContent="space-between">
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Box
+        display="flex"
+        flexDirection={"row"}
+        width={'100%'}
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <Button
           variant="contained"
-          width={isMobile ? '40px' : isTablet ? '60px' : '90px'}
-          height={isMobile ? '40px' : isTablet ? '60px' : '90px'}
-          sx={{ padding:`${isMobile ? '11px' : isTablet ? '16px' : '25px'}`, borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
+          sx={{
+            padding:`${buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5")}`,
+            borderRadius: '50%',
+            minWidth: 'unset',
+            backgroundColor: '#F6F7F7' }}
           onClick={() => {decrement(step, min)}}
         >
-          <Remove sx={{fill:'#9D9D9D'}} />
+          <Remove
+            sx={{fill:'#9D9D9D'}}
+          />
         </Button>
         <Typography
           className='montserrat-regular'
-          fontSize={isMobile ? 
-            buildFontSizeCssString('strong', isMobile, isTablet) : buildFontSizeCssString('medium', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
+          marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          fontSize={isMobile ?
+            buildFontSizeCssString('strong', isMobile, isTablet) : buildFontSizeCssString('regular', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
         >
-            {titleText}
+          {titleText}
         </Typography>
         <Button
           variant="contained"
-          width={isMobile ? '40px' : isTablet ? '60px' : '90px'}
-          height={isMobile ? '40px' : isTablet ? '60px' : '90px'}
-          sx={{ padding:`${isMobile ? '11px' : isTablet ? '16px' : '25px'}`, borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
+          sx={{
+            padding:`${buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5")}`,
+            borderRadius: '50%',
+            minWidth: 'unset',
+            backgroundColor: '#F6F7F7' }}
           onClick={() => {increment(step, max)}}
         >
           <Add sx={{fill:'#9D9D9D'}} />
@@ -88,7 +108,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         pathStartAngle={ 15 }
         pathEndAngle={ 375 }
         animateOnClick={ true }
-        pathThickness={ isMobile ? 24 : isTablet ? 50 : 80 }
+        pathThickness={ isMobile ? 24 : isTablet ? 50 : 60 }
 
         connectionBgColor={'var(--main-color)'}
         pointersOverlap={false}
@@ -100,8 +120,8 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         
         pointerBorderColor={'white'}
         pointerBorder={isMobile ? 2 : isTablet ? 3 : 4}
-        pointerRadius={isMobile ? 20 : isTablet ? 32 : 42}
-        pathRadius={isMobile ? 80 : isTablet ? 130 : 180 }
+        pointerRadius={isMobile ? 20 : isTablet ? 32 : 35}
+        pathRadius={isMobile ? 80 : isTablet ? 130 : 120 }
         
         hideText={true}
         textPrefix={sign}
@@ -116,19 +136,19 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
       >
       </RoundSlider>
       <Box
-          sx={{
-            display: 'flex',
-            position: 'absolute',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign:'center',
-            marginTop: isMobile ? '60px' : isTablet ? "70px" : '60px'
-          }}
+        sx={{
+          display: 'flex',
+          position: 'absolute',
+          flexDirection: 'column',
+          alignItems: 'start',
+          justifyContent: 'start',
+          textAlign:'center',
+          marginTop: isMobile ? '60px' : isTablet ? "70px" : '65px'
+        }}
       >
         <Typography
           className='poppins-medium'
-          fontSize={!isMobile && !isTablet ? '100px' : buildFontSizeCssString('big', isMobile, isTablet)}
+          fontSize={buildFontSizeCssString('big', isMobile, isTablet)}
           sx={{ textAlign: 'center' }}
         >{`${displayedValue}%`}
         </Typography>
