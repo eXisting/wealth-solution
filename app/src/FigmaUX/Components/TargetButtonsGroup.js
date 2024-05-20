@@ -10,6 +10,7 @@ import selectedCoin2 from '../../Media/coins/selected/coin2.svg';
 
 import checkmark from '../../Media/checkmark.svg';
 import '../css/components.css';
+import {buildFontSizeCssString} from "../Global/CssStrings";
 
 const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
   const theme = useTheme();
@@ -39,7 +40,7 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
       flexDirection={isMobile || isTablet ? 'column' : 'row'}
       alignItems={isMobile || isTablet ? 'stretch' : 'center'}
       justifyContent='center'
-      gap={isMobile ? '7px' : isTablet ? '10px' : '74px'}
+      gap={isMobile ? '7px' : isTablet ? '10px' : '45px'}
     >
       {buttonData.map((button, index) => (
         <Box
@@ -48,18 +49,32 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
           borderRadius={isMobile ? '10px' : isTablet ? '15px' : '20px'}
           key={index}
           flex="1"
-          maxWidth={!isMobile && !isTablet ? '280px' : '100%'}
+          maxWidth={!isMobile && !isTablet ? '200px' : '100%'}
           flexDirection={isMobile || isTablet ? 'row' : 'column'}
           onClick={() => toggleActiveMillionButton(index, button.value)}
           sx={{ cursor: 'pointer' }}
           className={`selectable-button ${activeButton === index ? 'active montserrat-bold' : 'montserrat-regular'}`}
         >
-          <Box className="selectable-button-icon">
-            <img src={activeButton === index ? button.selectedImgSrc : button.unselectedImgSrc} alt="Coin Icon" />
+          <Box
+            className="selectable-button-icon">
+            <img
+              src={activeButton === index ? button.selectedImgSrc : button.unselectedImgSrc}
+              alt="Coin Icon" />
           </Box>
-          <Box className="selectable-button-text">{button.text}</Box>
-          {activeButton === index && <Box className={isMobile || isTablet ? "selectable-button-icon-right" : "selectable-button-icon-top-right"}>
-              <img src={checkmark} alt="Checkmark Icon" />
+          <Box
+            className="selectable-button-text"
+            fontSize={buildFontSizeCssString('intermediate', isMobile, isTablet)}
+          >
+            {button.text}
+          </Box>
+          {activeButton === index &&
+            <Box
+              className={isMobile || isTablet ? "selectable-button-icon-right" : "selectable-button-icon-top-right"}
+            >
+              <img
+                src={checkmark}
+                alt="Checkmark Icon"
+              />
             </Box>
           }
         </Box>

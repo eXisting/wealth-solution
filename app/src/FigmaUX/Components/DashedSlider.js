@@ -34,15 +34,15 @@ function AirbnbThumbComponent(props) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
-  const size = isMobile ? '37px' : isTablet ? '62px' : '90px';
+  const size = isMobile ? '37px' : isTablet ? '62px' : '40px';
 
   return (
     <SliderThumb sx={{width: `${size} !important`, height: `${size} !important`}} {...other} >
       <Box
         position={'absolute'}
         backgroundColor={'var(--main-color)'} 
-        width={isMobile ? '4.25px' : isTablet ? '7.25px' : '10px'}
-        height={isMobile ? '91px' : isTablet ? '150px' : '222px'} 
+        width={isMobile ? '4.25px' : isTablet ? '7.25px' : '6px'}
+        height={isMobile ? '91px' : isTablet ? '150px' : '130px'}
         zIndex={1}
       />
       <Box 
@@ -50,7 +50,7 @@ function AirbnbThumbComponent(props) {
       height={size}
         backgroundColor='#fff'
         position={'absolute'}
-        border={`${isMobile ? '4px' : '8px'} solid var(--main-color)`}
+        border={`${isMobile ? '4px' : '6px'} solid var(--main-color)`}
         borderRadius={'50%'} zIndex={2}>
       </Box>
       {children}
@@ -73,7 +73,7 @@ const generateLines = (numLines, highlightedIndex) => {
 
     lines.push(<Box key={i} 
       backgroundColor={'#D9D9D9'} 
-      width={'5px'} 
+      width={'5px'}
       height={lineHeight} 
     />);
   }
@@ -88,7 +88,7 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   const [value, setValue] = useState(reduxValue);
   const [highlightedIndex, setHighlightedIndex] = useState(calculateHighlightedIndex(value));
   
-  const space = 20;
+  const space = 13;
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -99,7 +99,7 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
 
       setHighlightedIndex(calculateHighlightedIndex(reduxValue, newNumLines));
       setNumLines(newNumLines);
-    };  
+    };
 
     handleResize();
 
@@ -132,9 +132,11 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   return (
     <Box
         ref={parentRef}
-        height={isMobile ? '57px' : isTablet ? '90px' : '141px'}
-        display="flex" alignItems={'center'}
-        flexDirection="row" width={'100%'}
+        height={isMobile ? '57px' : isTablet ? '90px' : '80px'}
+        width={'100%'}
+        display="flex"
+        alignItems={'center'}
+        flexDirection="row"
         justifyContent={'center'}
         gap={`${space}px`}
         position={'relative'}
@@ -149,20 +151,25 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
         onChange={(event, newValue) => {
           setValue(newValue);
           setHighlightedIndex(calculateHighlightedIndex(newValue, calculateNumberOfLines()));
-
           updateRedux(Math.round(newValue));
         }}
         step={(max - min) / (numLines - 1)}
         defaultValue={Math.round(reduxValue)}
       />
-      <Typography className='montserrat-medium'
+      <Typography className='montserrat-regular'
         color={'var(--main-color)'} 
-        fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: 0, left: '10%', marginBottom: '-10%' }}>{min}</Typography>
-      <Typography className='montserrat-medium' 
+        fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+        style={{ position: 'absolute', bottom: '-10%', left: '10%', marginBottom: '-10%' }}
+      >
+        {min.toLocaleString()}
+      </Typography>
+      <Typography className='montserrat-regular'
         color={'var(--main-color)'}
-        fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: 0, right: '10%', marginBottom: '-10%' }}>{max}</Typography>
+        fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+        style={{ position: 'absolute', bottom: '-10%', right: '10%', marginBottom: '-10%' }}
+      >
+        {max.toLocaleString()}
+      </Typography>
     </Box>
   );
 };

@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import DashedSlider from './DashedSlider';
 import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 import CircleButton from './CircleButton';
+import SnapHorizontalSelectionComponent from "./SnapHorizontalSelectionComponent";
 
 const IOSSwitch = styled(({ isMobile, isTablet, ...props }) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -76,17 +77,26 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
 
   function yearsNormalized() {
     if (isEnabled) {
-      return years === 0 ? 1 : years;
+      return years === 0 ? 5 : years;
     }
 
     return 0;
   }
 
   return (
-    <Box width='100%' display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Box
+      width='100%'
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
       <Grid container width='100%' alignItems="center" justifyContent="space-between">
         <Grid item>
-          <Typography className='montserrat-regular' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+          <Typography
+            className='montserrat-regular'
+            fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+          >
             {stageNameText}
           </Typography>
         </Grid>
@@ -94,84 +104,94 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
           <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} isMobile={isMobile} isTablet={isTablet} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
         </Grid>
       </Grid>
-      <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"black" }} />
+      <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"#D6D6D6" }} />
       {isEnabled && (
         <>
-        <Grid container width='100%' justifyContent="space-between" alignItems="center">
+          <Grid
+            container
+            width='100%'
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
+              <Typography
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+              >
                 {ageRangeText}
               </Typography>
             </Grid>
             <Grid item>
-              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+              <Typography
+                className='montserrat-bold'
+                fontSize={isMobile ? '20px' : isTablet ? '30px' : '35px'}
+              >
                 {startingYears}-{startingYears+yearsNormalized()}
               </Typography>
             </Grid>
           </Grid>
-          <Grid container justifyContent="space-between" alignItems="center">
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center">
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
+              <Typography
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+              >
                 # of years in stage {stageIndex + 1}
               </Typography>
             </Grid>
             <Grid item>
-              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '35px'}>
                 {yearsNormalized()}
               </Typography>
             </Grid>
           </Grid>
-          <Grid container alignItems='center' direction='row' justifyContent='center' 
-            style={{marginTop:buildSpaceSizeCssString('regular', isMobile, isTablet), gap: isMobile ? '26px' : isTablet ? '45px' : '68px'}}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-              <Box key={number} display="flex" flexDirection='column' textAlign={'center'}>
-                <Box textAlign={'center'} marginBottom='2px' >
-                  <Typography className='montserrat-medium'
-                    fontSize={isMobile ? '12px' : isTablet ? '18px' : '26px'}
-                    color="#666666"
-                  >
-                    {number}
-                  </Typography>
-                </Box>
-                <CircleButton
-                  isMobile={isMobile}
-                  isTablet={isTablet}
-                  selected={yearsNormalized() === number}
-                  width={isMobile ? '38px' : isTablet ? '72px' : '100px'}
-                  height={isMobile ? '38px' : isTablet ? '72px' : '100px'}
-                  mainBackgroundColor={'#FFFFFF'}
-                  mainColorSelected={'#FFFFFF'}
-                  secondaryColor={'#F7F7F7'}
-                  secondaryColorSelected={'var(--main-color)'}
-                  onClick={() => yearChanged(stageIndex, number)}
-                />
-              </Box>
-            ))}
-          </Grid>
+          <SnapHorizontalSelectionComponent
+            min={1}
+            max={10}
+            reduxValue={yearsNormalized()}
+            updateRedux={(selected) => yearChanged(stageIndex, selected)}
+          />
           <Grid container
                 justifyContent="space-between" alignItems="center"
-                style={{marginTop:buildSpaceSizeCssString('medium', isMobile, isTablet),
-                  marginBottom:buildSpaceSizeCssString('medium', isMobile, isTablet)}}
+                style={{
+                  marginBottom:buildSpaceSizeCssString('regular', isMobile, isTablet)}}
           >
             <Grid item>
-              <Typography className='montserrat-regular' fontSize={!isMobile && !isTablet ? '30px' : buildFontSizeCssString('medium', isMobile, isTablet)}>
+              <Typography
+                className='montserrat-regular'
+                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+              >
                 Monthly savings
               </Typography>
             </Grid>
             <Grid item>
-              <Typography className='montserrat-bold' fontSize={isMobile ? '20px' : isTablet ? '30px' : '40px'}>
+              <Typography
+                className='montserrat-bold'
+                fontSize={isMobile ? '20px' : isTablet ? '30px' : '35px'}
+              >
                 ${contributions}
               </Typography>
             </Grid>
           </Grid>
-          <DashedSlider 
-            min={minSliderValue} 
-            max={maxSliderValue} 
-            step={100}
-            reduxValue={contributions}
-            updateRedux={(newValue) => contributionsChanged(stageIndex, newValue)}
-          />
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            width={'100%'}
+            marginBottom={isMobile ? '70px' : isTablet ? '100px' : '140px'}
+          >
+            <DashedSlider
+              min={minSliderValue}
+              max={maxSliderValue}
+              step={100}
+              reduxValue={contributions}
+              updateRedux={(newValue) => contributionsChanged(stageIndex, newValue)}
+            />
+          </Box>
         </>
       )}
     </Box>

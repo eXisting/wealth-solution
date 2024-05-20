@@ -42,13 +42,28 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
             </Box>
           </>
         ) : (
-        <>
-          <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}>
-            <Typography className='montserrat-regular' fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}>
+        <Box
+          display={'flex'}
+          flexDirection={'row'}
+          width='100%'
+        >
+          <Box
+            width='100%'
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginBottom:buildSpaceSizeCssString('regular', isMobile, isTablet) }}
+          >
+            <Typography
+              className='montserrat-regular'
+              fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+              marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
+            >
               How much do you have saved today?
             </Typography>
             <StartingAmountSelection
-              marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+              marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
               isMobile={isMobile}
               isTablet={isTablet}
               maxValue={20000}
@@ -61,16 +76,16 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
               updateRedux={reduxStartingSavingsUpdate}
             />
           </Box>
-          <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
+          <Box width='50%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
             <Typography className='montserrat-regular'
-                        fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
-                        marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                        fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                        marginBottom={buildSpaceSizeCssString('smal', isMobile, isTablet)}
             >
               Your current age
             </Typography>
             <SnapHorizontalSelectionComponent min={12} max={50} reduxValue={startingAge} updateRedux={reduxStartingAgeUpdate} />
           </Box>
-        </>
+        </Box>
       )}
     </>
   );

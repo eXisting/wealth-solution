@@ -59,15 +59,18 @@ const StartingAmountSelection = ({ marginBottom, isMobile, isTablet, onUpdateSta
         <>
           <Typography
             className='poppins-medium'
-            style={{ fontSize:buildFontSizeCssString('huge', isMobile, isTablet), display: 'inline-block', cursor: 'pointer' }}
+            style={{
+              fontSize:buildFontSizeCssString('big', isMobile, isTablet),
+              display: 'inline-block',
+              cursor: 'pointer' }}
             onClick={handleEditClick}
           >
             {formatCurrency('$', undefined, startingSavings)}
             <img
               id="editIcon"
               src={editIcon}
-              height={isMobile ? '14px' : isTablet ? '22px' : '29px'}
-              style={{ position: 'absolute', top: '10%', right: '-10%', cursor: 'pointer' }}
+              height={isMobile ? '14px' : isTablet ? '22px' : '20px'}
+              style={{ position: 'absolute', top: '15%', right: '-15%', cursor: 'pointer' }}
               alt="Edit Icon"
             />
           </Typography>

@@ -13,7 +13,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
-  const circleWidth = isMobile ? 132 : isTablet ? 185 : 255;
+  const circleWidth = isMobile ? 132 : isTablet ? 185 : 145;
   
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
@@ -70,7 +70,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
       alignItems: 'center',
       backgroundImage: 'none',
       cursor: 'pointer',
-      fontSize: `44px`, // Set the font size dynamically
+      fontSize: `65px`, // Set the font size dynamically
     };
     
     return (
@@ -119,6 +119,30 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
         }}
       >
         {[...Array(numCircles).keys()].map((index) => renderCircle(index + min))}
+        <Box
+          className="fade-overlay fade-left"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '40%',
+            height: '100%',
+            pointerEvents: 'none',
+            backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+          }}
+        />
+        <Box
+          className="fade-overlay fade-right"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '40%',
+            height: '100%',
+            pointerEvents: 'none',
+            backgroundImage: 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+          }}
+        />
       </Box>
       {/* <Box display={'flex'}
         flexDirection={'row'} 
