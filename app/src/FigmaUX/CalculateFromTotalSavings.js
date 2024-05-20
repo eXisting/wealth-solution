@@ -567,14 +567,17 @@ const CalculateFromTotalSavings = () => {
                     flexDirection="row"
                     justifyContent="center"
                     alignItems="center"
-                    gap={buildSpaceSizeCssString('big', isMobile, isTablet)}
+                    gap={'110px'}
+                    marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
                   >
                     <div
                       style={{
-                      display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-                      gap: buildSpaceSizeCssString('regular', isMobile, isTablet),
-                      marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
-                      marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                        gap: buildSpaceSizeCssString('regular', isMobile, isTablet),
+                        marginBottom: buildSpaceSizeCssString('regular', isMobile, isTablet),
+                        marginTop: buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet),
+                        height: '626px',
+                        width: '550px',
                     }}
                     >
                       <Typography
@@ -585,8 +588,8 @@ const CalculateFromTotalSavings = () => {
                       </Typography>
                       <div style={{
                         display: 'flex', justifyContent: 'center', alignItems: 'center',
-                        height: isMobile ? '400px' : isTablet ? '727px' : '1002px',
-                        width: '100%'
+                        height: '550px',
+                        width: '550px'
                       }}
                       >
                         <CurvedLineChartControlledComponent/>
@@ -595,8 +598,10 @@ const CalculateFromTotalSavings = () => {
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      justifyContent: 'start',
+                      alignItems: 'start',
+                      height: '626px',
+                      width: '550px',
                       gap: buildSpaceSizeCssString('regular', isMobile, isTablet)
                     }}>
                       <Typography
@@ -607,8 +612,8 @@ const CalculateFromTotalSavings = () => {
                       </Typography>
                       <div style={{
                         position: 'relative',
-                        height: isMobile ? '230px' : isTablet ? '384px' : '493px',
-                        width: isMobile ? '230px' : isTablet ? '384px' : '493px'
+                        height: '400px',
+                        width: '400px'
                       }}>
                         <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
                         <div style={{

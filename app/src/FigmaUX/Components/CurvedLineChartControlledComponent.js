@@ -79,7 +79,7 @@ function drawCurvedLineChart(canvas,
             ticks: {
                 stepSize: 1,
                 callback: value => {
-                    return (value * 1) + currentDate().getFullYear();
+                    return '';
                 },
             }
         },
