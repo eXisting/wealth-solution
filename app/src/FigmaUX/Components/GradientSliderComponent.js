@@ -1,7 +1,7 @@
 import { RoundSlider } from 'mz-react-round-slider';
 import { useState } from 'react';
 import { formatCurrency } from '../Global/Global';
-import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {Box, Button, createTheme, Typography, useMediaQuery, useTheme} from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
@@ -9,13 +9,25 @@ import '../css/fonts.css';
 import '../css/components.css'
 
 const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
-  const theme = useTheme();
-
   const [ pointers, setPointers ] = useState([{ value: initialValue }]);
   const [displayedValue, setDisplayedValue] = useState(initialValue);
 
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 640,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        desktop: 1280,
+        wide: 1440
+      },
+    },
+  });
+
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {
@@ -102,7 +114,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         animateOnClick={ true }
         pathStartAngle={ 140 }
         pathEndAngle={ 40 }
-        pathThickness={ isMobile ? 16 : isTablet ? 18 : 25 }
+        pathThickness={ isMobile ? 23 : isTablet ? 27 : 25 }
         SvgDefs={
           <linearGradient 
               id="color-slider-gradient" 
@@ -127,8 +139,8 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         
         pointerBorderColor={'white'}
         pointerBorder={isMobile ? 2 : isTablet ? 3 : 4}
-        pointerRadius={isMobile ? 13 : isTablet ? 16 : 25}
-        pathRadius={isMobile ? 120 : isTablet ? 150 : 170 }
+        pointerRadius={isMobile ? 17 : isTablet ? 25 : 25}
+        pathRadius={isMobile ? 160 : isTablet ? 215 : 170 }
         
         hideText={true}
         textPrefix={sign}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import {Typography, Box, Button, useMediaQuery, useTheme, Divider} from '@mui/material';
+import {Typography, Box, Button, useMediaQuery, useTheme, Divider, createTheme} from '@mui/material';
 import { currentDayFormatted, formatCurrency, trimToInt } from './Global/Global';
 import NavigationHeaderComponent from './Components/NavigationHeaderComponent';
 import StagesProgressSection from './Components/StagesProgressSection';
@@ -45,10 +45,24 @@ import {
 const CalculateFromIncome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const theme = useTheme();
+
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 640,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        desktop: 1280,
+        wide: 1440
+      },
+    },
+  });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
+  const isdesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const [selectedDecade, setSelectedDecade] = useState(0);
 

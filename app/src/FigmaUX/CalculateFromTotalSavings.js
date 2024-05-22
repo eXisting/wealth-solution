@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { batch } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
-import {Typography, Grid, Box, useMediaQuery, useTheme, Button, Divider} from '@mui/material';
+import {Typography, Grid, Box, useMediaQuery, useTheme, Button, Divider, createTheme} from '@mui/material';
 import StageSection from './Components/StageSection';
 import { calculateEndYear, currentDayFormatted, formatCurrency, totalEnabledYears } from './Global/Global';
 import TargetButtonsGroup from './Components/TargetButtonsGroup';
@@ -55,10 +55,23 @@ const CalculateFromTotalSavings = () => {
 
   const [isStagesVisible, setStageVisible] = useState(false);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 640,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        desktop: 1280,
+        wide: 1440
+      },
+    },
+  });
 
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
+  const isdesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     handleUpdateDesiredResult(1000000)

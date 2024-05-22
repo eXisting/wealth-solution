@@ -32,18 +32,19 @@ const UseWealthometer = () => {
     breakpoints: {
       values: {
         xs: 0,
-        sm: 600,
+        sm: 640,
         md: 900,
         lg: 1200,
         xl: 1536,
-        narrowDesktop: 1050,
+        desktop: 1280,
+        wide: 1440
       },
     },
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-  const isNarrowDesktop = useMediaQuery(theme.breakpoints.between('md', 'narrowDesktop'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
+  const isdesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     handleUpdateContributions(1000)
@@ -218,15 +219,24 @@ const UseWealthometer = () => {
               </Typography>
             </Box>
             </Box>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: buildSpaceSizeCssString('tiny', isMobile, isTablet),
-              marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
-              marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)
-            }}
+            <Box
+              display='flex'
+              flexDirection='row'
+              width='100%'
+              zIndex={-1}
+              alignItems="center"
+              justifyContent='center'
+              textAlign='center'
+            >
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: isMobile ? '360px' : isTablet ? '360px' : '305px',
+                gap: buildSpaceSizeCssString('tiny', isMobile, isTablet),
+                marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
+                marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)}}
               >
                 <Typography
                     className='montserrat-regular'
@@ -236,7 +246,7 @@ const UseWealthometer = () => {
                 </Typography>
                 <div style={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: isMobile ? '200px' : isTablet ? '327px' : '402px',
+                  height: isMobile ? '400px' : isTablet ? '327px' : '402px',
                   width: '100%'
                 }}
                 >
@@ -244,6 +254,7 @@ const UseWealthometer = () => {
                                             initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
                 </div>
               </div>
+            </Box>
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -295,7 +306,7 @@ const UseWealthometer = () => {
               flexDirection="row"
               justifyContent="center"
               alignItems="center"
-              gap={ isNarrowDesktop ? '' : buildSpaceSizeCssString('medium', isMobile, isTablet )}
+              gap={ isdesktop ? '' : buildSpaceSizeCssString('medium', isMobile, isTablet )}
             >
               <Box
                 display="flex"
