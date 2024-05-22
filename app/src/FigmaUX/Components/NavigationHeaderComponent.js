@@ -93,7 +93,8 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
           >
             <ButtonGroup
               variant="text"
-              sx={{gap:2, justifyContent: 'space-between', width:'100%'}}
+              sx={{gap:2}}
+              width={'100%'}
             >
               <Button
                 sx={{
