@@ -1,9 +1,11 @@
 import {Box, Button, ButtonGroup, Typography, IconButton, Menu, MenuItem, Divider} from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import logo from '../../Media/logo.png';
+import switchDarkMode from '../../Media/switch_dark_mode.svg';
+import switchLightMode from '../../Media/switch_light_mode.svg';
 import highLevel from '../../Media/highLevel.svg';
 import calculate from '../../Media/calculate.svg';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from "../Global/CssStrings";
@@ -11,19 +13,19 @@ import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssStri
 const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : false;
+  });
 
-  const handleMenuItemClick = (path) => {
-    navigate(path);
-    setAnchorEl(null);
-  };
+  useEffect(() => {
+    document.body.className = isDarkMode ? 'dark-mode' : 'light-mode';
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const toggleDarkMode = () => {
+    setIsDarkMode(prevMode => !prevMode);
   };
 
   return (
@@ -33,7 +35,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
       >
         <Box
           display="flex"
-          justifyContent="start"
+          justifyContent="space-between"
           zIndex={-1}
           marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
         >
@@ -42,6 +44,13 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
             style={{width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px'}}
             alt="Company Logo"
           />
+          <Button sx={{color: "white !important"}} onClick={toggleDarkMode}>
+            <img
+              src={isDarkMode ? switchDarkMode : switchLightMode}
+              style={{width: isMobile ? '20px' : isTablet ? '30px' : '40px', height: isMobile ? '20px' : isTablet ? '30px' : '40px'}}
+              alt="DarkMode"
+            />
+          </Button>
         </Box>
         {( isMobile || isTablet ) && (
           <Box

@@ -23,7 +23,7 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
       ref={parentParentRef}
       marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
       marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
-      pmarginBottom={buildSpaceSizeCssString('small')}
+      marginBottom={buildSpaceSizeCssString('small')}
     >
       <Box
         display='flex'
