@@ -23,22 +23,45 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
       ref={parentParentRef}
       marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
       marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
-      pmarginBottom={buildSpaceSizeCssString('small')}
+      marginBottom={buildSpaceSizeCssString('small')}
     >
+      <Box
+        marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+        marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+        sx={{
+          position: 'relative',
+          // calculated by "heigh of the box - margin top - font size - circle height / 2"
+          top: isMobile ? '20.8px' : isTablet ? '30px' : '24px',
+          height: '7.78px',
+          maxWidth: '270px',
+          margin: "0 auto",
+          background: `linear-gradient(to right, ${
+            selectedButton === 0
+              ? 'rgba(0, 0, 0, 0.1) 0%'
+              : `#4A7DE2 ${selectedButton * 33.33}%, rgba(0, 0, 0, 0.1) ${33.33 + selectedButton * 33.33}%`
+          }, rgba(0, 0, 0, 0.1) 100%)`,
+          zIndex: 0,
+        }}
+      />
       <Box
         display='flex'
         flexDirection='row'
         justifyContent="center"
         textAlign={'center'}
         alignItems="center"
-        marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
-        marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+        gap={'40px'}
+        maxWidth={'350px'}
+        margin="0 auto"
       >
         {[1, 2, 3].map((stage, index, array) => (
           <Box
             key={index} sx={{ position: 'relative' }}
-            marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-            marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+            display='flex'
+            flexDirection='column'
+            justifyContent="center"
+            textAlign={'center'}
+            alignItems="center"
+            width={'90px'}
           >
             <CircleButton
               isMobile={isMobile}
@@ -54,8 +77,8 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
               onClick={() => {handleButtonClick(index)}}
             />
             <Box textAlign={'center'} marginTop={isMobile ? '18px' : isTablet ? '25px' : '35px'} >
-              <Typography className='montserrat-medium'
-                fontSize={isMobile ? '8px' : isTablet ? '13px' : '18px'}
+              <Typography className='montserrat-regular'
+                fontSize={isMobile ? '8px' : isTablet ? '13px' : '16px'}
                 color={selectedButton === index ? "var(--main-color)" : '#D9D9D9'}
               >
                 DECADE {stage}
