@@ -232,27 +232,23 @@ const CalculateFromTotalSavings = () => {
       <Box
           display="flex"
           flexDirection="column"
-          paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-          paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
         <Box
             display="flex"
             flexDirection="column"
             gap={buildSpaceSizeCssString('small', isMobile, isTablet)}
-            marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+            marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         >
           <Typography
-              className='montserrat-bold'
-              fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+              className={isDesktop ? 'montserrat-bolt' : 'montserrat-bold'}
+              fontSize={isMobile ? '28px' : isTablet ? '34px' : '48px'}
               align={'center'}
           >
             Let us calculate a
             <span
-              className='montserrat-bold'
               align='center'
               style={{
-                fontSize: buildFontSizeCssString('strong', isMobile, isTablet),
                 color: "grey.700",
                 backgroundColor: "primary",
                 backgroundImage: 'linear-gradient(45deg, #33CBCC, #4A7DE2)',
@@ -279,8 +275,8 @@ const CalculateFromTotalSavings = () => {
             className='montserrat-regular'
             align={'center'}
             marginTop={buildSpaceSizeCssString(!isMobile && !isTablet ? 'big' : 'medium', isMobile, isTablet)}
-            marginBottom={buildCalculatedCssString(buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet), ' - ', '10px')}
-            fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'regular', isMobile, isTablet)}
+            marginBottom={buildCalculatedCssString(buildSpaceSizeCssString('regular' , isMobile, isTablet), ' - ', '10px')}
+            fontSize={isMobile ? '20px' : '24px'}
           >
             How much money do you want?
           </Typography>
@@ -289,20 +285,23 @@ const CalculateFromTotalSavings = () => {
             reduxUpdate={handleUpdateDesiredResult}
           />
           <Box
-            marginTop={isMobile ? '60px' : isTablet ? '84px' : '123px'}
+            marginTop={isMobile ? '30px' : isTablet ? '38px' : '60px'}
             className='montserrat-bold'
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            textAlign={'center'}
           >
             <Typography
               className='montserrat-bold'
-              fontSize={buildFontSizeCssString('intermediate', isMobile, isTablet)}
+              fontSize={isMobile ? '20px' : isTablet ? '28px' : '34px'}
+              width={isMobile || isTablet ? '85%' : '100%'}
             >
               Your savings plan is divided into <span style={{ color: '#33CBCC' }}>three stages.</span>
             </Typography>
             <Typography
-              className='montserrat-regular'
+              className='montserrat-medium'
               marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
-              fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+              fontSize={isMobile ? '14px' : isTablet ? '18px' : '22px'}
+              width={isMobile ? '90%' : '100%'}
             >
               As you make more money you save more money in each stage.
             </Typography>
@@ -322,17 +321,19 @@ const CalculateFromTotalSavings = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
+            textAlign={'center'}
           >
             <Typography
               className='montserrat-regular'
-              fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+              fontSize={isMobile ? '20px' : isTablet ? '24px' : '30px'}
+              width={isMobile ? '50%' : '100%'}
             >
-              Your investment will be worth
+              Your investment will be <span style={{ color: '#33CBCC' }}>worth</span>
             </Typography>
             <Typography
-              className='poppins-medium'
+              className='montserrat-medium'
               color={'var(--main-color)'}
-              fontSize={buildFontSizeCssString('big', isMobile, isTablet)}
+              fontSize={isMobile ? '40px' : '60px'}
               marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
             >
               {formatCurrency('$', false, calculateTotal().sum)}
@@ -340,7 +341,7 @@ const CalculateFromTotalSavings = () => {
           </Box>
           <Typography
             className='montserrat-regular'
-            fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+            fontSize={isMobile ? '14px' : isTablet ? '20px' : '24px'}
             marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
           >
             (over {totalEnabledYears(decades[0].page.age, decades[1].page.age, decades[2].page.age,
@@ -355,8 +356,8 @@ const CalculateFromTotalSavings = () => {
             marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           >
             <Button variant="contained" 
-              sx={{marginBottom:16, backgroundColor:'var(--main-color)', color:'white', borderRadius:'1rem', 
-              width:isMobile || isTablet ? '70%' : '50%',
+              sx={{marginBottom:16, backgroundColor:'var(--main-color)', color:'white', borderRadius:'1rem',
+                width:'fit-content',
             '&:hover': {
               backgroundColor: 'black',
             }}}
@@ -455,24 +456,24 @@ const CalculateFromTotalSavings = () => {
                 marginRight={buildSpaceSizeCssString(isMobile || isTablet ? 'regular' : 'medium', isMobile, isTablet)}
               >
                 <Box display="flex" flexDirection="column" alignItems="center"
-                  width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+                  width={isMobile ? '170px' : isTablet ? '300px' : '305px'}
                 >
                   <img
                     src={money}
                     alt="Total Interest Earned"
-                    width={isMobile ? '37px' : isTablet ? '45px' : '70px'}
-                    height={isMobile ? '37px' : isTablet ? '45px' : '70px'}
+                    width={isMobile ? '40px' : '70px'}
+                    height={isMobile ? '40px' : '70px'}
                   />
                   <Typography
                     className='montserrat-regular'
-                    fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                    fontSize={isMobile ? '12px' : '24px'}
                   >
                     Total Interest Earned
                   </Typography>
                   <Typography
                     className='montserrat-bold'
                     color={'var(--secondary-color)'}
-                    fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                    fontSize={isMobile ? '16px' : '28px'}
                   >
                     {formatCurrency('$', false, calculateTotal().interestEarned)}
                   </Typography>
@@ -485,30 +486,30 @@ const CalculateFromTotalSavings = () => {
                   <Divider
                     orientation={'vertical'}
                     sx={{
-                      height: '100px',
-                      width: '0.5px',
+                      height: isMobile ? '50px' : '100px',
+                      width: '0.3px',
                       backgroundColor: '#D9D9D9'}}
                   />
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="center"
-                  width={isMobile ? '104px' : isTablet ? '208px' : '305px'}
+                     width={isMobile ? '170px' : isTablet ? '300px' : '305px'}
                 >
                   <img
                     src={donation}
                     alt="Total Contributions"
-                    width={isMobile ? '37px' : isTablet ? '45px' : '70px'}
-                    height={isMobile ? '37px' : isTablet ? '45px' : '70px'}
+                    width={isMobile ? '40px' : '70px'}
+                    height={isMobile ? '40px' : '70px'}
                   />
                   <Typography
                     className='montserrat-regular'
-                    fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                    fontSize={isMobile ? '12px' : '24px'}
                   >
                     Total Contributions
                   </Typography>
                   <Typography
                     className='montserrat-bold'
                     color={'var(--secondary-color)'}
-                    fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                    fontSize={isMobile ? '16px' : '28px'}
                   >
                     {formatCurrency('$', false, calculateTotal().sumContributions)}
                   </Typography>
@@ -528,7 +529,7 @@ const CalculateFromTotalSavings = () => {
                     >
                       <Typography
                         className='montserrat-regular'
-                        fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                        fontSize={isMobile ? '20px' : '24px'}
                       >
                         Investment Growth Over Time
                       </Typography>
@@ -550,14 +551,14 @@ const CalculateFromTotalSavings = () => {
                     }}>
                       <Typography
                         className='montserrat-regular'
-                        fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                        fontSize={isMobile ? '20px' : '24px'}
                       >
                         Investment Balance at Year {calculateEndYear(40)}
                       </Typography>
                       <div style={{
                         position: 'relative',
-                        height: isMobile ? '230px' : isTablet ? '384px' : '493px',
-                        width: isMobile ? '230px' : isTablet ? '384px' : '493px'
+                        height: isMobile ? '230px' : '384px',
+                        width: isMobile ? '230px' : '384px'
                       }}>
                         <DoughnutChartComponent isMobile={isMobile} isTablet={isTablet}/>
                         <div style={{
@@ -567,17 +568,17 @@ const CalculateFromTotalSavings = () => {
                         }}>
                           <Typography
                             className='montserrat-regular'
-                            fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                            fontSize={isMobile ? '10px' : '20px'}
                             textAlign='center'
                           >
                             Total Saved
                           </Typography>
                           <Typography
-                            className='montserrat-bold'
-                            fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                            className='montserrat-semibold'
+                            fontSize={isMobile ? '15px' : '30px'}
                             textAlign='center'
                           >
-                            {formatCurrency('$', false, calculateTotal().sum)}
+                            {formatCurrency('', false, calculateTotal().sum)}
                           </Typography>
                         </div>
                       </div>

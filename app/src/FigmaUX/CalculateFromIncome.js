@@ -194,20 +194,21 @@ const CalculateFromIncome = () => {
         width={'90%'}
       >
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
-      <Box display="flex" flexDirection="column" 
-        paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+      <Box display="flex" flexDirection="column"
         marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
         <Box 
-        display="flex" flexDirection="row"justifyContent="center"
-        marginBottom={isMobile ? '10px' : isTablet ? '18px' : '20px'}>
-          <Typography className='montserrat-bold' fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}>
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        textAlign={'center'}
+        marginBottom={isMobile ? '10px' : isTablet ? '18px' : '20px'}
+        >
+          <Typography className='montserrat-bold' fontSize={isMobile ? '28px' : isTablet ? '34px' : '48px'}>
             <span
               className='montserrat-bold'
               align='center'
               style={{
-                fontSize: buildFontSizeCssString('strong', isMobile, isTablet),
                 color: "grey.700",
                 backgroundColor: "primary",
                 backgroundImage: 'linear-gradient(45deg, #33CBCC, #4A7DE2)',
@@ -226,7 +227,6 @@ const CalculateFromIncome = () => {
           display="flex"
           flexDirection="column"
           justifyContent="flex-start"
-          marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
         >
           <StagesProgressSection
@@ -242,7 +242,7 @@ const CalculateFromIncome = () => {
               min={25000} max={300000}
               step={1000}
               initialValue={trimToInt(decades[selectedDecade].page.decadeIncome)}
-              titleText={'Estimate your average income in the next 10 years'}
+              titleText={'Estimate your 10 year average income'}
               isMobile={isMobile}
               isTablet={isTablet}
               updateRedux={updateDecadeIncomeValue}
@@ -300,16 +300,17 @@ const CalculateFromIncome = () => {
             alignItems: 'center',
             textAlign:"center"}}
           marginBottom={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+          marginTop={buildSpaceSizeCssString('medium', isMobile, isTablet)}
         >
           <Box
             display="flex"
             flexDirection="row"
-            gap={buildSpaceSizeCssString('big', isMobile, isTablet)}
           >
             <Box
               display="flex"
               flexDirection="column"
               alignItems="center"
+              width={'100%'}
               marginLeft={buildSpaceSizeCssString('small', isMobile, isTablet)}
               marginRight={buildSpaceSizeCssString('small', isMobile, isTablet)}
             >
@@ -355,6 +356,7 @@ const CalculateFromIncome = () => {
               alignItems="center"
               marginRight={buildSpaceSizeCssString('small', isMobile, isTablet)}
               marginLeft={buildSpaceSizeCssString('small', isMobile, isTablet)}
+              width={'100%'}
             >
               <img
                 src={moneyBag}

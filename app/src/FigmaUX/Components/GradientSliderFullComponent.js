@@ -1,6 +1,6 @@
 import { RoundSlider } from 'mz-react-round-slider';
 import { useState } from 'react';
-import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {Box, Button, createTheme, Typography, useMediaQuery, useTheme} from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { buildFontSizeCssString, buildCalculatedCssString, buildSpaceSizeCssString } from '../Global/CssStrings';
 
@@ -9,13 +9,26 @@ import '../css/components.css'
 
 const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) =>
 {
-  const theme = useTheme();
-
   const [ pointers, setPointers ] = useState([{ value: initialValue }]);
   const [displayedValue, setDisplayedValue] = useState(initialValue);
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
+      },
+    },
+  });
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {
@@ -56,6 +69,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      width={'100%'}
     >
       <Box
         display="flex"
@@ -81,8 +95,8 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
           className='montserrat-regular'
           marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-          fontSize={isMobile ?
-            buildFontSizeCssString('strong', isMobile, isTablet) : buildFontSizeCssString('regular', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
+          fontSize={isMobile ? '20px' : '27px'}
+          sx={{ flexGrow: 1, textAlign: 'center' }}
         >
           {titleText}
         </Typography>
@@ -108,7 +122,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         pathStartAngle={ 15 }
         pathEndAngle={ 375 }
         animateOnClick={ true }
-        pathThickness={ isMobile ? 24 : isTablet ? 50 : 60 }
+        pathThickness={ isMobile ? 37 : isTablet ? 60 : 60 }
 
         connectionBgColor={'var(--main-color)'}
         pointersOverlap={false}
@@ -121,7 +135,7 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         pointerBorderColor={'white'}
         pointerBorder={isMobile ? 2 : isTablet ? 3 : 4}
         pointerRadius={isMobile ? 20 : isTablet ? 32 : 35}
-        pathRadius={isMobile ? 80 : isTablet ? 130 : 120 }
+        pathRadius={isMobile ? 80 : 140 }
         
         hideText={true}
         textPrefix={sign}
@@ -147,8 +161,8 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
         }}
       >
         <Typography
-          className='poppins-medium'
-          fontSize={buildFontSizeCssString('big', isMobile, isTablet)}
+          className='montserrat-medium'
+          fontSize={isMobile ? '34px' : isTablet ? '60px' : '48px'}
           sx={{ textAlign: 'center' }}
         >{`${displayedValue}%`}
         </Typography>

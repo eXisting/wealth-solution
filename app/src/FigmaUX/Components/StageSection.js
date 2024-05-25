@@ -95,7 +95,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
         <Grid item>
           <Typography
             className='montserrat-regular'
-            fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+            fontSize={isMobile ? '20px' : '30px'}
           >
             {stageNameText}
           </Typography>
@@ -106,7 +106,12 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
       </Grid>
       <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"#D6D6D6" }} />
       {isEnabled && (
-        <>
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+          width={'100%'}
+          gap={'10px'}
+        >
           <Grid
             container
             width='100%'
@@ -116,7 +121,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
             <Grid item>
               <Typography
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                fontSize={isMobile ? '16px' : '24px'}
               >
                 {ageRangeText}
               </Typography>
@@ -137,7 +142,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
             <Grid item>
               <Typography
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                fontSize={isMobile ? '16px' : '24px'}
               >
                 # of years in stage {stageIndex + 1}
               </Typography>
@@ -162,7 +167,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
             <Grid item>
               <Typography
                 className='montserrat-regular'
-                fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                fontSize={isMobile ? '16px' : '24px'}
               >
                 Monthly savings
               </Typography>
@@ -192,7 +197,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
               updateRedux={(newValue) => contributionsChanged(stageIndex, newValue)}
             />
           </Box>
-        </>
+        </Box>
       )}
     </Box>
   );

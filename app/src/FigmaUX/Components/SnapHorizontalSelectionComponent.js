@@ -1,19 +1,33 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { useMediaQuery, useTheme } from '@mui/material';
+import {createTheme, useMediaQuery, useTheme} from '@mui/material';
 
 const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) => {
-  const theme = useTheme();
 
   const numCircles = max - min + 1;
   const scrollRef = useRef(null);
   const containerRef = useRef(null);
   const [snapPoints, setSnapPoints] = useState([]);
-  
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
-  const circleWidth = isMobile ? 132 : isTablet ? 185 : 145;
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
+      },
+    },
+  });
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+
+  const circleWidth = isMobile ? 132 : isTablet ? 155 : 145;
   
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
@@ -137,7 +151,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             position: 'absolute',
             top: 0,
             right: 0,
-            width: '40%',
+            width: isMobile ? '10%' : '40%',
             height: '100%',
             pointerEvents: 'none',
             backgroundImage: 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'

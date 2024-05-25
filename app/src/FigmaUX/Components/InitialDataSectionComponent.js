@@ -13,12 +13,24 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
     <>
       {isMobile || isTablet ? (
           <>
-            <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet) }}>
-              <Typography className='montserrat-regular' fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}>
+            <Box
+              width='100%'
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                marginBottom:buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'big', isMobile, isTablet) }}
+            >
+              <Typography
+                className='montserrat-regular'
+                fontSize={isMobile ? '20px' : '24px'}
+                textAlign={'center'}
+                marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+              >
                 How much do you have saved today?
               </Typography>
               <StartingAmountSelection
-                marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                marginBottom={isMobile ? '20px' : '40px'}
                 isMobile={isMobile}
                 isTablet={isTablet}
                 maxValue={20000}
@@ -31,10 +43,16 @@ const InitialDataSectionComponent = ({startingSavings, startingAge, isMobile, is
                 updateRedux={reduxStartingSavingsUpdate}
               />
             </Box>
-            <Box width='100%' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} gap={4}>
-              <Typography className='montserrat-regular'
-                          fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
-                          marginBottom={buildSpaceSizeCssString(!isMobile && !isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+            <Box
+              width='100%'
+              sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              //gap={4}
+              marginTop={'30px'}
+            >
+              <Typography
+                className='montserrat-regular'
+                fontSize={isMobile ? '20px' : '24px'}
+                marginBottom={buildSpaceSizeCssString('regular', isMobile, isTablet)}
               >
                 Your current age
               </Typography>

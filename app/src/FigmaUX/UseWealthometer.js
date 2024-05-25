@@ -85,8 +85,6 @@ const UseWealthometer = () => {
       <Box
           display="flex"
           flexDirection="column"
-          paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-          paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginTop={buildSpaceSizeCssString('small', isMobile, isTablet)}
       >
         <Box
@@ -94,17 +92,17 @@ const UseWealthometer = () => {
             flexDirection="row"
             justifyContent="center"
             marginBottom={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "1.5")}
+            width={'100%'}
         >
           <Typography
-            className='montserrat-bold'
+            className={isDesktop ? 'montserrat-semibold' : 'montserrat-bold'}
             align='center'
-            fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+            fontSize={ isMobile ? '28px' : isTablet ? '34px' : '48px' }
           >
             Use Wealthometer to <span
             className='montserrat-bold'
             align='center'
             style={{
-              fontSize: buildFontSizeCssString('strong', isMobile, isTablet),
               color: "grey.700",
               backgroundColor: "primary",
               backgroundImage: 'linear-gradient(45deg, #33CBCC, #4A7DE2)',
@@ -136,28 +134,29 @@ const UseWealthometer = () => {
               justifyContent="center"
               alignItems="center"
               zIndex={-1}
-              marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', "-2.2")}
+              marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', "-2.5")}
               gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
             >
               <Box>
                 <Typography
                   className='montserrat-medium'
-                  fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
+                  fontSize={isMobile ? '14px' : '20px'}
                   textAlign='center'
+                  marginBottom={'10px'}
                 >
-                  Your investment will<br /> be worth
+                  Your investment<br/> will be worth
                 </Typography>
                 <Typography
-                  className='poppins-medium'
+                  className='montserrat-medium'
                   color='var(--main-color)'
-                  fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+                  fontSize={isMobile ? '40px' : '60px'}
                   textAlign='center'
                 >
                   {formatCurrency('$', false, calculateTotal().sum)}
                 </Typography>
                 <Typography
                   className='montserrat-regular'
-                  fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
+                  fontSize={isMobile ? '16px' : '20px'}
                   textAlign='center'
                 >
                   (over 40 years)
@@ -172,57 +171,64 @@ const UseWealthometer = () => {
               alignItems="center"
               justifyContent='center'
               textAlign='center'
-              gap={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '2')}
+              gap={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
               marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', '1.2')}
             >
               <Box
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
-                width={isMobile ? '120px' : isTablet ? '208px' : '305px'}
+                width={isMobile ? '160px' : '270px'}
               >
                 <img
                     src={money}
                     alt="Total Interest Earned"
-                    width={isMobile ? '27px' : '35px'}
-                    height={isMobile ? '27px' : '35px'}
+                    width={isMobile ? '40px' : '70px'}
+                    height={isMobile ? '40px' : '70px'}
                 />
                 <Typography
-                  className='montserrat-regular'
-                  fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                  className='montserrat-medium'
+                  fontSize={isMobile ? '14px' : '24px'}
                 >
                   Total Interest Earned
                 </Typography>
                 <Typography
-                  className='poppins-medium'
+                  className='montserrat-bold'
                   color={'var(--secondary-color)'}
-                  fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                  fontSize={isMobile ? '16px' : '28px'}
                 >
                   {formatCurrency('$', false, calculateTotal().interestEarned)}
                 </Typography>
               </Box>
+              <Divider
+                orientation={'vertical'}
+                sx={{
+                  height: isMobile ? '37px' : '70px',
+                  backgroundColor: '#D9D9D9',
+                  margin: '0 10px' }}
+              />
               <Box
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
-                width={isMobile ? '120px' : isTablet ? '208px' : '305px'}
+                width={isMobile ? '160px' : '270px'}
               >
               <img
                 src={donation}
                 alt="Total Contributions"
-                width={isMobile ? '27px' : isTablet ? '35px' : '40px'}
-                height={isMobile ? '27px' : isTablet ? '35px' : '40px'}
+                width={isMobile ? '40px' : '70px'}
+                height={isMobile ? '40px' : '70px'}
               />
               <Typography
-                className='montserrat-regular'
-                fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                className='montserrat-medium'
+                fontSize={isMobile ? '14px' : '24px'}
               >
                 Total Contributions
               </Typography>
               <Typography
-                  className='poppins-medium'
+                  className='montserrat-bold'
                   color={'var(--secondary-color)'}
-                  fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                  fontSize={isMobile ? '16px' : '28px'}
               >
                 {formatCurrency('$', false, calculateTotal().sumContributions)}
               </Typography>
@@ -242,20 +248,20 @@ const UseWealthometer = () => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: isMobile ? '360px' : isTablet ? '360px' : '305px',
-                gap: buildSpaceSizeCssString('tiny', isMobile, isTablet),
+                width: isMobile ? '360px' : isTablet ? '720px' : '305px',
+                gap: isMobile ? '45px' : '80px',
                 marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
-                marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)}}
+                marginTop: isMobile ? '60px' : '90px',}}
               >
                 <Typography
                     className='montserrat-regular'
-                    fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                    fontSize={isMobile ? '20px' : '24px'}
                 >
                   Investment Growth Over Time
                 </Typography>
                 <div style={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: isMobile ? '400px' : isTablet ? '327px' : '402px',
+                  height: isMobile ? '400px' : isTablet ? '700px' : '402px',
                   width: '100%'
                 }}
                 >
@@ -269,12 +275,12 @@ const UseWealthometer = () => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: buildSpaceSizeCssString('small', isMobile, isTablet),
-                marginTop: buildSpaceSizeCssString('small', isMobile, isTablet)
+                gap: isMobile ? '16px' : '30px',
+                marginTop: isMobile ? '16px' : '40px',
               }}>
                 <Typography
                     className='montserrat-regular'
-                    fontSize={buildFontSizeCssString(isTablet ? 'regular' : 'medium', isMobile, isTablet)}
+                    fontSize={isMobile ? '20px' : '24px'}
                 >
                   Investment Balance at Year {calculateEndYear(40)}
                 </Typography>
@@ -292,17 +298,17 @@ const UseWealthometer = () => {
                   }}>
                     <Typography
                         className='montserrat-regular'
-                        fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                        fontSize={isMobile ? '10px' : '20px'}
                         textAlign='center'
                     >
                       Total Saved
                     </Typography>
                     <Typography
-                        className='montserrat-bold'
-                        fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                        className='montserrat-medium'
+                        fontSize={isMobile ? '15px' : '30px'}
                         textAlign='center'
                     >
-                      {formatCurrency('$', false, calculateTotal().sum)}
+                      {formatCurrency('', undefined, calculateTotal().sum)}
                     </Typography>
                   </div>
                 </div>
@@ -313,7 +319,7 @@ const UseWealthometer = () => {
             <Box
               display="flex"
               flexDirection="row"
-              justifyContent="center"
+              justifyContent="space-between"
               alignItems="center"
               gap={ isDesktop ? '' : buildSpaceSizeCssString('medium', isMobile, isTablet )}
             >
@@ -322,6 +328,7 @@ const UseWealthometer = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
+                width={'50%'}
               >
                 <GradientSliderComponent
                   min={0}
@@ -338,37 +345,35 @@ const UseWealthometer = () => {
                   alignItems="center"
                   zIndex={-1}
                   marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet), '*', "-2.2")}
-                  gap={buildSpaceSizeCssString('medium', isMobile, isTablet)}
+                  gap='10px'
                 >
-                  <Box>
-                    <Typography
-                      className='montserrat-regular'
-                      fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
-                      textAlign='center'
-                    >
-                      Your investment will<br/> be worth
-                    </Typography>
-                    <Typography
-                      className='poppins-medium'
-                      color='var(--main-color)'
-                      fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
-                      textAlign='center'
-                    >
-                      {formatCurrency('$', false, calculateTotal().sum)}
-                    </Typography>
-                    <Typography
-                      className='montserrat-regular'
-                      fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
-                      textAlign='center'
-                    >
-                      (over 40 years)
-                    </Typography>
-                  </Box>
+                  <Typography
+                    className='montserrat-regular'
+                    fontSize={'20px'}
+                    textAlign='center'
+                  >
+                    Your investment<br/> will be worth
+                  </Typography>
+                  <Typography
+                    className='poppins-medium'
+                    color='var(--main-color)'
+                    fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+                    textAlign='center'
+                  >
+                    {formatCurrency('$', false, calculateTotal().sum)}
+                  </Typography>
+                  <Typography
+                    className='montserrat-regular'
+                    fontSize={buildFontSizeCssString('tiny', isMobile, isTablet)}
+                    textAlign='center'
+                  >
+                    (over 40 years)
+                  </Typography>
                 </Box>
               </Box>
               <Box
-                  marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-                  marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
+                  marginBottom='70px'
+                  marginRight={'100px'}
                   sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
               >
                 <Box
@@ -377,9 +382,8 @@ const UseWealthometer = () => {
                     width='100%'
                     alignItems="center"
                     justifyContent='center'
-                    gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '2')} textAlign='center'
-                    marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-                    marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+                    gap='20px'
+                    textAlign='center'
                     marginTop={buildCalculatedCssString(buildSpaceSizeCssString('medium', isMobile, isTablet))}
                 >
                   <Box
@@ -387,24 +391,24 @@ const UseWealthometer = () => {
                       flexDirection="column"
                       alignItems="center"
                       justifyContent='center'
-                      width={isMobile ? '120px' : isTablet ? '208px' : '305px'}
+                      width={'380px'}
                   >
                     <img
                         src={money}
                         alt="Total Interest Earned"
-                        width={isMobile ? '27px' : isTablet ? '35px' : '85px'}
-                        height={isMobile ? '27px' : isTablet ? '35px' : '85px'}
+                        width={'100px'}
+                        height={'100px'}
                     />
                     <Typography
                         className='montserrat-regular'
-                        fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                        fontSize={'30px'}
                     >
                       Total Interest Earned
                     </Typography>
                     <Typography
-                      className='poppins-medium'
+                      className='montserrat-bold'
                       color={'var(--secondary-color)'}
-                      fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                      fontSize={'34px'}
                     >
                       {formatCurrency('$', false, calculateTotal().interestEarned)}
                     </Typography>
@@ -423,19 +427,19 @@ const UseWealthometer = () => {
                     <img
                       src={donation}
                       alt="Total Contributions"
-                      width={isMobile ? '27px' : isTablet ? '35px' : '75px'}
-                      height={isMobile ? '27px' : isTablet ? '35px' : '75px'}
+                      width={'100px'}
+                      height={'100px'}
                     />
                     <Typography
                       className='montserrat-regular'
-                      fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+                      fontSize={'30px'}
                     >
                       Total Contributions
                     </Typography>
                     <Typography
-                      className='poppins-medium'
+                      className='montserrat-bold'
                       color={'var(--secondary-color)'}
-                      fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                      fontSize={'34px'}
                     >
                       {formatCurrency('$', false, calculateTotal().sumContributions)}
                   </Typography>
@@ -447,25 +451,26 @@ const UseWealthometer = () => {
           display="flex"
           flexDirection="row"
           justifyContent="center"
-          alignItems="center"
-          marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+          alignItems="start"
+          gap={'70px'}
+          marginRight={'70px'}
+          marginTop={'80px'}
         >
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center',
-              width: '500px',
-              gap: buildSpaceSizeCssString('small', isMobile, isTablet),
+              width: '550px',
+              gap: '40px',
               marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
-              marginTop: buildSpaceSizeCssString('small', isMobile, isTablet),
               marginRight: buildSpaceSizeCssString('big', isMobile, isTablet)
             }}
           >
             <Typography
               className='montserrat-regular'
-              fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+              fontSize={'24px'}
               align={'center'}
             >
               Investment Growth <br/>Over Time
@@ -474,12 +479,12 @@ const UseWealthometer = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: isMobile ? '200px' : isTablet ? '327px' : '402px',
+              height: '500px',
               width: '100%'
             }}
             >
               <CurvedLineChartComponent
-                years={40}
+                years={50}
                 step={10}
                 monthlyContributions={monthlyContribution}
                 initialSavings={0}
@@ -491,22 +496,24 @@ const UseWealthometer = () => {
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
+            alignContent: 'flex-start',
+            height: '100%',
             alignItems: 'center',
-            gap: buildSpaceSizeCssString('small', isMobile, isTablet),
-            marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet),
-            marginTop: buildSpaceSizeCssString('big', isMobile, isTablet)}}
+            gap: '30px',
+            marginBottom: buildSpaceSizeCssString('small', isMobile, isTablet)}}
           >
             <Typography
               className='montserrat-regular'
-              fontSize={buildFontSizeCssString('small', isMobile, isTablet)}
+              fontSize={'24px'}
               align={'center'}
             >
               Investment Balance <br/>at Year {calculateEndYear(40)}
             </Typography>
             <div style={{
-              position: 'relative', height: '450px',
-              width: '340px'
+              position: 'relative',
+              height: '450px',
+              width: '370px'
             }}
             >
               <DoughnutChartControlledComponent
@@ -517,8 +524,16 @@ const UseWealthometer = () => {
                 isTablet={isTablet}
               />
               <div style={{
-                position: 'absolute', top: -150, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column',
-                justifyContent: 'center', alignItems: 'center', zIndex: '-1'}}
+                position: 'absolute',
+                top: -120,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: '-1'}}
               >
                 <Typography
                   className='montserrat-regular'

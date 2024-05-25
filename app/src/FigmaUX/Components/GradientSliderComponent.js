@@ -15,19 +15,17 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
   const theme = createTheme({
     breakpoints: {
       values: {
-        xs: 0,
-        sm: 640,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-        desktop: 1280,
-        wide: 1440
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
       },
     },
   });
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {
@@ -68,6 +66,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      width={'100%'}
     >
       <Box
         display="flex"
@@ -91,14 +90,18 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
           className='montserrat-regular'
           marginLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           marginRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-          fontSize={buildFontSizeCssString(isMobile || isTablet ? 'medium' : 'regular', isMobile, isTablet)} sx={{ flexGrow: 1, textAlign: 'center' }}
+          fontSize={ isMobile ? '20px' : '27px' }
+          sx={{ flexGrow: 1, textAlign: 'center' }}
         >
             {titleText}
         </Typography>
         <Button
           variant="contained"
           sx={{
-            padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"), borderRadius: '50%', minWidth: 'unset', backgroundColor: '#F6F7F7' }}
+            padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"),
+            borderRadius: '50%',
+            minWidth: 'unset',
+            backgroundColor: '#F6F7F7' }}
           onClick={() => {increment(step, max)}}
         >
           <Add sx={{fill:'#9D9D9D'}} />
@@ -140,7 +143,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
         pointerBorderColor={'white'}
         pointerBorder={isMobile ? 2 : isTablet ? 3 : 4}
         pointerRadius={isMobile ? 17 : isTablet ? 25 : 25}
-        pathRadius={isMobile ? 160 : isTablet ? 215 : 170 }
+        pathRadius={isMobile ? 160 : isTablet ? 215 : 200 }
         
         hideText={true}
         textPrefix={sign}
@@ -166,16 +169,16 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
           }}
       >
         <Typography 
-          className='poppins-medium'
+          className='montserrat-bold'
           color={'var(--main-color)'}
-          fontSize={buildFontSizeCssString('strong', isMobile, isTablet)}
+          fontSize={isMobile ? '28px' : '40px'}
           sx={{ textAlign: 'center' }}
         >
           {sign}
         </Typography>
         <Typography
-          className='poppins-medium'
-          fontSize={buildFontSizeCssString('big', isMobile, isTablet)}
+          className='montserrat-medium'
+          fontSize={isMobile ? '48px' : '80px'}
           sx={{ textAlign: 'center' }}
         >{
           formatCurrency('', undefined, displayedValue)}

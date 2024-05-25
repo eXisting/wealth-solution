@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {Box, createTheme, Typography, useMediaQuery, useTheme} from '@mui/material';
 import PropTypes from 'prop-types';
 import Slider, { SliderThumb } from '@mui/material/Slider';
 import styled from 'styled-components';
@@ -28,13 +28,27 @@ const CustomThumbSlider = styled(Slider)(({ width }) => ({
 }));
 
 function AirbnbThumbComponent(props) {
-  const theme = useTheme();
   const { children, ...other } = props;
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
+      },
+    },
+  });
 
-  const size = isMobile ? '37px' : isTablet ? '62px' : '40px';
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+
+  const size = isMobile ? '25px' : isTablet ? '40px' : '35px';
 
   return (
     <SliderThumb sx={{width: `${size} !important`, height: `${size} !important`}} {...other} >
@@ -42,7 +56,7 @@ function AirbnbThumbComponent(props) {
         position={'absolute'}
         backgroundColor={'var(--main-color)'} 
         width={isMobile ? '4.25px' : isTablet ? '7.25px' : '6px'}
-        height={isMobile ? '91px' : isTablet ? '150px' : '130px'}
+        height={isMobile ? '81px' : isTablet ? '120px' : '110px'}
         zIndex={1}
       />
       <Box 
@@ -65,7 +79,7 @@ AirbnbThumbComponent.propTypes = {
 const generateLines = (numLines, highlightedIndex) => {
   const lines = [];
   for (let i = 0; i < numLines; i++) {
-    let lineHeight = '60%'; // Default height for most lines
+    let lineHeight = '40%'; // Default height for most lines
     if (i >= 3 || (i <= numLines - 3)) {
       if ((i + 1) % 4 === 0)
         lineHeight = '100%'; // Height for specific lines
@@ -81,7 +95,6 @@ const generateLines = (numLines, highlightedIndex) => {
 };
 
 const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
-  const theme = useTheme();
   const parentRef = useRef(null);
 
   const [numLines, setNumLines] = useState(1);
@@ -90,8 +103,23 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   
   const space = 13;
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
+      },
+    },
+  });
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     const handleResize = () => {
@@ -159,14 +187,14 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
       <Typography className='montserrat-regular'
         color={'var(--main-color)'} 
         fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: '-10%', left: '10%', marginBottom: '-10%' }}
+        style={{ position: 'absolute', bottom: isTablet ? '0' : '-10%', left: '10%', marginBottom: '-10%' }}
       >
         {min.toLocaleString()}
       </Typography>
       <Typography className='montserrat-regular'
         color={'var(--main-color)'}
         fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
-        style={{ position: 'absolute', bottom: '-10%', right: '10%', marginBottom: '-10%' }}
+        style={{ position: 'absolute', bottom: isTablet ? '0' : '-10%', right: '10%', marginBottom: '-10%' }}
       >
         {max.toLocaleString()}
       </Typography>

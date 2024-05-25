@@ -21,10 +21,12 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
   return (
     <Box 
       ref={parentParentRef}
-      marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)} 
-      marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
-      marginBottom={buildSpaceSizeCssString('small')}
+      width={'100%'}
     >
+      <Box
+        marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+        marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
+      >
       <Box
         marginLeft={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
         marginRight={buildSpaceSizeCssString(isMobile ? 'regular' : 'medium', isMobile, isTablet)}
@@ -33,7 +35,7 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
           // calculated by "heigh of the box - margin top - font size - circle height / 2"
           top: isMobile ? '20.8px' : isTablet ? '30px' : '24px',
           height: '7.78px',
-          maxWidth: '270px',
+          maxWidth: isMobile ? '240px' : '270px',
           margin: "0 auto",
           background: `linear-gradient(to right, ${
             selectedButton === 0
@@ -77,8 +79,8 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
               onClick={() => {handleButtonClick(index)}}
             />
             <Box textAlign={'center'} marginTop={isMobile ? '18px' : isTablet ? '25px' : '35px'} >
-              <Typography className='montserrat-regular'
-                fontSize={isMobile ? '8px' : isTablet ? '13px' : '16px'}
+              <Typography className='montserrat-medium'
+                fontSize={isMobile ? '14px' : '16px'}
                 color={selectedButton === index ? "var(--main-color)" : '#D9D9D9'}
               >
                 DECADE {stage}
@@ -86,6 +88,7 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
             </Box>
           </Box>
         ))}
+      </Box>
       </Box>
       <Box
         textAlign={'center'}
@@ -99,10 +102,11 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
         <Typography
           className='montserrat-bold'
           marginTop={buildSpaceSizeCssString('medium')}
-          fontSize={buildFontSizeCssString(isMobile ? 'strong' : 'medium', isMobile, isTablet)}
+          fontSize={isMobile ? '20px' : '28px'}
           color="var(--main-color)"
+          width={'95%'}
         >
-          Your savings between the ages {decadeAgeRange.lowerBracketYears} and {decadeAgeRange.upperBracketYears}
+          Your savings between the ages of {decadeAgeRange.lowerBracketYears} to {decadeAgeRange.upperBracketYears}
         </Typography>
       </Box>
     </Box>

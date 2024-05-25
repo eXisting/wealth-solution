@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import {Box, createTheme, useMediaQuery, useTheme} from '@mui/material';
 
 import unselectedCoin from '../../Media/coins/unselected/coin.svg';
 import unselectedCoin1 from '../../Media/coins/unselected/coin1.svg';
@@ -13,14 +13,28 @@ import '../css/components.css';
 import {buildFontSizeCssString} from "../Global/CssStrings";
 
 const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
-  const theme = useTheme();
 
   const [activeButton, setActiveButton] = useState(
     desiredResult === 1000000 ? 0 : desiredResult === 3000000 ? 1 : desiredResult === 5000000 ? 2 : 0
   );
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
+      },
+    },
+  });
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const buttonData = [
     { unselectedImgSrc: unselectedCoin, selectedImgSrc: selectedCoin, text: '$1,000,000', value: 1000000 },
@@ -35,17 +49,17 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
 
   return (
     <Box
-      width={isTablet ? '70%' : '100%'}
+      width={isTablet ? '80%' : '100%'}
       display="flex"
       flexDirection={isMobile || isTablet ? 'column' : 'row'}
       alignItems={isMobile || isTablet ? 'stretch' : 'center'}
       justifyContent='center'
-      gap={isMobile ? '7px' : isTablet ? '10px' : '45px'}
+      gap={isMobile ? '10px' : isTablet ? '10px' : '45px'}
     >
       {buttonData.map((button, index) => (
         <Box
           position={'relative'}
-          padding={isMobile ? '20px' : '30px'}
+          padding={isMobile ? '10px' : '30px'}
           borderRadius={isMobile ? '10px' : isTablet ? '15px' : '20px'}
           key={index}
           flex="1"
@@ -56,22 +70,27 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
           className={`selectable-button ${activeButton === index ? 'active montserrat-bold' : 'montserrat-regular'}`}
         >
           <Box
-            className="selectable-button-icon">
+            marginLeft={isMobile ? '20px' : isTablet ? '15px' : '0'}
+          >
             <img
+              width={isMobile ? '20px' : '35px'}
               src={activeButton === index ? button.selectedImgSrc : button.unselectedImgSrc}
               alt="Coin Icon" />
           </Box>
           <Box
             className="selectable-button-text"
-            fontSize={buildFontSizeCssString('intermediate', isMobile, isTablet)}
+            fontSize={isMobile ? '20px' : '30px'}
+            marginLeft={isMobile ? '20px' : isTablet ? '35px' : '0'}
           >
             {button.text}
           </Box>
           {activeButton === index &&
             <Box
               className={isMobile || isTablet ? "selectable-button-icon-right" : "selectable-button-icon-top-right"}
+              marginRight={isMobile ? '20px' : isTablet ? '15px' : '0'}
             >
               <img
+                width={isMobile ? '20px' : isTablet ? '35px' : '30px'}
                 src={checkmark}
                 alt="Checkmark Icon"
               />

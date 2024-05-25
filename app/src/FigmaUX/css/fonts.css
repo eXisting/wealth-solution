@@ -3,7 +3,7 @@
   --font-size-small-mobile: 14px;
   --font-size-regular-mobile: 16px;
   --font-size-medium-mobile: 20px;
-  --font-size-intermediate-pc: 28px;
+  --font-size-intermediate-mobile: 28px;
   --font-size-strong-mobile: 34px;
   --font-size-big-mobile: 40px;
   --font-size-huge-mobile: 48px;
@@ -12,7 +12,7 @@
   --font-size-small-tablet: 12.6px;
   --font-size-regular-tablet: 14px;
   --font-size-medium-tablet: 21px;
-  --font-size-intermediate-pc: 30px;
+  --font-size-intermediate-tablet: 34px;
   --font-size-strong-tablet: 42px;
   --font-size-big-tablet: 50.4px;
   --font-size-huge-tablet: 63px;
@@ -28,22 +28,33 @@
 }
 
 @font-face {
-  font-family: 'Montserrat';
+  font-family: 'Montserrat-Regular';
   src: local('Montserrat'), url(../fonts/Montserrat-Regular.ttf) format('opentype');
 }
 
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: local('Montserrat'), url(../fonts/Montserrat-Bold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: local('Montserrat'), url(../fonts/Montserrat-Medium.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Montserrat-SemiBold';
+  src: local('Montserrat'), url(../fonts/Montserrat-SemiBold.ttf) format('opentype');
+}
+
 .montserrat-bold {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat-Bold", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 600 !important;
-  font-style: normal !important;
 }
 
 .montserrat-medium {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat-Medium", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
 }
 
 .poppins-medium {
@@ -53,8 +64,11 @@
 }
 
 .montserrat-regular {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat-Regular", sans-serif !important;
   font-optical-sizing: auto !important;
-  font-weight: 300 !important;
-  font-style: normal !important;
+}
+
+.montserrat-semibold {
+  font-family: "Montserrat-SemiBold", sans-serif !important;
+  font-optical-sizing: auto !important;
 }
