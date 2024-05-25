@@ -43,7 +43,6 @@ const UseWealthometer = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
   const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
-  const isWideTablet = useMediaQuery(theme.breakpoints.between('narrowTablet', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
   const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
@@ -73,9 +72,11 @@ const UseWealthometer = () => {
       display={'flex'}
       flexDirection={'row'}
       justifyContent={'center'}
+      alignItems={'center'}
     >
       <Box
         maxWidth={isMobile ? '420px' : isTablet ? '780px' : isDesktop ? '1200px' : '100%'}
+        width={'90%'}
       >
       <NavigationHeaderComponent
           isMobile={isMobile}

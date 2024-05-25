@@ -49,20 +49,20 @@ const CalculateFromIncome = () => {
   const theme = createTheme({
     breakpoints: {
       values: {
-        xs: 0,
-        sm: 640,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-        desktop: 1280,
-        wide: 1440
+        narrowMobile: 480,
+        mobile: 640,
+        narrowTablet: 900,
+        tablet: 1280,
+        desktop: 1440
       },
     },
   });
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'desktop'));
-  const isdesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
+  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const [selectedDecade, setSelectedDecade] = useState(0);
 
@@ -183,7 +183,16 @@ const CalculateFromIncome = () => {
   }
 
   return (
-    <>
+    <Box
+      display={'flex'}
+      flexDirection={'row'}
+      justifyContent={'center'}
+      alignItems={'center'}
+    >
+      <Box
+        maxWidth={isMobile ? '420px' : isTablet ? '780px' : isDesktop ? '1200px' : '100%'}
+        width={'90%'}
+      >
       <NavigationHeaderComponent isMobile={isMobile} isTablet={isTablet}></NavigationHeaderComponent>
       <Box display="flex" flexDirection="column" 
         paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
@@ -400,7 +409,8 @@ const CalculateFromIncome = () => {
           </Box>
       </Box>
       <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
-    </>
+    </Box>
+    </Box>
   );
 }
 
