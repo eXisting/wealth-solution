@@ -27,7 +27,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
   const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
-  const circleWidth = isMobile ? 132 : isTablet ? 155 : 145;
+  const circleWidth = isMobile ? 131 : isTablet ? 184 : 146;
   
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
@@ -108,17 +108,31 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
         left={0}
         width={'30%'} backgroundColor='white' height={'100%'} /> */}
       <Box
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
         position='absolute'
         left={`calc(50% - ${circleWidth / 2}px)`}
         width={circleWidth}
         height={circleWidth}
+        sx={{
+          border: '0.5px dashed #ccc',
+          borderRadius: '50%',
+        }}
+        >
+      <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        position='absolute'
+        left={`calc(55% - ${circleWidth / 2}px)`}
+        top={`5%`}
+        width={'90%'}
+        height={'90%'}
         borderRadius='50%'
         zIndex={-1}
-        sx={{backgroundImage:'linear-gradient(0deg, #4A7DE2, #33CBCC) !important'}}
+        sx={{
+          backgroundImage:'linear-gradient(0deg, #4A7DE2, #33CBCC) !important',
+          }}
       />
+    </Box>
       <Box
         ref={scrollRef}
         display={'flex'}
@@ -142,7 +156,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             width: '40%',
             height: '100%',
             pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
           }}
         />
         <Box
@@ -151,10 +165,10 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             position: 'absolute',
             top: 0,
             right: 0,
-            width: isMobile ? '10%' : '40%',
+            width: '40%',
             height: '100%',
             pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+            backgroundImage: 'linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
           }}
         />
       </Box>
