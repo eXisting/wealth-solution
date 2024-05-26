@@ -128,6 +128,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
         left={`calc(50% - ${circleWidth / 2}px)`}
         width={circleWidth}
         height={circleWidth}
+        zIndex={-1}
         sx={{
           border: '0.5px dashed #ccc',
           borderRadius: '50%',
