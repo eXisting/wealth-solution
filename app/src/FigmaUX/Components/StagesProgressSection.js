@@ -9,6 +9,25 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
   const [selectedButton, setSelectedButton] = useState(selectedStage);
   const parentParentRef = useRef(null);
 
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
+
   useEffect(() => {
     setSelectedButton(selectedStage);
   }, [selectedStage]);
@@ -37,11 +56,7 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
           height: '7.78px',
           maxWidth: isMobile ? '240px' : '270px',
           margin: "0 auto",
-          background: `linear-gradient(to right, ${
-            selectedButton === 0
-              ? 'rgba(0, 0, 0, 0.1) 0%'
-              : `#4A7DE2 ${selectedButton * 33.33}%, rgba(0, 0, 0, 0.1) ${33.33 + selectedButton * 33.33}%`
-          }, rgba(0, 0, 0, 0.1) 100%)`,
+          background: isDarkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(0,0,0, 0.1)',
           zIndex: 0,
         }}
       />
@@ -68,10 +83,10 @@ const StagesProgressSection = ({ decadeAgeRange, stageSelected, selectedStage, i
             <CircleButton
               isMobile={isMobile}
               isTablet={isTablet}
-              mainBackgroundColor={'#D9D9D9'}
+              mainBackgroundColor={isDarkMode ? '#333333' : '#D9D9D9'}
               mainColorSelected={'var(--main-color)'}
-              secondaryColor={'#FFFFFF'}
-              secondaryColorSelected={'#FFFFFF'}
+              secondaryColor={isDarkMode ? 'black' : '#FFFFFF'}
+              secondaryColorSelected={isDarkMode ? 'black' :'#FFFFFF'}
               width={isMobile ? '26px' : isTablet ? '37px' : '30px'}
               height={isMobile ? '26px' : isTablet ? '37px' : '30px'}
               selected={selectedButton === index}

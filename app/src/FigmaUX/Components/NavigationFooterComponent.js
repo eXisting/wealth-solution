@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Link, Grid } from '@material-ui/core';
 import { buildSpaceSizeCssString } from '../Global/CssStrings';
 import { Box, IconButton } from '@mui/material';
@@ -8,8 +8,28 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 
 import logo from '../../Media/logo.png';
+import logoDarkMode from '../../Media/logo_dark_mode.png';
 
 const NavigationFooterComponent = ({ isMobile, isTablet }) => {
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
+
   return (
     <footer style={{ marginTop: buildSpaceSizeCssString('medium', isMobile, isTablet), paddingBottom: buildSpaceSizeCssString('small', isMobile, isTablet) }}>
       <Box paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
@@ -17,7 +37,7 @@ const NavigationFooterComponent = ({ isMobile, isTablet }) => {
         <Grid container>
           <Grid item xs={12} style={{ marginBottom: '30px' }}>
             {/* Logo */}
-            <img src={logo} style={{ width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px' }} alt="Company Logo" />
+            <img src={isDarkMode ? logoDarkMode : logo} style={{ width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px' }} alt="Company Logo" />
           </Grid>
           <Grid item xs={6}>
             {/* Address, Contact, Social Networks */}

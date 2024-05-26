@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { buildFontSizeCssString } from '../Global/CssStrings';
 
 const CustomThumbSlider = styled(Slider)(({ width }) => ({
-  color: '#3a8589',
   position: 'absolute !important',
   width: `${width}px !important`,
   '& .MuiSlider-thumb': {
@@ -43,10 +42,26 @@ function AirbnbThumbComponent(props) {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
 
   const size = isMobile ? '25px' : isTablet ? '40px' : '35px';
 
@@ -62,7 +77,7 @@ function AirbnbThumbComponent(props) {
       <Box 
       width={size}
       height={size}
-        backgroundColor='#fff'
+        backgroundColor={isDarkMode ? 'black' : 'white'}
         position={'absolute'}
         border={`${isMobile ? '4px' : '6px'} solid var(--main-color)`}
         borderRadius={'50%'} zIndex={2}>
@@ -76,7 +91,7 @@ AirbnbThumbComponent.propTypes = {
   children: PropTypes.node,
 };
 
-const generateLines = (numLines, highlightedIndex) => {
+const generateLines = (isDarkMode, numLines, highlightedIndex) => {
   const lines = [];
   for (let i = 0; i < numLines; i++) {
     let lineHeight = '40%'; // Default height for most lines
@@ -86,7 +101,7 @@ const generateLines = (numLines, highlightedIndex) => {
     }
 
     lines.push(<Box key={i} 
-      backgroundColor={'#D9D9D9'} 
+      backgroundColor={isDarkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(0,0,0, 0.2)'} 
       width={'5px'}
       height={lineHeight} 
     />);
@@ -116,10 +131,9 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+
+  const [isDarkMode, setIsDarkMode] = useState();
 
   useEffect(() => {
     const handleResize = () => {
@@ -129,17 +143,28 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
       setNumLines(newNumLines);
     };
 
-    handleResize();
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
 
+    handleResize();
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
     window.addEventListener('resize', handleResize);
+    window.addEventListener('storage', handleStorageChange);
+
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('storage', handleStorageChange);
     };    
   }, []);
 
   useEffect(() => {
     setHighlightedIndex(calculateHighlightedIndex(reduxValue, calculateNumberOfLines()));
-  }, [reduxValue, numLines]);
+  }, [reduxValue, numLines, isDarkMode]);
 
   function calculateNumberOfLines() {
     const parentWidth = parentRef.current.clientWidth;
@@ -169,7 +194,7 @@ const DashedSlider = ({min, max, reduxValue, updateRedux}) => {
         gap={`${space}px`}
         position={'relative'}
     >
-      {generateLines(numLines, highlightedIndex)}
+      {generateLines(isDarkMode, numLines, highlightedIndex)}
       <CustomThumbSlider
         slots={{ thumb: AirbnbThumbComponent }}
         width={numLines * 5 + (numLines - 1) * space}

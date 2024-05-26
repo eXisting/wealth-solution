@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Divider, Grid } from '@material-ui/core';
 import { Box, Button, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
@@ -8,9 +8,9 @@ import { buildFontSizeCssString, buildSpaceSizeCssString } from '../Global/CssSt
 import CircleButton from './CircleButton';
 import SnapHorizontalSelectionComponent from "./SnapHorizontalSelectionComponent";
 
-const IOSSwitch = styled(({ isMobile, isTablet, ...props }) => (
+const IOSSwitch = styled(({ isMobile, isTablet, isDarkMode, ...props }) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme, isMobile, isTablet }) => ({
+))(({ theme, isMobile, isTablet, isDarkMode }) => ({
   width: isMobile ? '34px' : isTablet ? '47px' : '73px',
   height: isMobile ? '20px' : isTablet ? '26px' : '40px',
   padding: 0,
@@ -20,14 +20,14 @@ const IOSSwitch = styled(({ isMobile, isTablet, ...props }) => (
     transitionDuration: '500ms',
     '&.Mui-checked': {
       transform: `translateX(${isMobile ? '14px' : isTablet ? '20px' : '30px'})`,
-      color: '#fff',
+      color: `${isDarkMode ? 'black' : 'white'}`,
       '& + .MuiSwitch-track': {
-        backgroundColor: '#181547',
+        backgroundColor: `${isDarkMode ? 'white' : '#181547'}`,
         opacity: 1,
         border: 0,
       },
       '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: 0.5,
+        opacity: `${isDarkMode ? 0.2 : 0.5}`,
       },
     },
     '&.Mui-focusVisible .MuiSwitch-thumb': {
@@ -43,12 +43,13 @@ const IOSSwitch = styled(({ isMobile, isTablet, ...props }) => (
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
+    backgroundColor: `${isDarkMode ? 'black' : 'white'}`,
     width: isMobile ? '14px' : isTablet ? '20px' : '30px',
     height: isMobile ? '14px' : isTablet ? '20px' : '30px',
   },
   '& .MuiSwitch-track': {
     borderRadius: isMobile ? '10px' : isTablet ? '13px' : '20px',
-    backgroundColor: '#9A98A3',
+    backgroundColor: `${isDarkMode ? 'rgba(255,255,255, 0.2)' : '#9A98A3'}`,
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
@@ -62,6 +63,25 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
   isMobile, isTablet,
   startingYears, years, contributions,
   reduxUpdateEnabled, reduxUpdateYears, reduxUpdateContributions }) => {
+    
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
     
   function enabledChanged(section, enabled) {
     reduxUpdateEnabled(section, enabled);
@@ -101,7 +121,7 @@ const StageSection = ({ stageIndex, stageNameText, ageRangeText,
           </Typography>
         </Grid>
         <Grid item>
-          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} isMobile={isMobile} isTablet={isTablet} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
+          <IOSSwitch id={`toggle${stageIndex}`} checked={isEnabled} isMobile={isMobile} isTablet={isTablet} isDarkMode={isDarkMode} onChange={(e) => enabledChanged(stageIndex, e.target.checked)} />
         </Grid>
       </Grid>
       <Divider style={{ width: '100%', marginTop: 16, marginBottom: 16, backgroundColor:"#D6D6D6" }} />

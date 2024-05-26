@@ -1,5 +1,5 @@
 import { RoundSlider } from 'mz-react-round-slider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatCurrency } from '../Global/Global';
 import {Box, Button, createTheme, Typography, useMediaQuery, useTheme} from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
@@ -26,6 +26,25 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
+
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {
@@ -81,10 +100,10 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
             padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"),
             borderRadius: '50%',
             minWidth: 'unset',
-            backgroundColor: '#F6F7F7' }}
+            backgroundColor: isDarkMode ? 'rgba(255,255,255, 0.1)' : '#F6F7F7' }}
           onClick={() => {decrement(step, min)}}
         >
-          <Remove sx={{fill:'#9D9D9D'}} />
+          <Remove sx={{fill: isDarkMode ? 'white' : '#9D9D9D'}} />
         </Button>
         <Typography
           className='montserrat-regular'
@@ -101,10 +120,10 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
             padding:buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', "0.5"),
             borderRadius: '50%',
             minWidth: 'unset',
-            backgroundColor: '#F6F7F7' }}
+            backgroundColor: isDarkMode ? 'rgba(255,255,255, 0.1)' : '#F6F7F7' }}
           onClick={() => {increment(step, max)}}
         >
-          <Add sx={{fill:'#9D9D9D'}} />
+          <Add sx={{fill: isDarkMode ? 'white' : '#9D9D9D'}} />
         </Button>
       </Box>
       <RoundSlider

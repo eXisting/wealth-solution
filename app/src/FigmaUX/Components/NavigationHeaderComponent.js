@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import logo from '../../Media/logo.png';
+import darkMode_logo from '../../Media/logo_dark_mode.png';
 import switchDarkMode from '../../Media/switch_dark_mode.svg';
 import switchLightMode from '../../Media/switch_light_mode.svg';
-import highLevel from '../../Media/highLevel.svg';
-import calculate from '../../Media/calculate.svg';
+import wealthometer from '../../Media/wealthometer.svg';
+import from_income from '../../Media/from_income.svg';
 import { buildCalculatedCssString, buildFontSizeCssString, buildSpaceSizeCssString } from "../Global/CssStrings";
 
 const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
@@ -26,6 +27,11 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
 
   const toggleDarkMode = () => {
     setIsDarkMode(prevMode => !prevMode);
+
+    const event = new Event('storage');
+    event.key = 'theme';
+    event.newValue = !isDarkMode ? 'dark' : 'light';
+    window.dispatchEvent(event);
   };
 
   return (
@@ -40,7 +46,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
           marginBottom={buildSpaceSizeCssString('small', isMobile, isTablet)}
         >
           <img
-            src={logo}
+            src={isDarkMode ? darkMode_logo : logo}
             style={{width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px'}}
             alt="Company Logo"
           />
@@ -62,7 +68,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
           >
             <Button
               sx={{
-                color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black',
+                color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                 border: 'none !important',
                 textTransform: 'none'
               }}
@@ -96,7 +102,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
             {( !isMobile && !isTablet ) && (
               <Button
                 sx={{
-                  color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : 'black',
+                  color: location.pathname === '/fromTotalSavings' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                   border: 'none !important'
                 }}
                 onClick={() => navigate('/fromTotalSavings')}
@@ -136,7 +142,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                 <>
                   <Button
                     sx={{
-                      color: location.pathname === '/' ? '#4A7DE2' : 'black',
+                      color: location.pathname === '/' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                       border: 'none !important',
                       textTransform: 'none'
                     }}
@@ -151,8 +157,8 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                       gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
                     >
                       <img
-                        src={highLevel}
-                        alt="Total Contributions"
+                        src={wealthometer}
+                        alt="Wealthometer"
                         width={'75px'}
                         height={'75px'}
                       />
@@ -183,7 +189,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                   </Button>
                   <Button
                     sx={{
-                      color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black',
+                      color: location.pathname === '/fromIncome' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                       border:'none !important',
                       textTransform: 'none'
                     }}
@@ -198,8 +204,8 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                       gap={buildCalculatedCssString(buildSpaceSizeCssString('small', isMobile, isTablet), '*', '0.5')}
                     >
                       <img
-                        src={calculate}
-                        alt="Total Contributions"
+                        src={from_income}
+                        alt="From income"
                         width={'75px'}
                         height={'75px'}
                       />
@@ -231,7 +237,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                 <>
                   <Button
                     sx={{
-                      color: location.pathname === '/' ? '#4A7DE2' : 'black',
+                      color: location.pathname === '/' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                       border: 'none !important',
                       textTransform: 'none'
                     }}
@@ -246,8 +252,8 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                       height={'100%'}
                     >
                       <img
-                        src={highLevel}
-                        alt="Total Contributions"
+                        src={wealthometer}
+                        alt="Wealthometer"
                         width={isMobile ? '50px' : '75px'}
                         height={isMobile ? '50px' : '75px'}
                       />
@@ -270,7 +276,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                   </Button>
                   <Button
                     sx={{
-                      color: location.pathname === '/fromIncome' ? '#4A7DE2' : 'black',
+                      color: location.pathname === '/fromIncome' ? '#4A7DE2' : isDarkMode ? 'white' : 'black',
                       border:'none !important',
                       textTransform: 'none'
                   }}
@@ -286,8 +292,8 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                       height={'100%'}
                     >
                       <img
-                        src={calculate}
-                        alt="Total Contributions"
+                        src={from_income}
+                        alt="From income"
                         width={isMobile ? '50px' : '75px'}
                         height={isMobile ? '50px' : '75px'}
                       />

@@ -22,10 +22,26 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
+
+  const [isDarkMode, setIsDarkMode] = useState();
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'theme') {
+        setIsDarkMode(event.newValue === 'dark');
+      }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkMode(savedTheme === 'dark');
+    
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };    
+  }, []);
 
   const circleWidth = isMobile ? 131 : isTablet ? 184 : 146;
   
@@ -156,7 +172,9 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             width: '40%',
             height: '100%',
             pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
+            backgroundImage: isDarkMode
+              ? 'linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
+              : 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
           }}
         />
         <Box
@@ -168,7 +186,9 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             width: '40%',
             height: '100%',
             pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
+            backgroundImage: isDarkMode
+              ? 'linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
+              : 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
           }}
         />
       </Box>
