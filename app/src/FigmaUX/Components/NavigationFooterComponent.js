@@ -33,82 +33,113 @@ const NavigationFooterComponent = ({ isMobile, isTablet }) => {
   return (
     <footer style={{ marginTop: buildSpaceSizeCssString('medium', isMobile, isTablet), paddingBottom: buildSpaceSizeCssString('small', isMobile, isTablet) }}>
       <Box paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}>
+        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
+        fontSize={isMobile ? '10px' : isTablet ? '14px' : '18px'}>
         <Grid container>
           <Grid item xs={12} style={{ marginBottom: '30px' }}>
             {/* Logo */}
             <img src={isDarkMode ? logoDarkMode : logo} style={{ width: isMobile ? '166px' : isTablet ? '232px' : '320px', height: isMobile ? '25px' : isTablet ? '35px' : '52px' }} alt="Company Logo" />
           </Grid>
-          <Grid item xs={6}>
+          <Grid container item xs={!isMobile && !isTablet ? 4 : 6} direction="column" spacing={1}>
             {/* Address, Contact, Social Networks */}
-            <Typography variant="body1" gutterBottom>
-              <b>Address:</b>
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              1234 BeWealther, Purworejo, Central Java, Indonesia 54261
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <b>Contact:</b>
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              <Link href="tel:(+01) 234-5678" style={{ textDecoration: 'underline', color: 'inherit' }}>(+01) 234-5678</Link>
+            <Grid item>
+              <Typography className='montserrat-semibold' style={{ marginBottom: '0.5rem', fontSize: isMobile ? '10px' : isTablet ? '14px' : '18px'}}>
+                Address:
+              </Typography>
+              <span className='montserrat-regular'>
+                1234 BeWealther, Purworejo, Central Java, Indonesia 54261
+              </span>
+            </Grid>
+            
+            <Grid item>
+              <Typography className='montserrat-semibold' style={{ marginBottom: '0.5rem', marginTop: '1rem', fontSize: isMobile ? '10px' : isTablet ? '14px' : '18px' }}>
+                Contact:
+              </Typography>
+              <Link href="tel:(+01) 234-5678" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit', fontSize:isMobile ? '10px' : isTablet ? '14px' : '18px' }}>(+01) 234-5678</Link>
               <br />
-              <Link href="mailto:info@bewealther.com" style={{ textDecoration: 'underline', color: 'inherit' }}>info@bewealther.com</Link>
-            </Typography>
+              <Link href="mailto:info@bewealther.com" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit', fontSize:isMobile ? '10px' : isTablet ? '14px' : '18px' }}>info@bewealther.com</Link>
+            </Grid>
+            
             {/* Social Network Icons */}
-            <Grid container>
-              <Grid item>
-                <IconButton aria-label="Instagram">
-                  <InstagramIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton aria-label="Facebook">
-                  <FacebookIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton aria-label="LinkedIn">
-                  <LinkedInIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton aria-label="Twitter">
-                  <TwitterIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
-                </IconButton>
+            <Grid item>
+              <Grid container spacing={1}>
+                <Grid item>
+                  <IconButton aria-label="Instagram">
+                    <InstagramIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton aria-label="Facebook">
+                    <FacebookIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton aria-label="LinkedIn">
+                    <LinkedInIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton aria-label="Twitter">
+                    <TwitterIcon style={{ width: isMobile ? '15px' : isTablet ? '22px' : '30px', height: isMobile ? '15px' : isTablet ? '22px' : '30px' }}/>
+                  </IconButton>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+
+          <Grid item xs={!isMobile && !isTablet ? 4 : 6}>
             {/* Links to other pages */}
-            <Typography variant="body1" gutterBottom>
-              <b>Get started:</b>
-              <br />
-              <Link href="/" style={{ color: 'inherit' }}>Wealthometer</Link>
-              <br />
-              <Link href="/fromTotalSavings" style={{ color: 'inherit' }}>Calculate from total savings</Link>
-              <br />
-              <Link href="/fromIncome" style={{ color: 'inherit' }}>Calculate from income</Link>
-              <br />
-              <br />
-              <Link href="#" style={{ color: 'inherit' }}>About us</Link>
-              <br />
-              <Link href="#" style={{ color: 'inherit' }}>Read the blog</Link>
+            <Typography className='montserrat-semibold' style={{marginBottom: '0.5rem', fontSize: isMobile ? '10px' : isTablet ? '14px' : '18px' }}>
+              Get started:
             </Typography>
+              <Grid item>
+                <Link href="/" className='montserrat-regular' style={{ color: 'inherit'}}>Wealthometer</Link>
+              </Grid>
+              <Grid item>
+                <Link href="/fromIncome" className='montserrat-regular' style={{ color: 'inherit' }}>Calculate from income</Link>
+              </Grid>
+              <Grid item>
+                <Link href="/fromTotalSavings" className='montserrat-regular' style={{ color: 'inherit' }}>Calculate from total savings</Link>
+              </Grid>
+              <Grid item style={{marginBottom: '0.5rem', marginTop: '1rem'}}>
+                <Link href="#" className='montserrat-regular' style={{ color: 'inherit' }}>About us</Link>
+                <br/>
+                <Link href="#" className='montserrat-regular' style={{ color: 'inherit' }}>Read the blog</Link>
+              </Grid>
           </Grid>
+          {(!isMobile && !isTablet ?
+            <Grid item xs={4}>
+              {/* Links to other pages */}
+              <Typography className='montserrat-semibold' style={{marginBottom: '0.5rem', fontSize: isMobile ? '10px' : isTablet ? '14px' : '18px' }}>
+                Get started:
+              </Typography>
+                <Grid item>
+                  <Link href="/" className='montserrat-regular' style={{ color: 'inherit'}}>Wealthometer</Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/fromIncome" className='montserrat-regular' style={{ color: 'inherit' }}>Calculate from income</Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/fromTotalSavings" className='montserrat-regular' style={{ color: 'inherit' }}>Calculate from total savings</Link>
+                </Grid>
+                <Grid item style={{marginBottom: '0.5rem', marginTop: '1rem'}}>
+                  <Link href="#" className='montserrat-regular' style={{ color: 'inherit' }}>About us</Link>
+                  <br/>
+                  <Link href="#" className='montserrat-regular' style={{ color: 'inherit' }}>Read the blog</Link>
+                </Grid>
+            </Grid>
+            : <></>)}
           <Grid item xs={12} style={{ borderBottom: '1px solid #ccc', marginBottom: '20px' }} />
           <Grid item xs={6}>
             {/* Policy and TOS */}
-            <Box display="flex">
-              <Typography variant="body2" gutterBottom>
-                <Link href="#" style={{ textDecoration: 'underline', color: 'inherit' }}>Privacy Policy</Link>
-                <Link href="#" style={{ textDecoration: 'underline', color: 'inherit' }}>Terms of Service</Link>
-              </Typography>
+            <Box display="flex" flexDirection={'row'} gap={2}>
+              <Link href="#" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit' }}>Privacy Policy</Link>
+              <Link href="#" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit' }}>Terms of Service</Link>
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{textAlign: 'end'}}>
             {/* Copyright */}
-            <Typography variant="body2" gutterBottom>
+            <Typography className='montserrat-regular' style={{fontSize: isMobile ? '10px' : isTablet ? '14px' : '18px'}}>
               ©2024 BeWealther, All right reserved.
             </Typography>
           </Grid>

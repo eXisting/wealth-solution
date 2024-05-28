@@ -41,10 +41,8 @@ const UseWealthometer = () => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     handleUpdateContributions(1000)
