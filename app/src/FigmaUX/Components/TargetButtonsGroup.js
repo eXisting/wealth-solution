@@ -10,7 +10,6 @@ import selectedCoin2 from '../../Media/coins/selected/coin2.svg';
 
 import checkmark from '../../Media/checkmark.svg';
 import '../css/components.css';
-import {buildFontSizeCssString} from "../Global/CssStrings";
 
 const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
 
@@ -31,10 +30,7 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const buttonData = [
     { unselectedImgSrc: unselectedCoin, selectedImgSrc: selectedCoin, text: '$1,000,000', value: 1000000 },
@@ -59,7 +55,7 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
       {buttonData.map((button, index) => (
         <Box
           position={'relative'}
-          padding={isMobile ? '10px' : '30px'}
+          padding={isMobile ? '22px' : '30px'}
           borderRadius={isMobile ? '10px' : isTablet ? '15px' : '20px'}
           key={index}
           flex="1"
@@ -69,9 +65,7 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
           sx={{ cursor: 'pointer' }}
           className={`selectable-button ${activeButton === index ? 'active montserrat-bold' : 'montserrat-regular'}`}
         >
-          <Box
-            marginLeft={isMobile ? '20px' : isTablet ? '15px' : '0'}
-          >
+          <Box>
             <img
               width={isMobile ? '20px' : '35px'}
               src={activeButton === index ? button.selectedImgSrc : button.unselectedImgSrc}
@@ -87,7 +81,6 @@ const TargetButtonsGroup = ({ desiredResult, reduxUpdate }) => {
           {activeButton === index &&
             <Box
               className={isMobile || isTablet ? "selectable-button-icon-right" : "selectable-button-icon-top-right"}
-              marginRight={isMobile ? '20px' : isTablet ? '15px' : '0'}
             >
               <img
                 width={isMobile ? '20px' : isTablet ? '35px' : '30px'}

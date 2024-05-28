@@ -46,8 +46,6 @@ import {
   updateTotalDecadeSavings as updateThirdDecadeTotalSavings,
   updateEnabled as updateThirdDecadeEnabled,
 } from '../redux/decadeThreeReducer';
-import CurvedLineChartComponent from "./Components/CurvedLineChartComponent";
-import DoughnutChartControlledComponent from "./Components/DoughnutChartControlledComponent";
 
 const CalculateFromTotalSavings = () => {
   const dispatch = useDispatch();
@@ -68,10 +66,8 @@ const CalculateFromTotalSavings = () => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     handleUpdateDesiredResult(1000000)
@@ -328,7 +324,7 @@ const CalculateFromTotalSavings = () => {
               fontSize={isMobile ? '20px' : isTablet ? '24px' : '30px'}
               width={isMobile ? '50%' : '100%'}
             >
-              Your investment will be <span style={{ color: '#33CBCC' }}>worth</span>
+              Your investment will be worth
             </Typography>
             <Typography
               className='montserrat-medium'
@@ -356,11 +352,16 @@ const CalculateFromTotalSavings = () => {
             marginTop={buildSpaceSizeCssString('regular', isMobile, isTablet)}
           >
             <Button variant="contained" 
-              sx={{marginBottom:16, backgroundColor:'var(--main-color)', color:'white', borderRadius:'1rem',
+              sx={{
+                marginBottom:16,
+                padding: '20px 50px',
+                backgroundColor:'var(--main-color)',
+                color:'white',
+                borderRadius:'4rem',
                 width:'fit-content',
-            '&:hover': {
-              backgroundColor: 'black',
-            }}}
+                '&:hover': {
+                  backgroundColor: 'black',
+              }}}
               onClick={enableStagesVisibility}
             >
               <Typography 
