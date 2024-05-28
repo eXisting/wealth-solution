@@ -265,7 +265,7 @@ const UseWealthometer = () => {
                   width: '100%'
                 }}
                 >
-                  <CurvedLineChartComponent years={40} step={10} monthlyContributions={monthlyContribution}
+                  <CurvedLineChartComponent years={40} step={isTablet ? 5 : 10} monthlyContributions={monthlyContribution}
                                             initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
                 </div>
               </div>
@@ -484,8 +484,8 @@ const UseWealthometer = () => {
             }}
             >
               <CurvedLineChartComponent
-                years={50}
-                step={10}
+                years={40}
+                step={2}
                 monthlyContributions={monthlyContribution}
                 initialSavings={0}
                 isMobile={isMobile}
