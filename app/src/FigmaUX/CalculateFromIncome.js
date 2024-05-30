@@ -59,7 +59,7 @@ const CalculateFromIncome = () => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
+  const isNarrowMobile = useMediaQuery(theme.breakpoints.down('narrowMobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
   const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
@@ -414,7 +414,7 @@ const CalculateFromIncome = () => {
             </Button>
           </Box>
       </Box>
-      <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
+      <NavigationFooterComponent isMobile={isMobile} isNarrowMobile={isNarrowMobile} isTablet={isTablet}></NavigationFooterComponent>
     </Box>
     </Box>
   );

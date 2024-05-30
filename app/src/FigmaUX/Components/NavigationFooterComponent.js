@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Link, Grid } from '@material-ui/core';
 import { buildSpaceSizeCssString } from '../Global/CssStrings';
-import { Box, IconButton } from '@mui/material';
+import {Box, createTheme, IconButton, useMediaQuery} from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -10,7 +10,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import logo from '../../Media/logo.png';
 import logoDarkMode from '../../Media/logo_dark_mode.png';
 
-const NavigationFooterComponent = ({ isMobile, isTablet }) => {
+const NavigationFooterComponent = ({ isMobile, isNarrowMobile, isTablet }) => {
   const [isDarkMode, setIsDarkMode] = useState();
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const NavigationFooterComponent = ({ isMobile, isTablet }) => {
           <Grid item xs={12} style={{ borderBottom: '1px solid #ccc', marginBottom: '20px' }} />
           <Grid item xs={6}>
             {/* Policy and TOS */}
-            <Box display="flex" flexDirection={'row'} gap={2}>
+            <Box display="flex" flexDirection={isNarrowMobile ? 'column' : 'row'} gap={isNarrowMobile ? 1 : 2}>
               <Link href="#" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit' }}>Privacy Policy</Link>
               <Link href="#" className='montserrat-regular' style={{ textDecoration: 'underline', color: 'inherit' }}>Terms of Service</Link>
             </Box>

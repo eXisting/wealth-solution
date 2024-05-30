@@ -41,6 +41,7 @@ const UseWealthometer = () => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
+  const isNarrowMobile = useMediaQuery(theme.breakpoints.down('narrowMobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
 
@@ -554,7 +555,7 @@ const UseWealthometer = () => {
           </>
         )}
       </Box>
-      <NavigationFooterComponent isMobile={isMobile} isTablet={isTablet}></NavigationFooterComponent>
+      <NavigationFooterComponent isMobile={isMobile} isNarrowMobile={isNarrowMobile} isTablet={isTablet}></NavigationFooterComponent>
       </Box>
     </Box>
   );
