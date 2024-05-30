@@ -388,7 +388,11 @@ const CalculateFromIncome = () => {
             <Button
               variant="contained"
               sx={{
-                padding: '20px 50px',
+                textTransform: 'none',
+                paddingTop: '15px',
+                paddingBottom: '15px',
+                paddingLeft: isMobile ? '20px' : '70px',
+                paddingRight: isMobile ? '20px' : '70px',
                 backgroundColor:'#F5A338',
                 color:'white',
                 borderRadius:'4rem',
@@ -400,8 +404,8 @@ const CalculateFromIncome = () => {
             >
               <Typography 
                 padding={1}
-                className='poppins-medium'
-                fontSize={buildFontSizeCssString('medium', isMobile, isTablet)}
+                className='montserrat-bold'
+                fontSize={isMobile ? '16px' : '20px'}
                 paddingLeft={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
                 paddingRight={buildSpaceSizeCssString('tiny', isMobile, isTablet)}
               >
