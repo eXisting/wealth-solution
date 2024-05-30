@@ -118,6 +118,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                     className='montserrat-medium'
                     align={'left'}
                     fontSize='34px'
+                    textTransform={'capitalize'}
                   >
                     Use Our Calculators
                   </Typography>
@@ -125,6 +126,7 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
                     className='montserrat-regular'
                     align={'left'}
                     fontSize={'16px'}
+                    textTransform={'capitalize'}
                   >
                     Estimate your wealth or estimate your wealth based from income
                   </Typography>
@@ -320,6 +322,10 @@ const NavigationHeaderComponent = ({ isMobile, isTablet }) => {
           </ButtonGroup>
         </Box>
         <Divider
+          sx={{
+            borderColor: isDarkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(0,0,0, 0.2)',
+            backgroundColor: 'rgba(255,255,255, 0.2)'
+          }}
           orientation="horizontal"
         />
       </Box>

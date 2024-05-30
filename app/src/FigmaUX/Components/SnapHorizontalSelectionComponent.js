@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
+import dashedBorder from '../../Media/dashed-border.svg'
 
 const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) => {
 
@@ -43,7 +44,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
     };    
   }, []);
 
-  const circleWidth = isMobile ? 131 : isTablet ? 184 : 146;
+  const circleWidth = isMobile ? 117 : 163;
   
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
@@ -106,6 +107,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
     return (
       <Box
         key={index}
+        className='montserrat-medium'
         color={isSelected ? 'white' : '#D9D9D9'}
         sx={circleStyle}
       >
@@ -124,31 +126,24 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
         left={0}
         width={'30%'} backgroundColor='white' height={'100%'} /> */}
       <Box
-        position='absolute'
-        left={`calc(50% - ${circleWidth / 2}px)`}
-        width={circleWidth}
-        height={circleWidth}
-        sx={{
-          border: '0.5px dashed #ccc',
-          borderRadius: '50%',
-        }}
-        >
-      <Box
         display='flex'
         justifyContent='center'
         alignItems='center'
         position='absolute'
-        left={`calc(55% - ${circleWidth / 2}px)`}
-        top={`5%`}
-        width={'90%'}
-        height={'90%'}
+        left={`calc(50% - ${circleWidth / 2}px)`}
+        width={circleWidth}
+        height={circleWidth}
         borderRadius='50%'
         zIndex={-1}
         sx={{
           backgroundImage:'linear-gradient(0deg, #4A7DE2, #33CBCC) !important',
           }}
-      />
-    </Box>
+      >
+        <img src={dashedBorder} alt='dashed-border'
+          width={!isMobile ? '185px' : 'auto'}
+          height={!isMobile ? '185px' : 'auto'}
+        />
+        </Box>
       <Box
         ref={scrollRef}
         display={'flex'}

@@ -41,10 +41,8 @@ const UseWealthometer = () => {
   });
 
   const isMobile = useMediaQuery(theme.breakpoints.down('mobile'));
-  const isWideMobile = useMediaQuery(theme.breakpoints.between('narrowMobile', 'mobile'));
   const isTablet = useMediaQuery(theme.breakpoints.between('mobile', 'tablet'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('tablet'));
-  const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   useEffect(() => {
     handleUpdateContributions(1000)
@@ -265,7 +263,7 @@ const UseWealthometer = () => {
                   width: '100%'
                 }}
                 >
-                  <CurvedLineChartComponent years={40} step={10} monthlyContributions={monthlyContribution}
+                  <CurvedLineChartComponent years={40} step={isTablet ? 5 : 10} monthlyContributions={monthlyContribution}
                                             initialSavings={0} isMobile={isMobile} isTablet={isTablet}/>
                 </div>
               </div>
@@ -484,8 +482,8 @@ const UseWealthometer = () => {
             }}
             >
               <CurvedLineChartComponent
-                years={50}
-                step={10}
+                years={40}
+                step={2}
                 monthlyContributions={monthlyContribution}
                 initialSavings={0}
                 isMobile={isMobile}

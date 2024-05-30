@@ -122,7 +122,7 @@ const CurvedLineChartComponent = ({years, step, monthlyContributions, initialSav
                 min: 0,
                 max: 40,
                 ticks: {
-                  display: false,
+                    display: true,
                     stepSize: step,
                     callback: value => {
                         return step == 1 ? '' : (value * step) + currentDate().getFullYear();

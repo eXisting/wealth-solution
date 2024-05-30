@@ -188,14 +188,17 @@ body.dark-mode {
 /* Gradient slider */
 
 .mz-round-slider-pointer {
-  /* Add a drop shadow to the component */
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5)) !important;
-  -webkit-filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5)) !important;
+  /* Standard filter */
+  filter: drop-shadow(0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.3)) drop-shadow(0rem 0.125rem 0.1875rem rgba(0, 0, 0, 0.22)) !important;
+  /* WebKit filter for Safari */
+  -webkit-filter: drop-shadow(0rem 0rem 0.3rem rgba(0, 0, 0, 0.3)) drop-shadow(0rem 0.125rem 0.1875rem rgba(0, 0, 0, 0.22)) !important;
 }
 
 .mz-round-slider-path {
-  filter: drop-shadow(0px 7.6px 15px rgba(0, 0, 0, 0.3)) drop-shadow(0px 6px 5px rgba(0, 0, 0, 0.22)) !important;
-  -webkit-filter: drop-shadow(0px 7.6px 15px rgba(0, 0, 0, 0.3)) drop-shadow(0px 6px 5px rgba(0, 0, 0, 0.22)) !important;
+  /* Standard filter */
+  filter: drop-shadow(0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.3)) drop-shadow(0rem 0.125rem 0.1875rem rgba(0, 0, 0, 0.22)) !important;
+  /* WebKit filter for Safari */
+  -webkit-filter: drop-shadow(0rem 0rem 0.3rem rgba(0, 0, 0, 0.3)) drop-shadow(0rem 0.125rem 0.1875rem rgba(0, 0, 0, 0.22)) !important;
 }
 
 .mz-round-slider {

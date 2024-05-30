@@ -25,6 +25,7 @@ function drawPieChart(canvas,
     datasets: [{
       data: [totalContributed, totalSaved],
       backgroundColor: ['#33CBCC', '#4A7DE2'],
+      borderColor: ['transparent', 'transparent'],
     }],
   };
 
