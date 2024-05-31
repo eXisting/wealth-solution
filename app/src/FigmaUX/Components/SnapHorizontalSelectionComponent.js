@@ -44,7 +44,7 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
     };
   }, []);
 
-  const circleWidth = isMobile ? 65 : 90;
+  const circleWidth = isMobile ? 117 : 167;
 
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
@@ -112,7 +112,6 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
 
     const fontSize = isMobile ? 14 * scale : 18 * scale; // Adjust size increase
     const color = circleWidth * 3 / distanceFromCenter > 6 ? 'white' : '#D9D9D9'; // Adjust color brightness
-    const width = circleWidth * 3 / distanceFromCenter > 6 ? circleWidth * 2 : circleWidth; // Adjust color brightness
 
     if (scale > 2) {
       console.log(
@@ -126,16 +125,16 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
       // 'color:' + color);
     }
 
-    return { fontSize: fontSize+'px', color, width };
+    return { fontSize: fontSize+'px', color};
   };
 
   const renderCircle = (index) => {
-    const { fontSize, color, width} = calculateFontSizeAndColor(index);
+    const { fontSize, color} = calculateFontSizeAndColor(index);
 
     const circleStyle = {
-      width: `${width}px`,
-      height: `${circleWidth*2}px`,
-      flex: `0 0 ${width}px`,
+      width: `${circleWidth}px`,
+      height: `${circleWidth}px`,
+      flex: `0 0 ${circleWidth}px`,
       borderRadius: '50%',
       backgroundColor: 'transparent',
       display: 'flex',
@@ -166,9 +165,9 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
         justifyContent="center"
         alignItems="center"
         position="absolute"
-        left={`calc(50% - ${circleWidth}px)`}
-        width={circleWidth * 2}
-        height={circleWidth * 2}
+        left={`calc(50% - ${circleWidth / 2}px)`}
+        width={circleWidth}
+        height={circleWidth}
         borderRadius="50%"
         zIndex={-1}
         sx={{
@@ -192,8 +191,8 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
           height: '100%',
           overflow: 'auto',
           scrollSnapType: 'x mandatory',
-          paddingLeft: `calc(50% - ${circleWidth}px)`,
-          paddingRight: `calc(50% - ${circleWidth}px)`,
+          paddingLeft: `calc(50% - ${circleWidth / 2}px)`,
+          paddingRight: `calc(50% - ${circleWidth / 2}px)`,
         }}
       >
         {[...Array(numCircles).keys()].map((index) => renderCircle(index + min))}
