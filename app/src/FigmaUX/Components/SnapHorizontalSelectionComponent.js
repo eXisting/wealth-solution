@@ -49,8 +49,8 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
       const newSnapPoints = [];
-      for (let i = min; i <= max; i++) {
-        newSnapPoints.push((i - min) * circleWidth);
+      for (let i = 0; i <= max - min; i++) {
+        newSnapPoints.push(i * circleWidth);
       }
 
       setSnapPoints(newSnapPoints);
@@ -101,31 +101,31 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
   }
 
   const calculateFontSizeAndColor = (index) => {
-    if (!scrollRef.current) return { fontSize: '65px', color: '#D9D9D9' };
+    if (!scrollRef.current) return { fontSize: '65px', color: 'green' };
 
-    const scrollCenter = scrollPosition + scrollRef.current.offsetWidth / 2;
-    const circleCenter = (index - 10) * circleWidth + circleWidth / 2;
-    const distanceFromCenter = Math.abs(scrollCenter - circleCenter);
+    const scrollCenter = scrollRef.current.scrollLeft;
+    const circleCenter = (index - min) * circleWidth + circleWidth / 2;
+    const distanceFromCenter = Math.abs(scrollCenter - circleCenter + circleWidth / 2);
 
-    const maxDistance = circleCenter * 2 + 2 * circleWidth;
+    // const maxDistance = circleCenter * 2 + 2 * circleWidth;
     const scale = Math.min(circleWidth * 3 / distanceFromCenter, 10);
 
     const fontSize = 5 * scale; // Adjust size increase
-    const color = scale > 6 ? `white` : '#D9D9D9'; // Adjust color brightness
+    const color = scale > 6 ? 'white' : '#D9D9D9'; // Adjust color brightness
 
     if (scale > 2) {
       console.log(
-        'index:' + index +
-        'scrollCenter:' + scrollCenter +
-        'circleCenter:' + circleCenter +
-        'distanceFromCenter:' + distanceFromCenter + '...........' +
-        'maxDistance:' + maxDistance + '...........' +
-        'scale:' + scale +
-        'fontSize:' + fontSize +
-        'color:' + color);
+        'index:', index,
+        'scrollCenter:', scrollCenter,
+        'circleCenter:' , circleCenter);
+      // 'distanceFromCenter:' + distanceFromCenter + '...........' +
+      // // 'maxDistance:' + maxDistance + '...........' +
+      // 'scale:' + scale +
+      // 'fontSize:' + fontSize +
+      // 'color:' + color);
     }
 
-    return { fontSize: `${fontSize}px`, color };
+    return { fontSize: fontSize+'px', color };
   };
 
   const renderCircle = (index) => {
