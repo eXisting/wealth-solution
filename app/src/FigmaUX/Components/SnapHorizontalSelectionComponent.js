@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {createTheme, useMediaQuery, useTheme} from '@mui/material';
-import dashedBorder from '../../Media/dashed-border.svg'
+import { createTheme, useMediaQuery } from '@mui/material';
+import dashedBorder from '../../Media/dashed-border.svg';
 
-const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) => {
-
+const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux }) => {
   const numCircles = max - min + 1;
   const scrollRef = useRef(null);
   const containerRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [snapPoints, setSnapPoints] = useState([]);
 
   const theme = createTheme({
@@ -17,7 +17,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
         mobile: 640,
         narrowTablet: 900,
         tablet: 1280,
-        desktop: 1440
+        desktop: 1440,
       },
     },
   });
@@ -36,20 +36,20 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
 
     const savedTheme = localStorage.getItem('theme');
     setIsDarkMode(savedTheme === 'dark');
-    
+
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-    };    
+    };
   }, []);
 
   const circleWidth = isMobile ? 117 : 163;
-  
+
   useEffect(() => {
     if (scrollRef && scrollRef.current) {
       const newSnapPoints = [];
-      for(let i = min; i <= max; i++) {
+      for (let i = min; i <= max; i++) {
         newSnapPoints.push((i - min) * circleWidth);
       }
 
@@ -61,35 +61,76 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
     }
   }, []);
 
-  function getIndexOutOfValue(value) {
-    return value - min;
-  }
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        setScrollPosition(scrollRef.current.scrollLeft);
+        clearTimeout(scrollRef.current.scrollTimeout);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      scrollRef.current.style.scrollSnapAlign = 'start';
-      clearTimeout(scrollRef.current.scrollTimeout);
-
-      scrollRef.current.scrollTimeout = setTimeout(() => {
-        if (scrollRef && scrollRef.current) {
-          const scrollLeft = scrollRef.current.scrollLeft;
-          const nearestSnapPoint = snapPoints.reduce((prev, curr) => Math.abs(curr - scrollLeft) < Math.abs(prev - scrollLeft) ? curr : prev);
+        scrollRef.current.scrollTimeout = setTimeout(() => {
+          const nearestSnapPoint = snapPoints.reduce((prev, curr) =>
+            Math.abs(curr - scrollRef.current.scrollLeft) < Math.abs(prev - scrollRef.current.scrollLeft)
+              ? curr
+              : prev
+          );
           scrollRef.current.scroll({
             left: nearestSnapPoint,
             behavior: 'smooth',
           });
 
-          const currentIndex = snapPoints.findIndex(point => point === nearestSnapPoint);
+          const currentIndex = snapPoints.findIndex((point) => point === nearestSnapPoint);
           const value = currentIndex + min;
           updateRedux(value);
-        }
-      }, 100); // Adjust the debounce time as needed
+        }, 100); // Adjust the debounce time as needed
+      }
+    };
+
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener('scroll', handleScroll);
     }
+
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [scrollRef, snapPoints, min]);
+
+  function getIndexOutOfValue(value) {
+    return value - min;
+  }
+
+  const calculateFontSizeAndColor = (index) => {
+    if (!scrollRef.current) return { fontSize: '65px', color: '#D9D9D9' };
+
+    const scrollCenter = scrollPosition + scrollRef.current.offsetWidth / 2;
+    const circleCenter = (index - 10) * circleWidth + circleWidth / 2;
+    const distanceFromCenter = Math.abs(scrollCenter - circleCenter);
+
+    const maxDistance = circleCenter * 2 + 2 * circleWidth;
+    const scale = Math.min(circleWidth * 3 / distanceFromCenter, 10);
+
+    const fontSize = 5 * scale; // Adjust size increase
+    const color = scale > 6 ? `white` : '#D9D9D9'; // Adjust color brightness
+
+    if (scale > 2) {
+      console.log(
+        'index:' + index +
+        'scrollCenter:' + scrollCenter +
+        'circleCenter:' + circleCenter +
+        'distanceFromCenter:' + distanceFromCenter + '...........' +
+        'maxDistance:' + maxDistance + '...........' +
+        'scale:' + scale +
+        'fontSize:' + fontSize +
+        'color:' + color);
+    }
+
+    return { fontSize: `${fontSize}px`, color };
   };
 
   const renderCircle = (index) => {
-    const isSelected = index === reduxValue;
-    
+    const { fontSize, color } = calculateFontSizeAndColor(index);
+
     const circleStyle = {
       width: `${circleWidth}px`,
       height: `${circleWidth}px`,
@@ -99,56 +140,45 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundImage: 'none',
       cursor: 'pointer',
-      fontSize: `65px`, // Set the font size dynamically
+      fontSize,
+      color,
     };
-    
+
     return (
-      <Box
-        key={index}
-        className='montserrat-medium'
-        color={isSelected ? 'white' : '#D9D9D9'}
-        sx={circleStyle}
-      >
+      <Box key={index} className="montserrat-medium" sx={circleStyle}>
         {index}
       </Box>
     );
   };
-  
 
   return (
     <Box ref={containerRef} display={'flex'} flexDirection={'row'} position={'relative'} width={'100%'}>
-      {/* <Box display={'flex'}
-        flexDirection={'row'} 
-        position={'absolute'}
-        top={0}
-        left={0}
-        width={'30%'} backgroundColor='white' height={'100%'} /> */}
       <Box
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
-        position='absolute'
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        position="absolute"
         left={`calc(50% - ${circleWidth / 2}px)`}
         width={circleWidth}
         height={circleWidth}
-        borderRadius='50%'
+        borderRadius="50%"
         zIndex={-1}
         sx={{
-          backgroundImage:'linear-gradient(0deg, #4A7DE2, #33CBCC) !important',
-          }}
+          backgroundImage: 'linear-gradient(0deg, #4A7DE2, #33CBCC) !important',
+        }}
       >
-        <img src={dashedBorder} alt='dashed-border'
+        <img
+          src={dashedBorder}
+          alt="dashed-border"
           width={!isMobile ? '185px' : 'auto'}
           height={!isMobile ? '185px' : 'auto'}
         />
-        </Box>
+      </Box>
       <Box
         ref={scrollRef}
         display={'flex'}
         flexDirection={'row'}
-        onScroll={handleScroll}
         style={{
           height: '100%',
           overflow: 'auto',
@@ -169,7 +199,7 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             pointerEvents: 'none',
             backgroundImage: isDarkMode
               ? 'linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
-              : 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+              : 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))',
           }}
         />
         <Box
@@ -183,16 +213,10 @@ const SnapHorizontalSelectionComponent = ({min, max, reduxValue, updateRedux}) =
             pointerEvents: 'none',
             backgroundImage: isDarkMode
               ? 'linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))'
-              : 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))'
+              : 'linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))',
           }}
         />
       </Box>
-      {/* <Box display={'flex'}
-        flexDirection={'row'} 
-        position={'absolute'}
-        top={0}
-        right={0}
-        width={'30%'} backgroundColor='white' height={'100%'} /> */}
     </Box>
   );
 };
