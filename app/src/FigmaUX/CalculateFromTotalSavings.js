@@ -171,6 +171,18 @@ const CalculateFromTotalSavings = () => {
     dispatch(updateFunctions[stageIndex].updateMonthlyContribution(newValue));
   }
 
+  function calculateYears() {
+    const years = [
+      !decades[0].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
+      !decades[1].page.enabled ? 0 : decades[1].page.age === 0 ? 1 : decades[1].page.age,
+      !decades[2].page.enabled ? 0 : decades[2].page.age === 0 ? 1 : decades[2].page.age,
+    ];
+
+    const yearsTotal = years[0] + years[1] + years[2];
+
+    return { years, yearsTotal };
+  }
+
   function calculateTotal() {
     const contributions = [
       !decades[0].page.enabled ? 0 : decades[0].page.monthlyContribution,
@@ -178,11 +190,7 @@ const CalculateFromTotalSavings = () => {
       !decades[2].page.enabled ? 0 : decades[2].page.monthlyContribution,
     ];
     
-    const years = [
-      !decades[0].page.enabled ? 0 : decades[0].page.age === 0 ? 1 : decades[0].page.age,
-      !decades[1].page.enabled ? 0 : decades[1].page.age === 0 ? 1 : decades[1].page.age,
-      !decades[2].page.enabled ? 0 : decades[2].page.age === 0 ? 1 : decades[2].page.age,
-    ];
+    const years = calculateYears().years;
 
     const total = totalSavingsPerContributions(startingAge, years[0], years[1], years[2], startingSavings, 
       contributions[0], contributions[1], contributions[2]);
@@ -555,7 +563,7 @@ const CalculateFromTotalSavings = () => {
                         className='montserrat-regular'
                         fontSize={isMobile ? '20px' : '24px'}
                       >
-                        Investment Balance at Year {calculateEndYear(40)}
+                        Investment Balance at Year {calculateEndYear(calculateYears().yearsTotal)}
                       </Typography>
                       <div style={{
                         position: 'relative',
@@ -633,7 +641,7 @@ const CalculateFromTotalSavings = () => {
                         className='montserrat-regular'
                         fontSize={buildFontSizeCssString('regular', isMobile, isTablet)}
                       >
-                        Investment Balance at Year {calculateEndYear(40)}
+                        Investment Balance at Year {calculateEndYear(calculateYears().yearsTotal)}
                       </Typography>
                       <div style={{
                         position: 'relative',
