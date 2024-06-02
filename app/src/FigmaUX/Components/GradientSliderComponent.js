@@ -9,7 +9,7 @@ import '../css/fonts.css';
 import '../css/components.css'
 
 const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) => {
-  const [ pointers, setPointers ] = useState([{ value: initialValue }]);
+  const [pointers, setPointers ] = useState([{ value: initialValue }]);
   const [displayedValue, setDisplayedValue] = useState(initialValue);
 
   const theme = createTheme({
@@ -30,6 +30,7 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
   const [isDarkMode, setIsDarkMode] = useState();
 
   useEffect(() => {
+    console.log(initialValue);
     const handleStorageChange = (event) => {
       if (event.key === 'theme') {
         setIsDarkMode(event.newValue === 'dark');
@@ -45,6 +46,11 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
       window.removeEventListener('storage', handleStorageChange);
     };    
   }, []);
+
+  useEffect(() => {
+    setPointers([{ value: initialValue }]);
+    setDisplayedValue(initialValue);
+  }, [initialValue]);
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {

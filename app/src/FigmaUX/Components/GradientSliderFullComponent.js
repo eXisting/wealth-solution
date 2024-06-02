@@ -9,7 +9,7 @@ import '../css/components.css'
 
 const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$', titleText, updateRedux }) =>
 {
-  const [ pointers, setPointers ] = useState([{ value: initialValue }]);
+  const [pointers, setPointers ] = useState([{ value: initialValue }]);
   const [displayedValue, setDisplayedValue] = useState(initialValue);
 
   const theme = createTheme({
@@ -45,6 +45,11 @@ const GradientSliderFullComponent = ({ min, max, initialValue, step, sign = '$',
       window.removeEventListener('storage', handleStorageChange);
     };    
   }, []);
+
+  useEffect(() => {
+    setPointers([{ value: initialValue }]);
+    setDisplayedValue(initialValue);
+  }, [initialValue]);
 
   const increment = (interval, max) => {
     setPointers(prevPointers => {

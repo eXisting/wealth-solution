@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import {Typography, Box, Button, useMediaQuery, useTheme, Divider, createTheme} from '@mui/material';
@@ -65,6 +65,7 @@ const CalculateFromIncome = () => {
   const isWideDesktop = useMediaQuery(theme.breakpoints.up('desktop'));
 
   const [selectedDecade, setSelectedDecade] = useState(0);
+  const selectedDecadeRef = useRef(selectedDecade);
 
   const {
     startingSavings,
@@ -105,10 +106,9 @@ const CalculateFromIncome = () => {
   ];
 
   useEffect(() => {
+    selectedDecadeRef.current = selectedDecade;
     updateView(selectedDecade);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [decades[selectedDecade].page.decadeIncome, decades[selectedDecade].page.savingsPercentage]);
-
+  }, [selectedDecade, decades]);
 
   function updateView(decadeIndex) {
     setSelectedDecade(decadeIndex);
@@ -149,20 +149,14 @@ const CalculateFromIncome = () => {
     return { lowerBracketYears, upperBracketYears };
   }
 
-  const updateDecadeIncomeValue = value => {
-    dispatch(updateFunctions[selectedDecade].updateDecadeIncome(value));
+  function updateDecadeIncomeValue(value) {
+    console.log(value);
+    dispatch(updateFunctions[selectedDecadeRef.current].updateDecadeIncome(value));
   };
 
-  const updateDecadePercentSavings = value => {
-    dispatch(updateFunctions[selectedDecade].updatePercents(value));
-  };
-
-  const handleUpdateStartingSavings = (newValue) => {
-    dispatch(updateStartingSavings(newValue));
-  };
-
-  const handleUpdateStartingAge = (newValue) => {
-    dispatch(updateStartingAge(newValue));
+  function updateDecadePercentSavings(value) {
+    console.log(value);
+    dispatch(updateFunctions[selectedDecadeRef.current].updatePercents(value));
   };
 
   function calculateTotal() {
@@ -171,6 +165,10 @@ const CalculateFromIncome = () => {
     const interestEarned = sum - sumContributions;
 
     return { sum, sumContributions, interestEarned };
+  }
+
+  function selectDecade(decadeIndex) {
+    updateView(decadeIndex);
   }
 
   function nextDecade() {
@@ -231,7 +229,7 @@ const CalculateFromIncome = () => {
         >
           <StagesProgressSection
             decadeAgeRange={selectedDecadeAgeRange()}
-            stageSelected={updateView}
+            stageSelected={selectDecade}
             selectedStage={selectedDecade}
             isMobile={isMobile} isTablet={isTablet}
           />
@@ -250,6 +248,7 @@ const CalculateFromIncome = () => {
             <GradientSliderFullComponent
               min={0}
               max={100}
+              index={selectedDecade}
               sign='%'
               step={1}
               initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
@@ -282,6 +281,7 @@ const CalculateFromIncome = () => {
             <GradientSliderFullComponent
               min={0}
               max={100}
+              index={selectedDecade}
               sign='%'
               step={1}
               initialValue={trimToInt(decades[selectedDecade].page.savingsPercentage)}
