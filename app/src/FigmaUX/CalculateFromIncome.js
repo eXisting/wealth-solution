@@ -150,12 +150,10 @@ const CalculateFromIncome = () => {
   }
 
   function updateDecadeIncomeValue(value) {
-    console.log(value);
     dispatch(updateFunctions[selectedDecadeRef.current].updateDecadeIncome(value));
   };
 
   function updateDecadePercentSavings(value) {
-    console.log(value);
     dispatch(updateFunctions[selectedDecadeRef.current].updatePercents(value));
   };
 
