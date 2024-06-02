@@ -122,15 +122,15 @@ const CalculateFromIncome = () => {
       "decadeIncome: " + trimToInt(decade.decadeIncome) + '\n' +
       "savingsPercentage: " + trimToInt(decade.savingsPercentage) + '\n');
 
-    calculateSavings(trimToInt(totalSavings), trimToInt(decade.decadeIncome), trimToInt(decade.savingsPercentage));
+    calculateSavings(trimToInt(totalSavings), trimToInt(decade.decadeIncome), trimToInt(decade.savingsPercentage), decadeIndex);
   }
 
-  const calculateSavings = (totalSavings, decadeIncome, savingsPercentage) => {
+  const calculateSavings = (totalSavings, decadeIncome, savingsPercentage, index) => {
     const contribution = Math.round(decadeIncome * (parseFloat(savingsPercentage) / 100) / 12);
-    dispatch(updateFunctions[selectedDecade].updateMonthlyContribution(contribution));
+    dispatch(updateFunctions[index].updateMonthlyContribution(contribution));
 
     if (totalSavings === 0 && contribution === 0) {
-      dispatch(updateFunctions[selectedDecade].updateTotalDecadeSavings(0));
+      dispatch(updateFunctions[index].updateTotalDecadeSavings(0));
       return;
     }
   
@@ -151,7 +151,7 @@ const CalculateFromIncome = () => {
       "initialSavings: " + parseFloat(trimToInt(totalSavings)) + '\n' +
       "saved: " + saved);
 
-    dispatch(updateFunctions[selectedDecade].updateTotalDecadeSavings(saved));
+    dispatch(updateFunctions[index].updateTotalDecadeSavings(saved));
   };
 
   function selectedDecadeAgeRange() {
