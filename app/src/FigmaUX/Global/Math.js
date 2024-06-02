@@ -85,7 +85,10 @@ function setDefaultCombination(desiredResult, startingSavings, stageEnabled1, st
   if (decadeOneEnabled) {
     let firstPeriod = 10;
     let firstResult = startingSavings > desiredResult * 0.01 ? desiredResult * 0.08 : desiredResult * 0.045;
-    first = calculateContribution(firstResult, startingSavings, firstPeriod);
+    first = !decadeThreeEnabled && !decadeTwoEnabled
+      ? calculateContribution(desiredResult, startingSavings, firstPeriod)
+      : calculateContribution(!decadeTwoEnabled || !decadeThreeEnabled
+        ? firstResult * 4 : firstResult, startingSavings, firstPeriod);
     calculatedInFirst = calculateSavings(first[1], first[0], startingSavings);
   }
 
@@ -94,7 +97,9 @@ function setDefaultCombination(desiredResult, startingSavings, stageEnabled1, st
   if (calculatedInFirst < desiredResult && decadeTwoEnabled) {
     let secondPeriod = 10;
     let secondResult = startingSavings > desiredResult * 0.01 ? desiredResult * 0.28 : desiredResult * 0.25;
-    second = calculateContribution(secondResult, calculatedInFirst, secondPeriod);
+    second = decadeThreeEnabled
+      ? calculateContribution(secondResult, calculatedInFirst, secondPeriod)
+      : calculateContribution(desiredResult, calculatedInFirst, secondPeriod);
     calculatedInSecond = calculateSavings(second[1], second[0], calculatedInFirst);
   }
 

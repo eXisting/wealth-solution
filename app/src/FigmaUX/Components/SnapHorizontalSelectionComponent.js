@@ -113,18 +113,6 @@ const SnapHorizontalSelectionComponent = ({ min, max, reduxValue, updateRedux })
     const fontSize = isMobile ? 14 * scale : 18 * scale; // Adjust size increase
     const color = circleWidth * 3 / distanceFromCenter > 6 ? 'white' : '#D9D9D9'; // Adjust color brightness
 
-    if (scale > 2) {
-      console.log(
-        'index:', index,
-        'scrollCenter:', scrollCenter,
-        'circleCenter:' , circleCenter);
-      // 'distanceFromCenter:' + distanceFromCenter + '...........' +
-      // // 'maxDistance:' + maxDistance + '...........' +
-      // 'scale:' + scale +
-      // 'fontSize:' + fontSize +
-      // 'color:' + color);
-    }
-
     return { fontSize: fontSize+'px', color};
   };
 
