@@ -117,28 +117,40 @@ const CalculateFromIncome = () => {
 
     const decade = decades[decadeIndex].page;
 
+    console.log(
+      "totalSavings: " + trimToInt(totalSavings) + '\n' +
+      "decadeIncome: " + trimToInt(decade.decadeIncome) + '\n' +
+      "savingsPercentage: " + trimToInt(decade.savingsPercentage) + '\n');
+
     calculateSavings(trimToInt(totalSavings), trimToInt(decade.decadeIncome), trimToInt(decade.savingsPercentage));
   }
 
   const calculateSavings = (totalSavings, decadeIncome, savingsPercentage) => {
     const contribution = Math.round(decadeIncome * (parseFloat(savingsPercentage) / 100) / 12);
     dispatch(updateFunctions[selectedDecade].updateMonthlyContribution(contribution));
-  
+
     if (totalSavings === 0 && contribution === 0) {
       dispatch(updateFunctions[selectedDecade].updateTotalDecadeSavings(0));
       return;
     }
   
-    const r = parseFloat(10) / 100;
-    const n = 12;
-    
-    const t = 10;
-    
-    const P = parseFloat(trimToInt(totalSavings));
+    const interest = 0.1;
+    const timesInterestAppliedPerPeriod = 12;
+    const periods = 10;
+    const initialBalance = parseFloat(trimToInt(totalSavings));
   
-    const futureValue = P * Math.pow(1 + (r / n), n * t) + contribution * ((Math.pow(1 + (r / n), n * t) - 1) / (r / n));
+    const futureValue = initialBalance *
+      Math.pow(1 + (interest / timesInterestAppliedPerPeriod), timesInterestAppliedPerPeriod * periods) + contribution *
+      ((Math.pow(1 + (interest / timesInterestAppliedPerPeriod), timesInterestAppliedPerPeriod * periods) - 1) /
+        (interest / timesInterestAppliedPerPeriod));
   
     const saved = Math.round(futureValue).toLocaleString();
+
+    console.log(
+      "contribution: " + contribution  + '\n' +
+      "initialSavings: " + parseFloat(trimToInt(totalSavings)) + '\n' +
+      "saved: " + saved);
+
     dispatch(updateFunctions[selectedDecade].updateTotalDecadeSavings(saved));
   };
 
@@ -166,7 +178,7 @@ const CalculateFromIncome = () => {
   }
 
   function selectDecade(decadeIndex) {
-    updateView(decadeIndex);
+    setSelectedDecade(decadeIndex);
   }
 
   function nextDecade() {
