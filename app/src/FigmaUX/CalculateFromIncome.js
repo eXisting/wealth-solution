@@ -117,11 +117,6 @@ const CalculateFromIncome = () => {
 
     const decade = decades[decadeIndex].page;
 
-    console.log(
-      "totalSavings: " + trimToInt(totalSavings) + '\n' +
-      "decadeIncome: " + trimToInt(decade.decadeIncome) + '\n' +
-      "savingsPercentage: " + trimToInt(decade.savingsPercentage) + '\n');
-
     calculateSavings(trimToInt(totalSavings), trimToInt(decade.decadeIncome), trimToInt(decade.savingsPercentage), decadeIndex);
   }
 
@@ -145,11 +140,6 @@ const CalculateFromIncome = () => {
         (interest / timesInterestAppliedPerPeriod));
   
     const saved = Math.round(futureValue).toLocaleString();
-
-    console.log(
-      "contribution: " + contribution  + '\n' +
-      "initialSavings: " + parseFloat(trimToInt(totalSavings)) + '\n' +
-      "saved: " + saved);
 
     dispatch(updateFunctions[index].updateTotalDecadeSavings(saved));
   };

@@ -30,7 +30,6 @@ const GradientSliderComponent = ({ min, max, initialValue, step, sign = '$', tit
   const [isDarkMode, setIsDarkMode] = useState();
 
   useEffect(() => {
-    console.log(initialValue);
     const handleStorageChange = (event) => {
       if (event.key === 'theme') {
         setIsDarkMode(event.newValue === 'dark');
