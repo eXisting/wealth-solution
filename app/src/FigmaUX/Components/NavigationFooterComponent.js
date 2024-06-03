@@ -32,9 +32,7 @@ const NavigationFooterComponent = ({ isMobile, isNarrowMobile, isTablet }) => {
 
   return (
     <footer style={{ marginTop: buildSpaceSizeCssString('medium', isMobile, isTablet), paddingBottom: buildSpaceSizeCssString('small', isMobile, isTablet) }}>
-      <Box paddingLeft={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        paddingRight={buildSpaceSizeCssString('regular', isMobile, isTablet)}
-        fontSize={isMobile ? '10px' : isTablet ? '14px' : '18px'}>
+      <Box fontSize={isMobile ? '10px' : isTablet ? '14px' : '18px'}>
         <Grid container>
           <Grid item xs={12} style={{ marginBottom: '30px' }}>
             {/* Logo */}
